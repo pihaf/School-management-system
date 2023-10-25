@@ -1,2 +1,2 @@
-# SGManagement
-Student Support Group Management System
+# UET-Support
+UET Student Support Group Management Systems
