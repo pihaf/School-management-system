@@ -1,29 +1,37 @@
 {
-  "name": "SGManagement",
-  "version": "1.0.0",
-  "description": "Student Support Group Management System",
-  "main": "index.js",
-  "scripts": {
-    "test": "npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/longvh-dev/SGManagement.git"
-  },
-  "keywords": [
-    "Web",
-    "SG",
-    "Support",
-    "Group",
-    "Student",
-    "Support",
-    "Group",
-    "Management"
-  ],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/longvh-dev/SGManagement/issues"
-  },
-  "homepage": "https://github.com/longvh-dev/SGManagement#readme"
+	"name": "uetsupport",
+	"version": "1.0.0",
+	"description": "UET Student Support Group Management System",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon --inspect src/app.js",
+		"test": "npm test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/longvh-dev/UET-Support.git"
+	},
+	"keywords": [
+		"Web",
+		"SG",
+		"Support",
+		"Group",
+		"Student",
+		"Support",
+		"Group",
+		"Management"
+	],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/longvh-dev/UET-Support/issues"
+	},
+	"homepage": "https://github.com/longvh-dev/UET-Support#readme",
+	"dependencies": {
+		"express": "^4.18.2",
+		"express-handlebars": "^7.1.2",
+		"morgan": "^1.10.0",
+		"nodemon": "^3.0.1"
+	},
+	"devDependencies": {}
 }
