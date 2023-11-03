@@ -4,8 +4,9 @@
 	"description": "UET Student Support Group Management System",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon --inspect src/app.js",
-		"test": "npm test"
+		"start": "node src/app.js",
+		"test": "npm test",
+		"dev": "nodemon src/app.js"
 	},
 	"repository": {
 		"type": "git",
