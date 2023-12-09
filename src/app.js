@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 const { engine } = require("express-handlebars");
+const { sequelize } = require('./models/DB');
 
 // Setting up the server
 const app = express();
@@ -39,6 +40,20 @@ app.use('/', blogRouter);
 // routes inits 
 routes(app);
 
-app.listen(port, () =>
-	console.log(`Example app listening at http://localhost:${port}`)
-);
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connection has been established successfully.');
+
+    return sequelize.sync({ force: false });
+  })
+  .then(() => {
+    console.log('Sequelize models synced with the database.');
+
+    // Start the server
+    app.listen(port, () => {
+      console.log(`Example app listening at http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
+  });
