@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `testuetsupport` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `testuetsupport`;
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: testuetsupport
@@ -30,9 +28,10 @@ CREATE TABLE `notifications` (
   `sender_type` enum('lecturer','admin') NOT NULL,
   `recipient_student_id` varchar(255) DEFAULT NULL,
   `recipient_lecturer_id` int DEFAULT NULL,
-  `message` text NOT NULL,
+  `details` text NOT NULL,
   `status` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `title` varchar(50) NOT NULL,
   PRIMARY KEY (`notification_id`),
   KEY `sender_id` (`sender_id`),
   KEY `recipient_student_id` (`recipient_student_id`),
@@ -50,7 +49,7 @@ CREATE TABLE `notifications` (
 
 LOCK TABLES `notifications` WRITE;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-INSERT INTO `notifications` VALUES (1,1,'lecturer','21020223',NULL,'Thông báo quan trọng cho sinh viên','Đã gửi','2023-10-22 09:00:00'),(2,1,'admin','21020223',NULL,'Thông báo quan trọng cho sinh viên','Đã gửi','2023-10-22 10:00:00'),(3,1,'admin',NULL,1,'Thông báo quan trọng cho giảng viên','Đã gửi','2023-10-22 10:00:00');
+INSERT INTO `notifications` VALUES (1,1,'lecturer','21020223',NULL,'Thông báo quan trọng cho sinh viên','Đã gửi','2023-10-22 09:00:00','Thông báo quan trọng cho sinh viên'),(2,1,'admin','21020223',NULL,'Thông báo quan trọng cho sinh viên','Đã gửi','2023-10-22 10:00:00','Thông báo quan trọng cho sinh viên'),(3,1,'admin',NULL,1,'Thông báo quan trọng cho giảng viên','Đã gửi','2023-10-22 10:00:00','Thông báo quan trọng cho sinh viên');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-25 11:05:12
+-- Dump completed on 2023-12-17 14:07:34
