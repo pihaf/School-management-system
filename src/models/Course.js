@@ -48,6 +48,10 @@ const Course = sequelize.define('Course', {
     type: DataTypes.STRING,
     allowNull: true
   },
+  semester: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 }, {
   tableName: 'courses',
   timestamps: false

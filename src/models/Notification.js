@@ -27,7 +27,7 @@ const Notification = sequelize.define('Notification', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    message: {
+    details: {
         type: DataTypes.TEXT,
         allowNull: false
     },
@@ -39,6 +39,10 @@ const Notification = sequelize.define('Notification', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
 }, {
     tableName: 'notifications',
     timestamps: false,
