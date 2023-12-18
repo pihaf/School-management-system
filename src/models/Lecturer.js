@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../models/DB');
+const jwt = require('jsonwebtoken');
 
 const Lecturer = sequelize.define('Lecturer', {
   lecturer_id: {
@@ -49,5 +50,31 @@ const Lecturer = sequelize.define('Lecturer', {
   tableName: 'lecturers',
   timestamps: false
 });
-  
+
+// Generate JWT token for the student
+Lecturer.prototype.generateAuthToken = function () {
+  const payload = { model: 'lecturer', id: this.lecturer_id }; 
+  const secretKey = process.env.SECRET_KEY;
+  const token = jwt.sign(payload, secretKey);
+  return token;
+};
+
+// Verify and decode JWT token
+Lecturer.verifyAuthToken = function (token) {
+  const secretKey = process.env.SECRET_KEY;
+  try {
+    const decoded = jwt.verify(token, secretKey);
+    const { id } = decoded;
+    const user = Lecturer.findByPk(id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  } catch (error) {
+    throw new Error('Invalid token');
+  }
+};
+
 module.exports = Lecturer;

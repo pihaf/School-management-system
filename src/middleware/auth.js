@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Student = require('../models/Student');
-const Teacher = require('../models/Teacher');
 const Admin = require('../models/Admin');
+const Lecturer = require('../models/Lecturer');
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -20,8 +20,8 @@ function authenticateToken(req, res, next) {
       case 'student':
         Model = Student;
         break;
-      case 'teacher':
-        Model = Teacher;
+      case 'lecturer':
+        Model = Lecturer;
         break;
       case 'admin':
         Model = Admin;
@@ -37,8 +37,11 @@ function authenticateToken(req, res, next) {
 
     req.user = user;
     req.model = model;
+    req.token = token;
     next();
   } catch (error) {
     res.status(403).json({ error: 'Invalid token' });
   }
 }
+
+module.exports = authenticateToken;

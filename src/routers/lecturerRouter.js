@@ -3,11 +3,11 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateToken = require('../middleware/auth');
-const Student = require('../models/Student');
+const Lecturer = require('../models/Lecturer');
 const { check, validationResult } = require('express-validator');
 
 // Register
-router.post('/api/students/register', [
+router.post('/api/lecturers/register', [
   check('username').notEmpty().withMessage('Username is required'),
   check('password').notEmpty().withMessage('Password is required'),
 ], async (req, res) => {
@@ -20,20 +20,20 @@ router.post('/api/students/register', [
 
     const { username, password } = req.body;
 
-    // Check if student with the same username already exists
-    const existingStudent = await Student.findOne({ where: { username } });
-    if (existingStudent) {
+    // Check if Lecturer with the same username already exists
+    const existingLecturer = await Lecturer.findOne({ where: { username } });
+    if (existingLecturer) {
       return res.status(400).json({ error: 'Username is already taken' });
     }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new student
-    const student = await Student.create({ username, password: hashedPassword });
+    // Create a new Lecturer
+    const lecturer = await Lecturer.create({ username, password: hashedPassword });
 
     // Generate JWT token
-    const token = student.generateAuthToken();
+    const token = lecturer.generateAuthToken();
 
     res.json({ token });
   } catch (error) {
@@ -42,7 +42,7 @@ router.post('/api/students/register', [
 });
 
 // Login
-router.post('/api/students/login', [
+router.post('/api/lecturers/login', [
   check('username').notEmpty().withMessage('Username is required'),
   check('password').notEmpty().withMessage('Password is required'),
 ], async (req, res) => {
@@ -55,20 +55,20 @@ router.post('/api/students/login', [
 
     const { username, password } = req.body;
 
-    // Find the student by username
-    const student = await Student.findOne({ where: { username } });
-    if (!student) {
+    // Find the Lecturer by username
+    const lecturer = await Lecturer.findOne({ where: { username } });
+    if (!lecturer) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // Compare the password
-    const isMatch = await bcrypt.compare(password, student.password);
+    const isMatch = await bcrypt.compare(password, lecturer.password);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // Generate JWT token
-    const token = student.generateAuthToken();
+    const token = lecturer.generateAuthToken();
 
     res.json({ token });
   } catch (error) {
@@ -77,7 +77,7 @@ router.post('/api/students/login', [
 });
  
 // Logout
-router.post('/api/students/logout', authenticateToken, (req, res) => {
+router.post('/api/lecturers/logout', authenticateToken, (req, res) => {
   try {
     // may need additional logic
     
@@ -87,61 +87,59 @@ router.post('/api/students/logout', authenticateToken, (req, res) => {
   }
 });
 
-// Get student profile
-router.get('/api/students/profile', authenticateToken, async (req, res) => {
+// Get Lecturer profile
+router.get('/api/lecturers/profile', authenticateToken, async (req, res) => {
   try {
-    if (req.model !== 'student') {
+    if (req.model !== 'lecturer') {
        return res.status(403).json({ error: 'Forbidden' });
     }
 
-    const student = req.user;
-    res.json(student);
+    const lecturer = req.user;
+    res.json(lecturer);
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Update student profile
-router.put('/api/students/profile', authenticateToken, async (req, res) => {
+// Update Lecturer profile
+router.put('/api/lecturers/profile', authenticateToken, async (req, res) => {
   try {
-    if (req.model !== 'student') {
+    if (req.model !== 'lecturer') {
       return res.status(403).json({ error: 'Forbidden' });
    }
 
-    const student = req.user;
+    const lecturer = req.user;
 
-    // Update the student information
-    student.class = req.body.class || student.class;
-    student.name = req.body.name || student.name;
-    student.date_of_birth = req.body.date_of_birth || student.date_of_birth;
-    student.gender = req.body.gender || student.gender;
-    student.place_of_birth = req.body.place_of_birth || student.place_of_birth;
-    student.citizen_id = req.body.citizen_id || student.citizen_id;
-    student.email = req.body.email || student.email;
-    student.phone_number = req.body.phone_number || student.phone_number;
-    student.profile_image = req.body.profile_image || student.profile_image;
+    // Update the Lecturer information
+    lecturer.name = req.body.name || lecturer.name;
+    lecturer.email = req.body.email || lecturer.email;
+    lecturer.department = req.body.department || lecturer.department;
+    lecturer.subject_lab = req.body.subject_lab || lecturer.subject_lab;
+    lecturer.job_title = req.body.job_title || lecturer.job_title;
+    lecturer.phone_number = req.body.phone_number || lecturer.phone_number;
+    lecturer.profile_image = req.body.profile_image || lecturer.profile_image;
 
-    await student.save();
+    await lecturer.save();
 
-    res.json(student);
+    res.json(lecturer);
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Update student password
-router.put('/api/students/password', authenticateToken, async (req, res) => {
+// Update Lecturer password
+router.put('/api/lecturers/password', authenticateToken, async (req, res) => {
   try {
-    if (req.model !== 'student') {
+    if (req.model !== 'lecturer') {
       return res.status(403).json({ error: 'Forbidden' });
    }
 
-    const student = req.user;
+    const lecturer = req.user;
 
     const { currentPassword, newPassword } = req.body;
-
+    
     // Check if the current password matches
-    const passwordMatch = await bcrypt.compare(currentPassword, student.password);
+    const passwordMatch = await bcrypt.compare(currentPassword, lecturer.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid current password' });
     }
@@ -152,8 +150,8 @@ router.put('/api/students/password', authenticateToken, async (req, res) => {
 
     // Update the password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    student.password = hashedPassword;
-    await student.save();
+    lecturer.password = hashedPassword;
+    await lecturer.save();
 
     res.json({ message: 'Password updated successfully' });
   } catch (error) {

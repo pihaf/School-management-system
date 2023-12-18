@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 const { engine } = require("express-handlebars");
-const { sequelize } = require('./models/DB');
+const sequelize  = require('./models/DB');
 
 // Setting up the server
 const app = express();
@@ -31,11 +31,17 @@ const homeRouter = require('./routers/homeRouter');
 const requestRouter = require('./routers/requestRouter');
 const blogRouter = require('./routers/blogRouter');
 const notificationRouter = require('./routers/notificationRouter');
+const studentRouter = require('./routers/studentRouter');
+const lecturerRouter = require('./routers/lecturerRouter');
+const adminRouter = require('./routers/adminRouter');
 
 // Configure routes
 //app.use('/', homeRouter);
 app.use('/', requestRouter);
 app.use('/', blogRouter);
+app.use('/', studentRouter);
+app.use('/', lecturerRouter);
+app.use('/', adminRouter);
 
 // routes inits 
 routes(app);

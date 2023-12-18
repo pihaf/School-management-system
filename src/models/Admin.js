@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../models/DB');
+const jwt = require('jsonwebtoken');
 
 const Admin = sequelize.define('Admin', {
   admin_id: {
@@ -39,5 +40,30 @@ const Admin = sequelize.define('Admin', {
   timestamps: false
 });
   
+// Generate JWT token for the admin
+Admin.prototype.generateAuthToken = function () {
+  const payload = { model: 'admin', id: this.admin_id }; 
+  const secretKey = process.env.SECRET_KEY;
+  const token = jwt.sign(payload, secretKey);
+  return token;
+};
+
+// Verify and decode JWT token
+Admin.verifyAuthToken = function (token) {
+  try {
+    const decoded = jwt.verify(token, secretKey);
+    const { id } = decoded;
+    const user = Admin.findByPk(id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  } catch (error) {
+    throw new Error('Invalid token');
+  }
+};
+
 module.exports = Admin;
 

@@ -71,7 +71,14 @@ Student.verifyAuthToken = function (token) {
   const secretKey = process.env.SECRET_KEY;
   try {
     const decoded = jwt.verify(token, secretKey);
-    return decoded;
+    const { id } = decoded;
+    const user = Student.findByPk(id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
   } catch (error) {
     throw new Error('Invalid token');
   }
