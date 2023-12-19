@@ -12,7 +12,16 @@ router.get('/api/admin/requests', authenticateToken, async (req, res) => {
   }
   try {
     const requests = await Request.findAll({
-      include: [Student, Admin],
+      include: [
+        {
+          model: Student,
+          attributes: ['student_id', 'name', 'email'],
+        },
+        {
+          model: Admin,
+          attributes: ['admin_id', 'email'],
+        },
+      ],
     });
     res.json(requests);
   } catch (error) {
@@ -26,7 +35,16 @@ router.get('/api/requests/:requestId', authenticateToken, async (req, res) => {
 
   try {
     const request = await Request.findByPk(requestId, {
-      include: [Student, Admin],
+      include: [
+        {
+          model: Student,
+          attributes: ['student_id', 'name', 'email'],
+        },
+        {
+          model: Admin,
+          attributes: ['admin_id', 'email'],
+        },
+      ],
     });
 
     if (!request) {
@@ -43,13 +61,22 @@ router.get('/api/requests/:requestId', authenticateToken, async (req, res) => {
 router.get('/api/requests/students/:studentId', authenticateToken, async (req, res) => {
   const { studentId } = req.params;
   if (studentId !== req.user.id) {
-    return res.status(403).json({ error: 'You are not authorized to update this notification' });
+    return res.status(403).json({ error: 'You are not authorized to get this request' });
   }
 
   try {
     const requests = await Request.findAll({
       where: { student_id: studentId },
-      include: [Student, Admin],
+      include: [
+        {
+          model: Student,
+          attributes: ['student_id', 'name', 'email'],
+        },
+        {
+          model: Admin,
+          attributes: ['admin_id', 'email'],
+        },
+      ],
     });
 
     res.json(requests);

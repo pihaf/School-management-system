@@ -7,7 +7,6 @@ const Admin = require('../models/Admin');
 const Student = require('../models/Student');
 const LecturerCourse = require('../models/LecturerCourse');
 const StudentCourse = require('../models/StudentCourse');
-const Course = require('../models/Course');
 
 // Route to get all notifications sent by a lecturer
 router.get('/api/notifications/lecturer/:lecturerId', authenticateToken, async (req, res) => {
@@ -22,7 +21,16 @@ router.get('/api/notifications/lecturer/:lecturerId', authenticateToken, async (
         sender_id: lecturerId,
         sender_type: 'lecturer',
       },
-      include: [Lecturer, Admin, Student],
+      include: [
+        {
+          model: Lecturer,
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Student,
+          attributes: ['student_id', 'name', 'email'],
+        }
+      ],
     });
 
     res.json(notifications);
@@ -37,7 +45,20 @@ router.get('/api/notifications/:notificationId', authenticateToken, async (req, 
 
   try {
     const notification = await Notification.findByPk(notificationId, {
-      include: [Lecturer, Admin, Student],
+      include: [
+        {
+          model: Lecturer,
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Student,
+          attributes: ['student_id', 'name', 'email'],
+        },
+        {
+          model: Admin,
+          attributes: ['admin_id', 'email'],
+        },
+      ],
     });
 
     if (!notification) {
@@ -140,7 +161,20 @@ router.get('/api/admin/notifications', authenticateToken, async (req, res) => {
   }
   try {
     const notifications = await Notification.findAll({
-      include: [Lecturer, Admin, Student],
+      include: [
+        {
+          model: Lecturer,
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Student,
+          attributes: ['student_id', 'name', 'email'],
+        },
+        {
+          model: Admin,
+          attributes: ['admin_id', 'email'],
+        },
+      ],
     });
     res.json(notifications);
   } catch (error) {

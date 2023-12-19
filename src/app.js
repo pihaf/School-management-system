@@ -29,16 +29,21 @@ app.set("views", path.join(__dirname, "/views"));
 const routes = require("./routers/");
 const homeRouter = require('./routers/homeRouter');
 const requestRouter = require('./routers/requestRouter');
-const blogRouter = require('./routers/blogRouter');
+const newsRouter = require('./routers/newsRouter');
 const notificationRouter = require('./routers/notificationRouter');
+const gradeRouter = require('./routers/gradeRouter');
+const courseRouter = require('./routers/courseRouter');
 const studentRouter = require('./routers/studentRouter');
 const lecturerRouter = require('./routers/lecturerRouter');
 const adminRouter = require('./routers/adminRouter');
 
 // Configure routes
-//app.use('/', homeRouter);
+app.use('/', homeRouter);
+app.use('/', notificationRouter);
 app.use('/', requestRouter);
-app.use('/', blogRouter);
+app.use('/', newsRouter);
+app.use('/', gradeRouter);
+app.use('/', courseRouter);
 app.use('/', studentRouter);
 app.use('/', lecturerRouter);
 app.use('/', adminRouter);
