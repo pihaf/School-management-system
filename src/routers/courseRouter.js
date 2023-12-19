@@ -9,7 +9,7 @@ const LecturerCourse = require('../models/LecturerCourse');
 const Student = require('../models/Student');
 
 // Get all courses
-router.get('/api/courses', async (req, res) => {
+router.get('/api/courses', authenticateToken, async (req, res) => {
   try {
     const courses = await Course.findAll();
     res.json(courses);
@@ -19,7 +19,7 @@ router.get('/api/courses', async (req, res) => {
 });
 
 // Get a specific course by ID
-router.get('/api/courses/:id', async (req, res) => {
+router.get('/api/courses/:id', authenticateToken, async (req, res) => {
   const courseId = req.params.id;
   try {
     const course = await Course.findByPk(courseId);
@@ -32,6 +32,76 @@ router.get('/api/courses/:id', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+// Enroll a student in a course
+router.post('/api/courses/:id/enroll', authenticateToken, async (req, res) => {
+  if (req.model !== 'admin' && req.model !== 'lecturer') {
+      return res.status(403).json({ error: 'Forbidden' });
+  }
+  const courseId = req.params.id;
+  const { student_id, notes } = req.body;
+  try {
+      const studentCourse = await StudentCourse.create({
+      student_id,
+      course_id: courseId,
+      notes
+      });
+      res.status(201).json(studentCourse);
+  } catch (error) {
+      res.status(500).json({ error: 'Failed to enroll student in course' });
+  }
+});
+
+// Get all enrolled students in a course
+router.get('/api/courses/:id/students', authenticateToken, async (req, res) => {
+  const courseId = req.params.id;
+  try {
+    const enrolledStudents = await StudentCourse.findAll({
+      where: { course_id: courseId },
+      include: Student // Include the Student model in the query
+    });
+
+    // Extract relevant student information
+    const students = enrolledStudents.map(enrolledStudent => {
+      const { student_id, student_class, name, date_of_birth, email} = enrolledStudent.Student;
+      return {
+        student_id,
+        student_class,
+        name,
+        date_of_birth,
+        email
+      };
+    });
+
+    res.json(students);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve enrolled students' });
+  }
+});
+
+// Route to get all courses taught by a lecturer
+router.get('/api/courses/lecturers/:lecturerId',authenticateToken, async (req, res) => {
+  if (req.model !== 'admin' && req.model !== 'lecturer') {
+      return res.status(403).json({ error: 'Forbidden' });
+  }
+  const { lecturerId } = req.params;
+
+  try {
+    const lecturerCourses = await LecturerCourse.findAll({
+      where: { lecturer_id: lecturerId },
+      include: Course // Include the Course model to get course details
+    });
+
+    // Extract the course details from the lecturerCourses
+    const courses = lecturerCourses.map(lecturerCourse => lecturerCourse.Course);
+
+    res.json(courses);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve courses' });
+  }
+});
+
+// For admins
 
 // Create a new course
 router.post('/api/admin/courses', authenticateToken, async (req, res) => {
@@ -109,74 +179,6 @@ router.put('/api/admin/courses/:id', authenticateToken, async (req, res) => {
       }
     } catch (error) {
       res.status(500).json({ error: 'Failed to delete course' });
-    }
-  });
-
-// Enroll a student in a course
-router.post('/api/courses/:id/enroll', async (req, res) => {
-    if (req.model !== 'admin' || req.model !== 'lecturer') {
-        return res.status(403).json({ error: 'Forbidden' });
-    }
-    const courseId = req.params.id;
-    const { student_id, notes } = req.body;
-    try {
-        const studentCourse = await StudentCourse.create({
-        student_id,
-        course_id: courseId,
-        notes
-        });
-        res.status(201).json(studentCourse);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to enroll student in course' });
-    }
-});
-
-// Get all enrolled students in a course
-router.get('/api/courses/:id/students', async (req, res) => {
-    const courseId = req.params.id;
-    try {
-      const enrolledStudents = await StudentCourse.findAll({
-        where: { course_id: courseId },
-        include: Student // Include the Student model in the query
-      });
-  
-      // Extract relevant student information
-      const students = enrolledStudents.map(enrolledStudent => {
-        const { student_id, student_class, name, date_of_birth, email} = enrolledStudent.Student;
-        return {
-          student_id,
-          student_class,
-          name,
-          date_of_birth,
-          email
-        };
-      });
-  
-      res.json(students);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to retrieve enrolled students' });
-    }
-  });
-
-// Route to get all courses taught by a lecturer
-router.get('/api/courses/lecturers/:lecturerId', async (req, res) => {
-    if (req.model !== 'admin' || req.model !== 'lecturer') {
-        return res.status(403).json({ error: 'Forbidden' });
-    }
-    const { lecturerId } = req.params;
-  
-    try {
-      const lecturerCourses = await LecturerCourse.findAll({
-        where: { lecturer_id: lecturerId },
-        include: Course // Include the Course model to get course details
-      });
-  
-      // Extract the course details from the lecturerCourses
-      const courses = lecturerCourses.map(lecturerCourse => lecturerCourse.Course);
-  
-      res.json(courses);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to retrieve courses' });
     }
   });
 

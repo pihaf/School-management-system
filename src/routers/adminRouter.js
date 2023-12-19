@@ -66,6 +66,18 @@ router.post('/api/admin/login', async (req, res) => {
   }
 });
 
+// Logout
+router.post('/api/admin/logout', authenticateToken, (req, res) => {
+  try {
+    // may need additional logic
+    
+    res.json({ message: 'Logout successful' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
 // Get admin profile
 router.get('/api/admin/profile', authenticateToken, async (req, res) => {
   try {
