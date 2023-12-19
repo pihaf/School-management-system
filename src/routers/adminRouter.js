@@ -41,7 +41,7 @@ router.post('/api/admin/register', authenticateToken, async (req, res) => {
 });
 
 // Admin login
-router.post('/api/admins/login', async (req, res) => {
+router.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -67,7 +67,7 @@ router.post('/api/admins/login', async (req, res) => {
 });
 
 // Get admin profile
-router.get('/api/admins/profile', authenticateToken, async (req, res) => {
+router.get('/api/admin/profile', authenticateToken, async (req, res) => {
   try {
     const admin = await Admin.verifyAuthToken(req.token);
     res.json(admin);
@@ -77,7 +77,7 @@ router.get('/api/admins/profile', authenticateToken, async (req, res) => {
 });
 
 // Update admin profile
-router.put('/api/admins/profile', authenticateToken, async (req, res) => {
+router.put('/api/admin/profile', authenticateToken, async (req, res) => {
   try {
     const admin = await Admin.verifyAuthToken(req.token);
 

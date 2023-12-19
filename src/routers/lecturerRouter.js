@@ -163,7 +163,7 @@ router.put('/api/lecturers/password', authenticateToken, async (req, res) => {
 // For admins
 
 // Get all lecturers
-router.get('/api/admins/lecturers', authenticateToken, async (req, res) => {
+router.get('/api/admin/lecturers', authenticateToken, async (req, res) => {
   try {
     // Allow access only to admins
     if (req.model !== 'admin') {
@@ -177,7 +177,7 @@ router.get('/api/admins/lecturers', authenticateToken, async (req, res) => {
 });
 
 // Get a specific lecturer
-router.get('/api/admins/lecturers/:id', authenticateToken, async (req, res) => {
+router.get('/api/admin/lecturers/:id', authenticateToken, async (req, res) => {
   try {
       // Allow access only to admins
       if (req.model !== 'admin') {
@@ -239,7 +239,7 @@ router.post('/api/admin/lecturers', authenticateToken, async (req, res) => {
 
 
 // Update a lecturer
-router.put('/api/admins/lecturers/:id', authenticateToken, async (req, res) => {
+router.put('/api/admin/lecturers/:id', authenticateToken, async (req, res) => {
   try {
       // Allow access only to admins
       if (req.model !== 'admin') {
@@ -270,7 +270,7 @@ router.put('/api/admins/lecturers/:id', authenticateToken, async (req, res) => {
 });
 
 // Update password
-router.put('/api/admins/lecturers/:id/update-password', authenticateToken, async (req, res) => {
+router.put('/api/admin/lecturers/:id/update-password', authenticateToken, async (req, res) => {
   try {
       // Allow access only to admins
       if (req.model !== 'admin') {
@@ -307,7 +307,7 @@ router.put('/api/admins/lecturers/:id/update-password', authenticateToken, async
 });
 
 // Delete a lecturer
-router.delete('/api/admins/lecturers/:id', authenticateToken, async (req, res) => {
+router.delete('/api/admin/lecturers/:id', authenticateToken, async (req, res) => {
   try {
       // Allow access only to admins
       if (req.model !== 'admin') {

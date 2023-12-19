@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const authenticateToken = require('../middleware/auth');
 const Course = require('../models/Course');
 const StudentCourse = require('../models/StudentCourse');
+const LecturerCourse = require('../models/LecturerCourse');
 const Student = require('../models/Student');
 
 // Get all courses
@@ -112,7 +113,7 @@ router.put('/api/admin/courses/:id', authenticateToken, async (req, res) => {
   });
 
 // Enroll a student in a course
-router.post('/api/course/:id/enroll', async (req, res) => {
+router.post('/api/courses/:id/enroll', async (req, res) => {
     if (req.model !== 'admin' || req.model !== 'lecturer') {
         return res.status(403).json({ error: 'Forbidden' });
     }
@@ -131,7 +132,7 @@ router.post('/api/course/:id/enroll', async (req, res) => {
 });
 
 // Get all enrolled students in a course
-router.get('/api/course/:id/students', async (req, res) => {
+router.get('/api/courses/:id/students', async (req, res) => {
     const courseId = req.params.id;
     try {
       const enrolledStudents = await StudentCourse.findAll({
@@ -154,6 +155,28 @@ router.get('/api/course/:id/students', async (req, res) => {
       res.json(students);
     } catch (error) {
       res.status(500).json({ error: 'Failed to retrieve enrolled students' });
+    }
+  });
+
+// Route to get all courses taught by a lecturer
+router.get('/api/courses/lecturers/:lecturerId', async (req, res) => {
+    if (req.model !== 'admin' || req.model !== 'lecturer') {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+    const { lecturerId } = req.params;
+  
+    try {
+      const lecturerCourses = await LecturerCourse.findAll({
+        where: { lecturer_id: lecturerId },
+        include: Course // Include the Course model to get course details
+      });
+  
+      // Extract the course details from the lecturerCourses
+      const courses = lecturerCourses.map(lecturerCourse => lecturerCourse.Course);
+  
+      res.json(courses);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to retrieve courses' });
     }
   });
 
