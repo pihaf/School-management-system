@@ -8,9 +8,10 @@ const Student = sequelize.define('Student', {
     allowNull: false,
     primaryKey: true
   },
-  class: {
+  student_class: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    field: 'class'
   },
   name: {
     type: DataTypes.STRING,
