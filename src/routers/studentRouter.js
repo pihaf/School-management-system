@@ -81,8 +81,6 @@ router.post('/api/students/login', [
 // Logout
 router.post('/api/students/logout', authenticateToken, (req, res) => {
   try {
-    // may need additional logic
-    
     res.json({ message: 'Logout successful' });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
