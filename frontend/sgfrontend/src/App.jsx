@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Navbar from './components/Navbar.jsx';
@@ -10,9 +11,18 @@ import Request from './components/Request';
 import Notification from './components/Notification';
 import Profile from './components/Profile';
 import Login from './components/Login';
-import NoPage from "./components/NoPage.jsx";
+import NoPage from './components/NoPage.jsx';
 
 function App() {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    // Redirect to the login page if the token is not present
+    if (!token && window.location.pathname !== '/login') {
+      window.location.href = '/login';
+    }
+  }, []);
+  
   return (
     <Router>
       <Header />
