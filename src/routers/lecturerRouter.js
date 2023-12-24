@@ -44,50 +44,50 @@ const lecturerController = require('../controllers/lecturerController');
 // });
 
 // Login
-router.post('/api/lecturers/login', [
-  check('username').notEmpty().withMessage('Username is required'),
-  check('password').notEmpty().withMessage('Password is required'),
-], async (req, res) => {
-  try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+// router.post('/api/lecturers/login', [
+//   check('username').notEmpty().withMessage('Username is required'),
+//   check('password').notEmpty().withMessage('Password is required'),
+// ], async (req, res) => {
+//   try {
+//     // Check for validation errors
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
 
-    const { username, password } = req.body;
+//     const { username, password } = req.body;
 
-    // Find the Lecturer by username
-    const lecturer = await Lecturer.findOne({ where: { username } });
-    if (!lecturer) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
+//     // Find the Lecturer by username
+//     const lecturer = await Lecturer.findOne({ where: { username } });
+//     if (!lecturer) {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
 
-    // Compare the password
-    const isMatch = await bcrypt.compare(password, lecturer.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
+//     // Compare the password
+//     const isMatch = await bcrypt.compare(password, lecturer.password);
+//     if (!isMatch) {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
 
-    // Generate JWT token
-    const token = lecturer.generateAuthToken();
+//     // Generate JWT token
+//     const token = lecturer.generateAuthToken();
 
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+//     res.json({ token });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
  
-// Logout
-router.post('/api/lecturers/logout', authenticateToken, (req, res) => {
-  try {
-    // may need additional logic
+// // Logout
+// router.post('/api/lecturers/logout', authenticateToken, (req, res) => {
+//   try {
+//     // may need additional logic
     
-    res.json({ message: 'Logout successful' });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+//     res.json({ message: 'Logout successful' });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
 
 // Get Lecturer profile
 router.get('/api/lecturers/profile', authenticateToken, lecturerController.getLecturerProfile);

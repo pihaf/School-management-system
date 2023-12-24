@@ -64,8 +64,12 @@ Lecturer.verifyAuthToken = function (token) {
   const secretKey = process.env.SECRET_KEY;
   try {
     const decoded = jwt.verify(token, secretKey);
-    const { id } = decoded;
+    const { model, id } = decoded;
     const user = Lecturer.findByPk(id);
+
+    if (model !== 'lecturer') {
+      throw new Error('Invalid token');
+    }
 
     if (!user) {
       throw new Error('User not found');

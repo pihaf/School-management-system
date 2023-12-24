@@ -52,8 +52,12 @@ Admin.prototype.generateAuthToken = function () {
 Admin.verifyAuthToken = function (token) {
   try {
     const decoded = jwt.verify(token, secretKey);
-    const { id } = decoded;
+    const { model, id } = decoded;
     const user = Admin.findByPk(id);
+
+    if (model !== 'admin') {
+      throw new Error('Invalid token');
+    }
 
     if (!user) {
       throw new Error('User not found');

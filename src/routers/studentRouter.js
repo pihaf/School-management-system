@@ -44,48 +44,48 @@ const studentController = require('../controllers/studentController');
 // });
 
 // Login
-router.post('/api/students/login', [
-  check('username').notEmpty().withMessage('Username is required'),
-  check('password').notEmpty().withMessage('Password is required'),
-], async (req, res) => {
-  try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+// router.post('/api/students/login', [
+//   check('username').notEmpty().withMessage('Username is required'),
+//   check('password').notEmpty().withMessage('Password is required'),
+// ], async (req, res) => {
+//   try {
+//     // Check for validation errors
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
 
-    const { username, password } = req.body;
+//     const { username, password } = req.body;
 
-    // Find the student by username
-    const student = await Student.findOne({ where: { username } });
-    if (!student) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
+//     // Find the student by username
+//     const student = await Student.findOne({ where: { username } });
+//     if (!student) {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
 
-    // Compare the password
-    const isMatch = await bcrypt.compare(password, student.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
+//     // Compare the password
+//     const isMatch = await bcrypt.compare(password, student.password);
+//     if (!isMatch) {
+//       return res.status(401).json({ error: 'Invalid username or password' });
+//     }
 
-    // Generate JWT token
-    const token = student.generateAuthToken();
+//     // Generate JWT token
+//     const token = student.generateAuthToken();
 
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+//     res.json({ token });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
  
-// Logout
-router.post('/api/students/logout', authenticateToken, (req, res) => {
-  try {
-    res.json({ message: 'Logout successful' });
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+// // Logout
+// router.post('/api/students/logout', authenticateToken, (req, res) => {
+//   try {
+//     res.json({ message: 'Logout successful' });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
 
 // Get student profile
 router.get('/api/students/profile', authenticateToken, studentController.getStudentProfile);

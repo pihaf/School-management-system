@@ -36,6 +36,7 @@ const courseRouter = require('./routers/courseRouter');
 const studentRouter = require('./routers/studentRouter');
 const lecturerRouter = require('./routers/lecturerRouter');
 const adminRouter = require('./routers/adminRouter');
+const loginlogout = require('./routers/loginlogout');
 
 // Configure routes
 app.use('/', homeRouter);
@@ -47,6 +48,7 @@ app.use('/', courseRouter);
 app.use('/', studentRouter);
 app.use('/', lecturerRouter);
 app.use('/', adminRouter);
+app.use('/', loginlogout);
 
 // routes inits 
 routes(app);
