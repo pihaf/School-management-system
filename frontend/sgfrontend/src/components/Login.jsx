@@ -10,7 +10,7 @@ function Login() {
     e.preventDefault();
 
     // Make API request to login
-    const response = await fetch('/api/login', {
+    const response = await fetch('http://localhost:3000/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
+const bodyParser = require('body-parser');
 const morgan = require("morgan");
 const { engine } = require("express-handlebars");
 const sequelize  = require('./models/DB');
@@ -7,6 +9,12 @@ const sequelize  = require('./models/DB');
 // Setting up the server
 const app = express();
 const port = 3000; // Port number
+
+// Parse JSON bodies
+app.use(bodyParser.json());
+
+// Parse URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Http logger
 app.use(morgan("combined")); // Morgan middleware
@@ -24,6 +32,7 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "/views"));
 // console.log("PATH: ", path.join(__dirname, "/views"));
 
+app.use(cors());
 
 // Importing routers
 const routes = require("./routers/");

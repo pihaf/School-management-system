@@ -12,35 +12,46 @@ router.post('/api/login', [
     check('password').notEmpty().withMessage('Password is required'),
   ], async (req, res) => {
     try {
-      // Check for validation errors
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-  
-      const { username, password } = req.body;
-  
-      // Find the user by username
-      const user = await Student.findOne({ where: { username } });
-      if (!user) {
-        user = await Lecturer.findOne({ where: { username } });
-        if (!user) {
-            return res.status(401).json({ error: 'Invalid username or password' });
+        //Check for validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
         }
-      }
-  
-      // Compare the password
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(401).json({ error: 'Invalid username or password' });
-      }
-  
-      // Generate JWT token
-      const token = user.generateAuthToken();
-  
-      res.json({ token });
+    
+        console.log(req.body);
+        const {username, password} = req.body;
+    
+        if (!username) {
+          return res.status(400).json({ error: 'Username is required' });
+        }
+
+        // Find the user by username
+        const user = await Student.findOne({ where: { username } });
+        console.log(user);
+        if (!user) {
+          user = await Lecturer.findOne({ where: { username } });
+          console.log(user);
+          if (!user) {
+              return res.status(401).json({ error: 'Invalid username' });
+          }
+        }
+
+        if (password !== user.password) {
+          return res.status(401).json({ error: 'Invalid password' });
+        }
+        // Compare the password
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if (!isMatch) {
+        //   return res.status(401).json({ error: 'Invalid username or password' });
+        // }
+    
+        // Generate JWT token
+        const token = user.generateAuthToken();
+    
+        res.json({ token });
     } catch (error) {
-      res.status(500).json({ error: 'Server error' });
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
     }
   });
    
