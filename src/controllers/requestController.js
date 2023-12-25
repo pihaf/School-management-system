@@ -32,8 +32,10 @@ exports.getRequestById = async (req, res) => {
   
 // Route to get all requests of a specific student
 exports.getAllRequestsOfAStudent = async (req, res) => {
-    const { studentId } = req.params;
-    if (studentId !== req.user.id) {
+    const studentId  = req.params.studentId;
+    // console.log(studentId);
+    // console.log(req.user.student_id);
+    if (studentId !== req.user.student_id) {
       return res.status(403).json({ error: 'You are not authorized to get this request' });
     }
   

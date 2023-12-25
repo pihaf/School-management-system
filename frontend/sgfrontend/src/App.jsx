@@ -5,7 +5,7 @@ import Home from './components/Home';
 import Navbar from './components/Navbar.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Curriculum from './components/Curriculum';
+import Timetable from './components/Timetable';
 import Course from './components/Course';
 import Request from './components/Request';
 import Notification from './components/Notification';
@@ -40,11 +40,11 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login setToken={setToken} setModel={setModel} setId={setId}/>} />
         <Route path="/logout" element={<Logout setToken={setToken} setModel={setModel} setId={setId} />} />
-        <Route path="/curriculum" element={<Curriculum />} />
+        <Route path="/timetable" element={<Timetable />} />
         <Route path="/course" element={<Course isAuthenticated={!!token} model={model} id={id}/>} />
-        <Route path="/request" element={<Request />} />
-        <Route path="/notification" element={<Notification />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/request" element={<Request isAuthenticated={!!token} model={model} id={id}/>} />
+        <Route path="/notification" element={<Notification isAuthenticated={!!token} model={model} id={id}/>} />
+        <Route path="/profile" element={<Profile isAuthenticated={!!token} model={model} id={id}/>} />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Footer />
