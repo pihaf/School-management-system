@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Navbar from './components/Navbar.jsx';
@@ -11,9 +11,14 @@ import Request from './components/Request';
 import Notification from './components/Notification';
 import Profile from './components/Profile';
 import Login from './components/Login';
+import Logout from './components/Logout'; 
 import NoPage from './components/NoPage.jsx';
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [model, setModel] = useState(localStorage.getItem('model'));
+  const [id, setId] = useState(localStorage.getItem('id'));
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -21,17 +26,22 @@ function App() {
     if (!token && window.location.pathname !== '/login') {
       window.location.href = '/login';
     }
-  }, []);
-  
+  }, [token]);
+
+  // function isAuthenticated() {
+  //   return !!token; // Returns true if the token exists, false otherwise
+  // };
+
   return (
     <Router>
       <Header />
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setToken={setToken} setModel={setModel} setId={setId}/>} />
+        <Route path="/logout" element={<Logout setToken={setToken} setModel={setModel} setId={setId} />} />
         <Route path="/curriculum" element={<Curriculum />} />
-        <Route path="/course" element={<Course />} />
+        <Route path="/course" element={<Course isAuthenticated={!!token} model={model} id={id}/>} />
         <Route path="/request" element={<Request />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/profile" element={<Profile />} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setToken, setModel, setId }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -21,9 +21,18 @@ function Login() {
     if (response.ok) {
       const data = await response.json();
       const token = data.token;
+      const model = data.model;
+      const id = data.id;
 
       // Save the token in localStorage
       localStorage.setItem('token', token);
+      localStorage.setItem('model', model);
+      localStorage.setItem('id', id);
+
+      // Update the token state
+      setToken(token);
+      setModel(model);
+      setId(id);
 
       // Redirect to the home page or any desired page
       navigate('/');
