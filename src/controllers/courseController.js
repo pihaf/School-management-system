@@ -7,6 +7,7 @@ const Student = require('../models/Student');
 exports.getAllCourses = async (req, res) => {
     try {
       const courses = await Course.findAll();
+      //console.log(courses);
       res.json(courses);
     } catch (error) {
       res.status(500).json({ error: 'Server error' });
@@ -28,6 +29,33 @@ exports.getCourseById = async (req, res) => {
     }
   };
   
+// Get all courses enrolled by a student
+exports.getAllCoursesEnrolledByStudent = async (req, res) => {
+  if (req.model !== 'student') {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
+  const studentId = req.params.studentId;
+  console.log("StudentId: ");
+  console.log(studentId);
+
+  try {
+    const enrolledCourses = await StudentCourse.findAll({
+      where: { student_id: studentId },
+      include: Course // Include the Course model to get course details
+    });
+    console.log("EnrolledCourses: ");
+    console.log(enrolledCourses);
+    // Extract the course details from the enrolledCourses
+    const courses = enrolledCourses.map(enrolledCourse => enrolledCourse.Course);
+
+    res.json(courses);
+  } catch (error) {
+    console.error('Error retrieving enrolled courses:', error);
+    res.status(500).json({ error: 'Failed to retrieve enrolled courses' });
+  }
+};
+
   // Enroll a student in a course
 exports.enrollStudentInCourse = async (req, res) => {
     if (req.model !== 'admin' && req.model !== 'lecturer') {

@@ -3,7 +3,7 @@ const Student = require('../models/Student');
 const Admin = require('../models/Admin');
 const Lecturer = require('../models/Lecturer');
 
-function authenticateToken(req, res, next) {
+async function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) {
@@ -30,9 +30,38 @@ function authenticateToken(req, res, next) {
         throw new Error('Invalid model');
     }
 
-    const user = Model.verifyAuthToken(token);
-    if (user.id !== id) {
-      throw new Error('Invalid token');
+    const user = await Model.verifyAuthToken(token);
+    console.log("User from authenticateToken: ");
+    console.log(user);
+    switch (model) {
+      case 'student':
+        // console.log("User.id: ");
+        // console.log(user.student_id);
+        console.log("id: ");
+        console.log(id);
+        if (user.student_id !== id) {
+          throw new Error('Invalid token');
+        }
+        break;
+      case 'lecturer':
+        // console.log("User.id: ");
+        // console.log(user.student_id);
+        console.log("id: ");
+        console.log(id);
+        if (user.lecturer_id !== id) {
+          throw new Error('Invalid token');
+        }
+        break;
+      case 'admin':
+        // console.log("User.id: ");
+        // console.log(user.student_id);
+        console.log("id: ");
+        console.log(id);
+        if (user.admin_id !== id) {
+          throw new Error('Invalid token');
+        }        
+        break;
+      default:
     }
 
     req.user = user;

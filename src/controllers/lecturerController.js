@@ -27,7 +27,7 @@ exports.updateLecturerProfile = async (req, res) => {
       lecturer.name = req.body.name || lecturer.name;
       lecturer.email = req.body.email || lecturer.email;
       lecturer.department = req.body.department || lecturer.department;
-      lecturer.subject_lab = req.body.subject_lab || lecturer.subject_lab;
+      lecturer['subject/lab'] = req.body.subject_lab || lecturer['subject/lab'];
       lecturer.job_title = req.body.job_title || lecturer.job_title;
       lecturer.phone_number = req.body.phone_number || lecturer.phone_number;
       lecturer.profile_image = req.body.profile_image || lecturer.profile_image;
@@ -116,7 +116,7 @@ exports.createLecturer = async (req, res) => {
       return res.status(403).json({ error: 'Forbidden' });
     }
   
-    const { name, email, department, subject_lab, job_title, phone_number, profile_image, username, password } = req.body;
+    const { name, email, department, 'subject/lab': subject_lab, job_title, phone_number, profile_image, username, password } = req.body;
   
     try {
       // Check if the username already exists
@@ -133,7 +133,7 @@ exports.createLecturer = async (req, res) => {
         name,
         email,
         department,
-        subject_lab,
+        'subject/lab': subject_lab,
         job_title,
         phone_number,
         profile_image,
@@ -169,7 +169,7 @@ exports.updateLecturer = async (req, res) => {
         lecturer.name = req.body.name || lecturer.name;
         lecturer.email = req.body.email || lecturer.email;
         lecturer.department = req.body.department || lecturer.department;
-        lecturer.subject_lab = req.body.subject_lab || lecturer.subject_lab;
+        lecturer['subject/lab'] = req.body.subject_lab || lecturer['subject/lab'];
         lecturer.job_title = req.body.job_title || lecturer.job_title;
         lecturer.phone_number = req.body.phone_number || lecturer.phone_number;
         lecturer.profile_image = req.body.profile_image || lecturer.profile_image; 

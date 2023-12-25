@@ -21,7 +21,7 @@ const Lecturer = sequelize.define('Lecturer', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  subject_lab: {
+  'subject/lab': {
     type: DataTypes.STRING,
     allowNull: true
   },

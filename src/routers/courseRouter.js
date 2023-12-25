@@ -12,6 +12,9 @@ router.get('/api/courses', authenticateToken, courseController.getAllCourses);
 // Get a specific course by ID
 router.get('/api/courses/:id', authenticateToken, courseController.getCourseById);
 
+// Get all courses a student is enrolled in
+router.get('/api/courses/students/:studentId', authenticateToken, courseController.getAllCoursesEnrolledByStudent);
+
 // Enroll a student in a course
 router.post('/api/courses/:id/enroll', authenticateToken, courseController.enrollStudentInCourse);
 
@@ -19,7 +22,7 @@ router.post('/api/courses/:id/enroll', authenticateToken, courseController.enrol
 router.get('/api/courses/:id/students', authenticateToken, courseController.getAllStudentsInCourse);
 
 // Route to get all courses taught by a lecturer
-router.get('/api/courses/lecturers/:lecturerId',authenticateToken, courseController.getAllCoursesByLecturer);
+router.get('/api/courses/lecturers/:lecturerId', authenticateToken, courseController.getAllCoursesByLecturer);
 
 // For admins
 

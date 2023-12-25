@@ -26,15 +26,21 @@ router.post('/api/login', [
         }
 
         // Find the user by username
-        const user = await Student.findOne({ where: { username } });
-        console.log(user);
+        let user = await Student.findOne({ where: { username } });
+        let model = 'student'; // Set the default model to 'student'
+        let id = null;
+
         if (!user) {
           user = await Lecturer.findOne({ where: { username } });
-          console.log(user);
-          if (!user) {
-              return res.status(401).json({ error: 'Invalid username' });
-          }
+          model = 'lecturer'; // Set the model to 'lecturer' if user is not found as a student
+          id = user.lecturer_id;
         }
+
+        if (!user) {
+          return res.status(401).json({ error: 'Invalid username' });
+        }
+        
+        id = user.student_id || user.lecturer_id;
 
         if (password !== user.password) {
           return res.status(401).json({ error: 'Invalid password' });
@@ -48,7 +54,7 @@ router.post('/api/login', [
         // Generate JWT token
         const token = user.generateAuthToken();
     
-        res.json({ token });
+        res.json({ token, model, id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
