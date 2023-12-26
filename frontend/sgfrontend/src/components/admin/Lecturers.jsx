@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../../css/AdminHome.css';
@@ -10,6 +10,7 @@ function Lecturers({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [searchedText, setSearchedText] = useState("");
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -40,6 +41,16 @@ function Lecturers({ isAuthenticated }) {
         
         <Space size={20} direction="vertical">
           <Typography.Title level={4}>Lecturers</Typography.Title>
+          <Input.Search
+              placeholder="Search here..."
+              style={{ width: '500px', float: 'right' }}
+              onSearch={(value) => {
+                setSearchedText(value);
+              }}
+              onChange={(e) => {
+                setSearchedText(e.target.value);
+              }}
+            />
           <Table
             loading={loading}
             columns={[
@@ -53,6 +64,15 @@ function Lecturers({ isAuthenticated }) {
               {
                 title: "Lecturer ID",
                 dataIndex: "lecturer_id",
+                filteredValue: [searchedText],
+                onFilter: (value, record) => {
+                  return (
+                    String(record.lecturer_id).toLowerCase().includes(value.toLowerCase()) ||
+                    String(record.name).toLowerCase().includes(value.toLowerCase()) ||
+                    String(record.department).toLowerCase().includes(value.toLowerCase()) ||
+                    String(record.email).toLowerCase().includes(value.toLowerCase()) 
+                  );
+                }
               },
               {
                 title: "Name",

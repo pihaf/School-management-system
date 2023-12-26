@@ -19,6 +19,8 @@ import AdminHome from './components/admin/AdminHome.jsx';
 import Dashboard from './components/admin/Dashboard.jsx'
 import Students from './components/admin/Students.jsx';
 import Lecturers from './components/admin/Lecturers.jsx';
+import News from './components/admin/News.jsx';
+import AdminRequest from './components/admin/AdminRequest.jsx';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -98,7 +100,8 @@ function App() {
         <Route path="/admin/dashboard" element={<Dashboard isAuthenticated={!!adminToken } className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/students" element={<Students isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/lecturers" element={<Lecturers isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
-
+        <Route path="/admin/news" element={<News isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
+        <Route path="/admin/requests" element={<AdminRequest isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
       </Routes>
     </Router>
   );

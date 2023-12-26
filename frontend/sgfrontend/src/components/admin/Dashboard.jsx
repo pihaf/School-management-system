@@ -15,8 +15,9 @@ import {
     Tooltip,
     Legend,
   } from "chart.js";
-  // import { Bar } from "react-chartjs-2";
+  import { Bar } from "react-chartjs-2";
   
+import { useNavigate } from 'react-router-dom';
 import '../../css/AdminHome.css';
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
@@ -32,12 +33,17 @@ import SideMenu from "./SideMenu";
   );
   
   function Dashboard({ isAuthenticated }) {
+    const navigate = useNavigate();
     const [students, setStudents] = useState(0);
     const [lecturers, setLecturers] = useState(0);
     const [requests, setRequests] = useState(0);
     const [courses, setCourses] = useState(0);
   
     useEffect(() => {
+      if (!isAuthenticated) {
+        alert('You need to login');
+        navigate('/admin/login');
+      } else {
         //get total requests
         fetch("http://localhost:3000/api/admin/requests", { 
             headers: {
@@ -89,6 +95,7 @@ import SideMenu from "./SideMenu";
         .catch(error => {
             console.error('Error fetching courses:', error);
         });
+      }
     }, []);
   
     return (    
@@ -161,8 +168,8 @@ import SideMenu from "./SideMenu";
                 />
               </Space>
               <Space>
-                {/* <RecentOrders />
-                <DashboardChart /> */}
+                <RecentRequests />
+                <DashboardChart />
               </Space>
             </Space>
           </div>
@@ -181,92 +188,106 @@ import SideMenu from "./SideMenu";
       </Card>
     );
   }
-//   function RecentRequests() {
-//     const [dataSource, setDataSource] = useState([]);
-//     const [loading, setLoading] = useState(false);
+
+  function RecentRequests() {
+    const [dataSource, setDataSource] = useState([]);
+    const [loading, setLoading] = useState(false);
   
-//     useEffect(() => {
-//       setLoading(true);
-//       getOrders().then((res) => {
-//         setDataSource(res.products.splice(0, 3));
-//         setLoading(false);
-//       });
-//     }, []);
+    useEffect(() => {
+      setLoading(true);
+      fetch("http://localhost:3000/api/admin/requests", { 
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+        },
+      }).then(response => response.json())
+      .then(data => {
+          setDataSource(data.splice(0, 3));
+          setLoading(false);
+      })
+      .catch(error => {
+          console.error('Error fetching requests:', error);
+      });
+
+    }, []);
   
-//     return (
-//       <>
-//         <Typography.Text>Recent requests</Typography.Text>
-//         <Table
-//           columns={[
-//             {
-//               title: "Title",
-//               dataIndex: "title",
-//             },
-//             {
-//               title: "Quantity",
-//               dataIndex: "quantity",
-//             },
-//             {
-//               title: "Price",
-//               dataIndex: "discountedPrice",
-//             },
-//           ]}
-//           loading={loading}
-//           dataSource={dataSource}
-//           pagination={false}
-//         ></Table>
-//       </>
-//     );
-//   }
+    return (
+      <>
+        <Typography.Text>Recent requests</Typography.Text>
+        <Table
+          columns={[
+            {
+              title: "Request ID",
+              dataIndex: "request_id",
+            },
+            {
+              title: "Student ID",
+              dataIndex: "student_id",
+            },
+            {
+              title: "Type",
+              dataIndex: "type",
+            },
+            {
+              title: "Details",
+              dataIndex: "details",
+            },
+          ]}
+          loading={loading}
+          dataSource={dataSource}
+          pagination={false}
+        ></Table>
+      </>
+    );
+  }
   
-//   function DashboardChart() {
-//     const [reveneuData, setReveneuData] = useState({
-//       labels: [],
-//       datasets: [],
-//     });
+  function DashboardChart() {
+    const [reveneuData, setReveneuData] = useState({
+      labels: [],
+      datasets: [],
+    });
   
-//     useEffect(() => {
-//       getRevenue().then((res) => {
-//         const labels = res.carts.map((cart) => {
-//           return `User-${cart.userId}`;
-//         });
-//         const data = res.carts.map((cart) => {
-//           return cart.discountedTotal;
-//         });
+    useEffect(() => {
+      fetch("https://dummyjson.com/carts").then((res) => res.json()).then((res) => {
+        const labels = res.carts.map((cart) => {
+          return `User-${cart.userId}`;
+        });
+        const data = res.carts.map((cart) => {
+          return cart.discountedTotal;
+        });
   
-//         const dataSource = {
-//           labels,
-//           datasets: [
-//             {
-//               label: "Revenue",
-//               data: data,
-//               backgroundColor: "rgba(255, 0, 0, 1)",
-//             },
-//           ],
-//         };
+        const dataSource = {
+          labels,
+          datasets: [
+            {
+              label: "Bits",
+              data: data,
+              backgroundColor: "rgba(255, 0, 0, 1)",
+            },
+          ],
+        };
   
-//         setReveneuData(dataSource);
-//       });
-//     }, []);
+        setReveneuData(dataSource);
+      });
+    }, []);
   
-//     const options = {
-//       responsive: true,
-//       plugins: {
-//         legend: {
-//           position: "bottom",
-//         },
-//         title: {
-//           display: true,
-//           text: "Order Revenue",
-//         },
-//       },
-//     };
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+        title: {
+          display: true,
+          text: "Bits sent",
+        },
+      },
+    };
   
-//     return (
-//       <Card style={{ width: 500, height: 250 }}>
-//         <Bar options={options} data={reveneuData} />
-//       </Card>
-//     );
-//   }
+    return (
+      <Card style={{ width: 500, height: 250 }}>
+        <Bar options={options} data={reveneuData} />
+      </Card>
+    );
+  }
   export default Dashboard;
   

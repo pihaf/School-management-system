@@ -30,7 +30,7 @@ function AdminLogin({ setAdminToken }) {
       setAdminToken(token);
 
       // Redirect to the home page or any desired page
-      navigate('/');
+      navigate('/admin');
     } else {
       // Handle login error
       console.error('Login failed');

@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Image } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../../css/AdminHome.css';
@@ -6,7 +6,7 @@ import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 
-function Students({ isAuthenticated }) {
+function News({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -18,7 +18,7 @@ function Students({ isAuthenticated }) {
         navigate('/admin/login');
     } else {
         setLoading(true);
-        fetch("http://localhost:3000/api/admin/students", { 
+        fetch("http://localhost:3000/api/news", { 
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
             },
@@ -28,7 +28,7 @@ function Students({ isAuthenticated }) {
           setLoading(false);
         })
         .catch(error => {
-          console.error('Error fetching students:', error);
+          console.error('Error fetching news:', error);
         });
     }
   }, []);
@@ -40,7 +40,7 @@ function Students({ isAuthenticated }) {
           <SideMenu></SideMenu>
           
           <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Students</Typography.Title>
+            <Typography.Title level={4}>News</Typography.Title>
             <Input.Search
               placeholder="Search here..."
               style={{ width: '500px', float: 'right' }}
@@ -55,48 +55,34 @@ function Students({ isAuthenticated }) {
               loading={loading}
               columns={[
                 {
-                  title: "Photo",
-                  dataIndex: "profile_image",
+                  title: "Image",
+                  dataIndex: "image",
                   render: (link) => {
-                    return <Avatar src={link} />;
+                    return <Image src={link} />;
                   },
                 },
                 {
-                  title: "Student ID",
-                  dataIndex: "student_id",
+                  title: "News ID",
+                  dataIndex: "new_id",
                   filteredValue: [searchedText],
                   onFilter: (value, record) => {
                     return (
-                      String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_class).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.email).toLowerCase().includes(value.toLowerCase())
+                      String(record.new_id).toLowerCase().includes(value.toLowerCase()) ||
+                      String(record.title).toLowerCase().includes(value.toLowerCase()) 
                     );
                   }
                 },
                 {
-                  title: "Name",
-                  dataIndex: "name",
+                  title: "Title",
+                  dataIndex: "tile",
                 },
                 {
-                  title: "Gender",
-                  dataIndex: "gender",
+                  title: "Content",
+                  dataIndex: "content",
                 },
                 {
-                  title: "Date of birth",
-                  dataIndex: "date_of_birth",
-                },
-                {
-                  title: "Class",
-                  dataIndex: "student_class",
-                },
-                {
-                  title: "Email",
-                  dataIndex: "email",
-                },
-                {
-                  title: "Phone number",
-                  dataIndex: "phone_number",
+                  title: "Created at",
+                  dataIndex: "created_at",
                 },
               ]}
               dataSource={dataSource}
@@ -110,4 +96,4 @@ function Students({ isAuthenticated }) {
     </div>
   );
 }
-export default Students;
+export default News;

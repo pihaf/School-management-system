@@ -6,7 +6,7 @@ import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 
-function Students({ isAuthenticated }) {
+function AdminRequest({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -18,7 +18,7 @@ function Students({ isAuthenticated }) {
         navigate('/admin/login');
     } else {
         setLoading(true);
-        fetch("http://localhost:3000/api/admin/students", { 
+        fetch("http://localhost:3000/api/admin/requests", { 
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
             },
@@ -28,7 +28,7 @@ function Students({ isAuthenticated }) {
           setLoading(false);
         })
         .catch(error => {
-          console.error('Error fetching students:', error);
+          console.error('Error fetching requests:', error);
         });
     }
   }, []);
@@ -40,7 +40,7 @@ function Students({ isAuthenticated }) {
           <SideMenu></SideMenu>
           
           <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Students</Typography.Title>
+            <Typography.Title level={4}>Requests</Typography.Title>
             <Input.Search
               placeholder="Search here..."
               style={{ width: '500px', float: 'right' }}
@@ -55,53 +55,42 @@ function Students({ isAuthenticated }) {
               loading={loading}
               columns={[
                 {
-                  title: "Photo",
-                  dataIndex: "profile_image",
-                  render: (link) => {
-                    return <Avatar src={link} />;
-                  },
-                },
-                {
-                  title: "Student ID",
-                  dataIndex: "student_id",
+                  title: "Request ID",
+                  dataIndex: "request_id",
                   filteredValue: [searchedText],
                   onFilter: (value, record) => {
                     return (
+                      String(record.request_id).toLowerCase().includes(value.toLowerCase()) ||
                       String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_class).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.email).toLowerCase().includes(value.toLowerCase())
+                      String(record.type).toLowerCase().includes(value.toLowerCase()) ||
+                      String(record.status).toLowerCase().includes(value.toLowerCase())
                     );
                   }
                 },
                 {
-                  title: "Name",
-                  dataIndex: "name",
+                  title: "Student ID",
+                  dataIndex: "student_id",
                 },
                 {
-                  title: "Gender",
-                  dataIndex: "gender",
+                  title: "Type",
+                  dataIndex: "type",
                 },
                 {
-                  title: "Date of birth",
-                  dataIndex: "date_of_birth",
+                  title: "Details",
+                  dataIndex: "details",
                 },
                 {
-                  title: "Class",
-                  dataIndex: "student_class",
+                  title: "Status",
+                  dataIndex: "status",
                 },
                 {
-                  title: "Email",
-                  dataIndex: "email",
-                },
-                {
-                  title: "Phone number",
-                  dataIndex: "phone_number",
+                  title: "Created at",
+                  dataIndex: "created_at",
                 },
               ]}
               dataSource={dataSource}
               pagination={{
-                pageSize: 20,
+                pageSize: 10,
               }}
             ></Table>
           </Space>
@@ -110,4 +99,4 @@ function Students({ isAuthenticated }) {
     </div>
   );
 }
-export default Students;
+export default AdminRequest;

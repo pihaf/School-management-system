@@ -1,8 +1,10 @@
-import { BellFilled, MailOutlined } from "@ant-design/icons";
+import { BellFilled, MailOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Badge, Drawer, Image, List, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AdminHeader() {
+  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [orders, setOrders] = useState([]);
   const [commentsOpen, setCommentsOpen] = useState(false);
@@ -25,6 +27,14 @@ function AdminHeader() {
       ></Image>
       <Typography.Title>System</Typography.Title>
       <Space>
+        <Badge>
+          <LogoutOutlined 
+            style={{ fontSize: 24 }}
+            onClick={() => {
+              navigate('/admin/logout');
+            }}
+          />
+        </Badge>
         <Badge count={comments.length} dot>
           <MailOutlined
             style={{ fontSize: 24 }}

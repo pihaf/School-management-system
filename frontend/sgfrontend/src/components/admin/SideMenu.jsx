@@ -1,9 +1,9 @@
 import {
     AppstoreOutlined,
-    ShopOutlined,
-    ShoppingCartOutlined,
     UserOutlined,
-    BarChartOutlined
+    BarChartOutlined,
+    ProjectOutlined,
+    SolutionOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -35,16 +35,6 @@ function SideMenu() {
                 icon: <BarChartOutlined />,
                 key: "/admin/dashboard",
             },
-            // {
-            //     label: "Inventory",
-            //     key: "/inventory",
-            //     icon: <ShopOutlined />,
-            // },
-            // {
-            //     label: "Orders",
-            //     key: "/orders",
-            //     icon: <ShoppingCartOutlined />,
-            // },
             {
                 label: "Students",
                 key: "/admin/students",
@@ -54,6 +44,16 @@ function SideMenu() {
                 label: "Lecturers",
                 key: "/admin/lecturers",
                 icon: <UserOutlined />,
+            },
+            {
+                label: "News",
+                key: "/admin/news",
+                icon: <ProjectOutlined />,
+            },
+            {
+                label: "Requests",
+                key: "/admin/requests",
+                icon: <SolutionOutlined />,
             },
             ]}
         ></Menu>
