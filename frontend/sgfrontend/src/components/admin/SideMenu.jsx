@@ -3,7 +3,8 @@ import {
     UserOutlined,
     BarChartOutlined,
     ProjectOutlined,
-    SolutionOutlined
+    SolutionOutlined,
+    CheckSquareOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -54,6 +55,11 @@ function SideMenu() {
                 label: "Requests",
                 key: "/admin/requests",
                 icon: <SolutionOutlined />,
+            },
+            {
+                label: "Grades",
+                key: "/admin/grades",
+                icon: <CheckSquareOutlined />,
             },
             ]}
         ></Menu>
