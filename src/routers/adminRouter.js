@@ -19,9 +19,12 @@ router.post('/api/admin/login', async (req, res) => {
     }
 
     // Compare the password
-    const passwordMatch = await bcrypt.compare(password, admin.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+    // const passwordMatch = await bcrypt.compare(password, admin.password);
+    // if (!passwordMatch) {
+    //   return res.status(401).json({ error: 'Invalid username or password' });
+    // }
+    if (password !== admin.password) {
+      return res.status(401).json({ error: 'Invalid password' });
     }
 
     // Generate JWT token

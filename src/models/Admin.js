@@ -51,7 +51,8 @@ Admin.prototype.generateAuthToken = function () {
 // Verify and decode JWT token
 Admin.verifyAuthToken = function (token) {
   try {
-    const decoded = jwt.verify(token, secretKey);
+    console.log("Checking admin token");
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     const { model, id } = decoded;
     const user = Admin.findByPk(id);
 

@@ -20,7 +20,7 @@ function Navbar() {
                 <Link to="/profile">Profile</Link>
             </li>
             <li>
-                <Link to="/curriculum">Curriculum</Link>
+                <Link to="/timetable">Timetable</Link>
             </li>
             <li>
                 <Link to="/course">Course</Link>

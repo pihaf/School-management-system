@@ -6,6 +6,8 @@ const Lecturer = require('../models/Lecturer');
 async function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
+  console.log("Token from authenticateToken: ");
+  console.log(token);
   if (!token) {
     res.status(401).json({ error: 'Unauthorized. Invalid token.' });
     return;
@@ -69,6 +71,7 @@ async function authenticateToken(req, res, next) {
     req.token = token;
     next();
   } catch (error) {
+    console.error(error);
     res.status(403).json({ error: 'Invalid token' });
   }
 }

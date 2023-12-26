@@ -10,6 +10,10 @@ function Notification({ isAuthenticated, model, id }) {
       navigate('/login');
     }
   }, [isAuthenticated, navigate, id]);
+  
+  return (
+    <h1>Notification</h1>
+  )
 }
 
 export default Notification;
