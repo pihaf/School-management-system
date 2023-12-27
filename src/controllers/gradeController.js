@@ -107,27 +107,41 @@ exports.createGrade = async (req, res) => {
       return res.status(403).json({ error: 'Forbidden' });
     }
   
-    const { studentId, courseId, componentScore, midtermScore, finaltermScore, overallScore } = req.body;
+    const { student_id, course_id, component_score, midterm_score, finalterm_score, overall_score } = req.body;
   
     try {
       const lecturerCourse = await LecturerCourse.findOne({
-            where: { lecturer_id: req.user.id, course_id: courseId },
+            where: { lecturer_id: req.user.lecture_id, course_id: course_id },
         });
     
         if (!lecturerCourse) {
             return res.status(403).json({ error: 'Forbidden' });
         }
       const grade = await Grade.create({
-        student_id: studentId,
-        course_id: courseId,
-        component_score: componentScore,
-        midterm_score: midtermScore,
-        finalterm_score: finaltermScore,
-        overall_score: overallScore,
+        student_id: student_id,
+        course_id: course_id,
+        component_score: component_score,
+        midterm_score: midterm_score,
+        finalterm_score: finalterm_score,
+        overall_score: overall_score,
       });
   
-      res.json(grade);
+      const populatedGrade = await grade.reload({
+        include: [
+          {
+            model: Course,
+            attributes: ['course_id', 'course_class_code', 'course_name'],
+          },
+          {
+            model: Student,
+            attributes: ['student_id', 'name', 'email'],
+          },
+        ],
+      });
+      
+      res.json(populatedGrade);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Failed to create grade' });
     }
   };
@@ -139,11 +153,11 @@ exports.updateGrade = async (req, res) => {
     }
   
     const { gradeId } = req.params;
-    const { studentId, courseId, componentScore, midtermScore, finaltermScore, overallScore } = req.body;
+    const { student_id, course_id, component_score, midterm_score, finalterm_score, overall_score } = req.body;
   
     try {
         const lecturerCourse = await LecturerCourse.findOne({
-            where: { lecturer_id: req.user.id, course_id: courseId },
+            where: { lecturer_id: req.user.lecturer_id, course_id: course_id },
         });
 
         if (!lecturerCourse) {
@@ -155,16 +169,29 @@ exports.updateGrade = async (req, res) => {
         return res.status(404).json({ error: 'Grade not found' });
       }
   
-      grade.student_id = studentId;
-      grade.course_id = courseId;
-      grade.component_score = componentScore;
-      grade.midterm_score = midtermScore;
-      grade.finalterm_score = finaltermScore;
-      grade.overall_score = overallScore;
+      grade.student_id = student_id;
+      grade.course_id = course_id;
+      grade.component_score = component_score;
+      grade.midterm_score = midterm_score;
+      grade.finalterm_score = finalterm_score;
+      grade.overall_score = overall_score;
   
       await grade.save();
   
-      res.json(grade);
+      const populatedGrade = await grade.reload({
+        include: [
+          {
+            model: Course,
+            attributes: ['course_id', 'course_class_code', 'course_name'],
+          },
+          {
+            model: Student,
+            attributes: ['student_id', 'name', 'email'],
+          },
+        ],
+      });
+      
+      res.json(populatedGrade);
     } catch (error) {
       res.status(500).json({ error: 'Failed to update grade' });
     }
@@ -233,20 +260,34 @@ exports.createGradeAdmin = async (req, res) => {
       return res.status(403).json({ error: 'Forbidden' });
     }
   
-    const { studentId, courseId, componentScore, midtermScore, finaltermScore, overallScore } = req.body;
+    const { student_id, course_id, component_score, midterm_score, finalterm_score, overall_score} = req.body;
   
     try {
       const grade = await Grade.create({
-        student_id: studentId,
-        course_id: courseId,
-        component_score: componentScore,
-        midterm_score: midtermScore,
-        finalterm_score: finaltermScore,
-        overall_score: overallScore,
+        student_id: student_id,
+        course_id: course_id,
+        component_score: component_score,
+        midterm_score: midterm_score,
+        finalterm_score: finalterm_score,
+        overall_score: overall_score,
       });
-  
-      res.json(grade);
+      
+      const populatedGrade = await grade.reload({
+        include: [
+          {
+            model: Course,
+            attributes: ['course_id', 'course_class_code', 'course_name'],
+          },
+          {
+            model: Student,
+            attributes: ['student_id', 'name', 'email'],
+          },
+        ],
+      });
+      
+      res.json(populatedGrade);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Failed to create grade' });
     }
 };
@@ -258,7 +299,7 @@ exports.updateGradeAdmin = async (req, res) => {
     }
   
     const { gradeId } = req.params;
-    const { studentId, courseId, componentScore, midtermScore, finaltermScore, overallScore } = req.body;
+    const { student_id, course_id, component_score, midterm_score, finalterm_score, overall_score } = req.body;
   
     try {
       const grade = await Grade.findByPk(gradeId);
@@ -267,16 +308,29 @@ exports.updateGradeAdmin = async (req, res) => {
         return res.status(404).json({ error: 'Grade not found' });
       }
   
-      grade.student_id = studentId;
-      grade.course_id = courseId;
-      grade.component_score = componentScore;
-      grade.midterm_score = midtermScore;
-      grade.finalterm_score = finaltermScore;
-      grade.overall_score = overallScore;
+      grade.student_id = student_id;
+      grade.course_id = course_id;
+      grade.component_score = component_score;
+      grade.midterm_score = midterm_score;
+      grade.finalterm_score = finalterm_score;
+      grade.overall_score = overall_score;
   
       await grade.save();
   
-      res.json(grade);
+      const populatedGrade = await grade.reload({
+        include: [
+          {
+            model: Course,
+            attributes: ['course_id', 'course_class_code', 'course_name'],
+          },
+          {
+            model: Student,
+            attributes: ['student_id', 'name', 'email'],
+          },
+        ],
+      });
+      
+      res.json(populatedGrade);
     } catch (error) {
       res.status(500).json({ error: 'Failed to update grade' });
     }

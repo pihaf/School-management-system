@@ -9,7 +9,7 @@ router.get('/api/news/:newsId', newsController.getNewsArticleById);
 
 // For admins
 router.post('/api/admin/news', authenticateToken, newsController.createNewsArticle);
-router.put('/api/news/:newsId', authenticateToken, newsController.updateNewsArticle);
-router.delete('/api/news/:newsId', authenticateToken, newsController.deleteNewsArticle);
+router.put('/api/admin/news/:newsId', authenticateToken, newsController.updateNewsArticle);
+router.delete('/api/admin/news/:newsId', authenticateToken, newsController.deleteNewsArticle);
 
 module.exports = router;
