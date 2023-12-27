@@ -5,7 +5,8 @@ import {
     ProjectOutlined,
     SolutionOutlined,
     CheckSquareOutlined,
-    ReadOutlined
+    ReadOutlined,
+    ProfileOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -36,6 +37,11 @@ function SideMenu() {
                 label: "Dashboard",
                 icon: <BarChartOutlined />,
                 key: "/admin/dashboard",
+            },
+            {
+                label: "Profile",
+                icon: <ProfileOutlined />,
+                key: "/admin/profile",
             },
             {
                 label: "Students",

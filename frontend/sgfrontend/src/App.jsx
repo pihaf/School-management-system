@@ -17,6 +17,7 @@ import AdminLogin from './components/admin/AdminLogin.jsx';
 import AdminLogout from './components/admin/AdminLogout.jsx';
 import AdminHome from './components/admin/AdminHome.jsx';
 import Dashboard from './components/admin/Dashboard.jsx'
+import AdminProfile from './components/admin/AdminProfile.jsx';
 import Students from './components/admin/Students.jsx';
 import Lecturers from './components/admin/Lecturers.jsx';
 import News from './components/admin/News.jsx';
@@ -106,6 +107,7 @@ function App() {
         <Route path="/admin/news" element={<News isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/requests" element={<AdminRequest isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/grades" element={<Grade isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
+        <Route path="/admin/profile" element={<AdminProfile isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
       </Routes>
     </Router>
   );
