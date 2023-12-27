@@ -88,7 +88,7 @@ function AdminRequest({ isAuthenticated }) {
                   dataIndex: "created_at",
                 },
               ]}
-              dataSource={dataSource}
+              dataSource={dataSource.map((record) => ({ ...record, key: record.request_id + record.student_id }))}
               pagination={{
                 pageSize: 10,
               }}

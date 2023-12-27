@@ -107,7 +107,7 @@ function Grade({ isAuthenticated }) {
                     dataIndex: "overall_score",
                 },
               ]}
-              dataSource={dataSource}
+              dataSource={dataSource.map((record) => ({ ...record, key: record.grade_id }))}
               pagination={{
                 pageSize: 10,
               }}

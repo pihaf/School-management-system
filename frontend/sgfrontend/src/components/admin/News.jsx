@@ -85,7 +85,7 @@ function News({ isAuthenticated }) {
                   dataIndex: "created_at",
                 },
               ]}
-              dataSource={dataSource}
+              dataSource={dataSource.map((record) => ({ ...record, key: record.new_id}))}
               pagination={{
                 pageSize: 20,
               }}

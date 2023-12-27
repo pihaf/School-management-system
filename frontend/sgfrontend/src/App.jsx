@@ -21,6 +21,7 @@ import Students from './components/admin/Students.jsx';
 import Lecturers from './components/admin/Lecturers.jsx';
 import News from './components/admin/News.jsx';
 import AdminRequest from './components/admin/AdminRequest.jsx';
+import AdminCourse from './components/admin/AdminCourse.jsx';
 import Grade from './components/admin/Grade.jsx';
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
         <Route path="/admin/dashboard" element={<Dashboard isAuthenticated={!!adminToken } className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/students" element={<Students isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/lecturers" element={<Lecturers isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
+        <Route path="/admin/courses" element={<AdminCourse isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/news" element={<News isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/requests" element={<AdminRequest isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
         <Route path="/admin/grades" element={<Grade isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
