@@ -1,4 +1,5 @@
 const express = require("express");
+const http = require('http');
 const path = require("path");
 const cors = require("cors");
 const bodyParser = require('body-parser');
@@ -9,6 +10,7 @@ const sequelize  = require('./models/DB');
 // Setting up the server
 const app = express();
 const port = 3000; // Port number
+const server = http.createServer(app);
 
 // Parse JSON bodies
 app.use(bodyParser.json());
@@ -34,26 +36,26 @@ app.set("views", path.join(__dirname, "/views"));
 
 app.use(cors());
 
-// const socketIo = require("socket.io")(app, {
-//   cors: {
-//       origin: "*",
-//   }
-// });
+const socketIo = require("socket.io")(server, {
+  cors: {
+      origin: "*",
+  }
+});
 
-// socketIo.on("connection", (socket) => {
-//   console.log("New client connected" + socket.id);
+socketIo.on("connection", (socket) => {
+  console.log("New client connected " + socket.id);
 
-//   socket.emit("getId", socket.id);
+  socket.emit("getId", socket.id);
 
-//   socket.on("sendDataClient", function(data) {
-//     console.log(data)
-//     socketIo.emit("sendDataServer", { data });
-//   })
+  socket.on("sendDataClient", function(data) {
+    console.log(data)
+    socketIo.emit("sendDataServer", { data });
+  })
 
-//   socket.on("disconnect", () => {
-//     console.log("Client disconnected");
-//   });
-// });
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
 
 // Importing routers
 const routes = require("./routers/");
@@ -93,7 +95,7 @@ sequelize.authenticate()
     console.log('Sequelize models synced with the database.');
 
     // Start the server
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Example app listening at http://localhost:${port}`);
     });
   })

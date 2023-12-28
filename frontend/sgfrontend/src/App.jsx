@@ -13,11 +13,13 @@ import Footer from "./components/Footer";
 import Timetable from "./components/Timetable";
 import Course from "./components/Course";
 import Request from "./components/Request";
+import Chat from "./components/Chat.jsx";
 import Notification from "./components/Notification";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import NoPage from "./components/NoPage.jsx";
+
 import AdminLogin from "./components/admin/AdminLogin.jsx";
 import AdminLogout from "./components/admin/AdminLogout.jsx";
 import AdminHome from "./components/admin/AdminHome.jsx";
@@ -27,6 +29,7 @@ import Students from "./components/admin/Students.jsx";
 import Lecturers from "./components/admin/Lecturers.jsx";
 import News from "./components/admin/News.jsx";
 import AdminRequest from "./components/admin/AdminRequest.jsx";
+import AdminChat from "./components/admin/AdminChat.jsx";
 import AdminCourse from "./components/admin/AdminCourse.jsx";
 import Grade from "./components/admin/Grade.jsx";
 
@@ -117,6 +120,17 @@ function App() {
               <Header />
               <Navbar />
               <Request isAuthenticated={!!token} model={model} id={id} />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <>
+              <Header />
+              <Navbar />
+              <Chat isAuthenticated={!!token} model={model} id={id} token={token}/>
               <Footer />
             </>
           }
@@ -213,6 +227,16 @@ function App() {
           element={
             <AdminRequest
               isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/chat"
+          element={
+            <AdminChat
+              isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }

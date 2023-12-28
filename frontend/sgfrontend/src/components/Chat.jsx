@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import socketIOClient from "socket.io-client";
-import '../css/Chat.css';
+import '../../src/css/Chat.css';
 const host = "http://localhost:3000";
 
-function Chat() {
+function Chat({ isAuthenticated, model, id, token }) {
+  const navigate = useNavigate()
   const [mess, setMess] = useState([]);
   const [message, setMessage] = useState('');
-  const [id, setId] = useState();
+  const [socketId, setSocketId] = useState();
+  const [isUser, setIsUser] = useState(false);
 
   const socketRef = useRef();
   const messagesEnd = useRef();
@@ -15,24 +18,35 @@ function Chat() {
     socketRef.current = socketIOClient.connect(host)
   
     socketRef.current.on('getId', data => {
-      setId(data)
+      setSocketId(data)
     })
 
     socketRef.current.on('sendDataServer', dataGot => {
-      setMess(oldMsgs => [...oldMsgs, dataGot.data])
-      scrollToBottom()
-    })
+      setMess(oldMsgs => [...oldMsgs, dataGot.data]);
+      scrollToBottom();
+    });
 
     return () => {
       socketRef.current.disconnect();
     };
   }, []);
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      alert('You need to login');
+      navigate('/login');
+    } else {
+      if (token) {
+        setIsUser(true);
+      }
+    }
+  }, [isAuthenticated, navigate, model, token]);
+
   const sendMessage = () => {
     if(message !== null) {
       const msg = {
         content: message, 
-        id: id
+        socketId: socketId
       }
       socketRef.current.emit('sendDataClient', msg)
       setMessage('')
@@ -43,12 +57,16 @@ function Chat() {
     messagesEnd.current.scrollIntoView({ behavior: "smooth" });
   }
   
-
-  const renderMess =  mess.map((m, index) => 
-        <div key={index} className={`${m.id === id ? 'your-message' : 'other-people'} chat-item`}>
-          {m.content}
-        </div>
-      )
+  const renderMess = mess.map((m, index) =>
+    (m.isUser || isUser) ? (
+      <div
+        key={index}
+        className={`${m.socketId === socketId ? 'your-message' : 'other-people'} chat-item`}
+      >
+        {m.content}
+      </div>
+    ) : null
+  );
 
   const handleChange = (e) => {
     setMessage(e.target.value)

@@ -32,6 +32,9 @@ function Navbar() {
                 <Link to="/request">Request</Link>
             </li>
             <li>
+                <Link to="/chat">Chat</Link>
+            </li>
+            <li>
                 <Link to="/login">Login</Link>
             </li>
             <li>

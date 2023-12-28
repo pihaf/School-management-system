@@ -6,7 +6,8 @@ import {
     SolutionOutlined,
     CheckSquareOutlined,
     ReadOutlined,
-    ProfileOutlined
+    ProfileOutlined,
+    CommentOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -72,6 +73,11 @@ function SideMenu() {
                 label: "Grades",
                 key: "/admin/grades",
                 icon: <CheckSquareOutlined />,
+            },
+            {
+                label: "Chat",
+                key: "/admin/chat",
+                icon: <CommentOutlined />,
             },
             ]}
         ></Menu>
