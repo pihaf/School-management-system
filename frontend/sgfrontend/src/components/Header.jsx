@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Space, Typography, Input, Drawer, Image, List, Badge } from "antd";
 import { BellFilled, LogoutOutlined } from "@ant-design/icons";
+
 function Header({ model, id }) {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState(null);
   const [orders, setOrders] = useState([]);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+
   useEffect(() => {
     {
       const fetchProfileData = async () => {
@@ -58,6 +60,7 @@ function Header({ model, id }) {
           <Space>
             <div className="user-info">
               <div>{profileData.name}</div>
+              <div>{profileData.email}</div>
             </div>
             <Badge count={orders.length}>
               <BellFilled
@@ -96,6 +99,7 @@ function Header({ model, id }) {
                 <LogoutOutlined
                   style={{ fontSize: 24 }}
                   onClick={() => {
+                    setProfileData(null);
                     navigate("/logout");
                   }}
                 />
