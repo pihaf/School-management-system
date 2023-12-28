@@ -1,2 +1,4 @@
-node_modules
+# Ignore everything in this directory
+node_modules/
+# frontend/sgfrontend/node_modules/
 .env

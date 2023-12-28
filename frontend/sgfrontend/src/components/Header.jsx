@@ -43,7 +43,7 @@ function Header({ model, id }) {
       <Space size={20} direction="horizontal">
         <Input.Search
           placeholder="Search here..."
-          style={{ width: "500px", float: "right" }}
+          style={{ width: "400px", float: "right" }}
         />
       </Space>
     );
