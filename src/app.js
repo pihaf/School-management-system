@@ -42,18 +42,74 @@ const socketIo = require("socket.io")(server, {
   }
 });
 
+let userRooms = [];
+let adminSocket = [];
+
 socketIo.on("connection", (socket) => {
   console.log("New client connected " + socket.id);
 
   socket.emit("getId", socket.id);
 
-  socket.on("sendDataClient", function(data) {
-    console.log(data)
-    socketIo.emit("sendDataServer", { data });
-  })
+  socket.on("sendDataClient", (data) => { 
+    console.log("From sendDataClient:");
+    console.log(data);
+    console.log("Room: ");
+    console.log(data.room);
+    socket.to(data.room).emit("sendDataServer", { data });
+  });
 
-  socket.on("disconnect", () => {
+  socket.on("join_room", room => {
+    socket.join(room);
+  });
+
+  socket.on("sendUserRoomToServer", (data) => {
+    console.log("User room be:");
+    console.log(data.room);
+    userRooms.push(data.room);
+    socket.emit("serverSendUserRooms", userRooms);
+  });
+
+  socket.on("sendAdminSocketToServer", (data) => {
+    console.log("Admin socket:");
+    console.log(data);
+    adminSocket.push(data);
+
+    userRooms.forEach((room) => {
+      socket.join(room);
+      console.log("Admin joined room: " + room);
+    });
+    socket.emit("serverSendUserRooms", userRooms);
+  });
+
+  socket.on("typing", ({room}) => {
+    socket.to(room).emit("typing", "Someone is typing");
+  });
+
+  socket.on("stopTyping", ({room}) => {
+    socket.to(room).emit("stopTyping", "Someone stopped typing");
+  });
+
+  socket.on("disconnect", (data) => {
     console.log("Client disconnected");
+    // Remove user room from the array
+    console.log("userRooms before:", userRooms);
+    const temp = `${data.model}_${data.id}`;
+    const index = userRooms.indexOf(temp);
+    if (index !== -1) {
+      userRooms.splice(index, 1);
+    }
+
+    console.log("userRooms after:", userRooms);
+    
+    // Remove admin socket from user rooms
+    userRooms.forEach((room) => {
+      socket.leave(room);
+      if (data.model !== null){
+        console.log(`${data.model} ${data.id} left room: ` + room);
+      } else {
+        console.log("Admin left room: " + room);
+      }
+    });
   });
 });
 

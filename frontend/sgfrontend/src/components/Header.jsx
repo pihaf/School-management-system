@@ -11,7 +11,7 @@ function Header({ model, id }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   useEffect(() => {
-    {
+
       const fetchProfileData = async () => {
         try {
           const response = await fetch(
@@ -35,7 +35,7 @@ function Header({ model, id }) {
       };
 
       fetchProfileData();
-    }
+
   }, [model, navigate]);
 
   if (!profileData) {
