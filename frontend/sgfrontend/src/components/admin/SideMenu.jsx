@@ -4,7 +4,10 @@ import {
     BarChartOutlined,
     ProjectOutlined,
     SolutionOutlined,
-    CheckSquareOutlined
+    CheckSquareOutlined,
+    ReadOutlined,
+    ProfileOutlined,
+    CommentOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -37,6 +40,11 @@ function SideMenu() {
                 key: "/admin/dashboard",
             },
             {
+                label: "Profile",
+                icon: <ProfileOutlined />,
+                key: "/admin/profile",
+            },
+            {
                 label: "Students",
                 key: "/admin/students",
                 icon: <UserOutlined />,
@@ -45,6 +53,11 @@ function SideMenu() {
                 label: "Lecturers",
                 key: "/admin/lecturers",
                 icon: <UserOutlined />,
+            },
+            {
+                label: "Courses",
+                key: "/admin/courses",
+                icon: <ReadOutlined />,
             },
             {
                 label: "News",
@@ -60,6 +73,11 @@ function SideMenu() {
                 label: "Grades",
                 key: "/admin/grades",
                 icon: <CheckSquareOutlined />,
+            },
+            {
+                label: "Chat",
+                key: "/admin/chat",
+                icon: <CommentOutlined />,
             },
             ]}
         ></Menu>

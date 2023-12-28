@@ -36,10 +36,10 @@ exports.createNewsArticle = async (req, res) => {
     }
   
     const { title, content, image } = req.body;
-  
+    console.log(req);
     try {
       const newsArticle = await News.create({
-        admin_id: req.user.id,
+        admin_id: req.user.admin_id,
         title,
         content,
         image,
@@ -47,6 +47,7 @@ exports.createNewsArticle = async (req, res) => {
   
       res.json(newsArticle);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Failed to create news article' });
     }
   };

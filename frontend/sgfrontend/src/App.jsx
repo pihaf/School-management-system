@@ -1,33 +1,46 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Home from './components/Home';
-import Navbar from './components/Navbar.jsx';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Timetable from './components/Timetable';
-import Course from './components/Course';
-import Request from './components/Request';
-import Notification from './components/Notification';
-import Profile from './components/Profile';
-import Login from './components/Login';
-import Logout from './components/Logout'; 
-import NoPage from './components/NoPage.jsx';
-import AdminLogin from './components/admin/AdminLogin.jsx';
-import AdminLogout from './components/admin/AdminLogout.jsx';
-import AdminHome from './components/admin/AdminHome.jsx';
-import Dashboard from './components/admin/Dashboard.jsx'
-import Students from './components/admin/Students.jsx';
-import Lecturers from './components/admin/Lecturers.jsx';
-import News from './components/admin/News.jsx';
-import AdminRequest from './components/admin/AdminRequest.jsx';
-import Grade from './components/admin/Grade.jsx';
+import React from "react";
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Home from "./components/Home";
+import Navbar from "./components/Navbar.jsx";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Timetable from "./components/Timetable";
+import Course from "./components/Course";
+import Request from "./components/Request";
+import Chat from "./components/Chat.jsx";
+import Notification from "./components/Notification";
+import Profile from "./components/Profile";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import NoPage from "./components/NoPage.jsx";
+
+import AdminLogin from "./components/admin/AdminLogin.jsx";
+import AdminLogout from "./components/admin/AdminLogout.jsx";
+import AdminHome from "./components/admin/AdminHome.jsx";
+import Dashboard from "./components/admin/Dashboard.jsx";
+import AdminProfile from "./components/admin/AdminProfile.jsx";
+import Students from "./components/admin/Students.jsx";
+import Lecturers from "./components/admin/Lecturers.jsx";
+import News from "./components/admin/News.jsx";
+import AdminRequest from "./components/admin/AdminRequest.jsx";
+import AdminChat from "./components/admin/AdminChat.jsx";
+import AdminCourse from "./components/admin/AdminCourse.jsx";
+import Grade from "./components/admin/Grade.jsx";
+import "./css/AdminHome.css";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [adminToken, setAdminToken] = useState(localStorage.getItem('adminToken'));
-  const [model, setModel] = useState(localStorage.getItem('model'));
-  const [id, setId] = useState(localStorage.getItem('id'));
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [adminToken, setAdminToken] = useState(
+    localStorage.getItem("adminToken")
+  );
+  const [model, setModel] = useState(localStorage.getItem("model"));
+  const [id, setId] = useState(localStorage.getItem("id"));
 
   // useEffect(() => {
   //   const token = localStorage.getItem('token');
@@ -45,68 +58,238 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<>
-              <Header />
-              <Navbar />
-              <Home />
+        <Route
+          exact
+          path="/"
+          element={
+            <div className="App">
+              <Header model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+              </div>
               <Footer />
-            </>} />
-        <Route path="/login" element={<>
+            </div>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <div className="App">
               <Header />
-              <Navbar />
-              <Login setToken={setToken} setModel={setModel} setId={setId}/>
+              <div className="SideMenuAndPageContent">
+                <Navbar />{" "}
+                <Login setToken={setToken} setModel={setModel} setId={setId} />
+              </div>
+
               <Footer />
-            </>} />
-        <Route path="/logout" element={<>
+            </div>
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <div className="App">
               <Header />
-              <Navbar />
-              <Logout setToken={setToken} setModel={setModel} setId={setId} /> 
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Logout setToken={setToken} setModel={setModel} setId={setId} />
+              </div>
               <Footer />
-        </>} />
-        <Route path="/timetable" element={<>
+            </div>
+          }
+        />
+        <Route
+          path="/timetable"
+          element={
+            <div className="App">
               <Header />
-              <Navbar />
-              <Timetable isAuthenticated={!!token} model={model} id={id}/>
-              <Footer/>
-        </>} />
-        <Route path="/course" element={<>
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Timetable isAuthenticated={!!token} model={model} id={id} />
+              </div>
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/course"
+          element={
+            <div className="App">
               <Header />
-              <Navbar />
-              <Course isAuthenticated={!!token} model={model} id={id}/>
-              <Footer/>
-        </>} />
-        <Route path="/request" element={<>
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Course isAuthenticated={!!token} model={model} id={id} />
+              </div>
+
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/request"
+          element={
+            <div className="App">
               <Header />
-              <Navbar />
-              <Request isAuthenticated={!!token} model={model} id={id}/>
-              <Footer/>
-        </>} />
-        <Route path="/notification" element={<>
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Request isAuthenticated={!!token} model={model} id={id} />
+              </div>
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <>
               <Header />
-              <Navbar />
-              <Notification isAuthenticated={!!token} model={model} id={id}/>
-              <Footer/>
-        </>} />
-        <Route path="/profile" element={<>
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Chat
+                  isAuthenticated={!!token}
+                  model={model}
+                  id={id}
+                  token={token}
+                />
+              </div>
+
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/notification"
+          element={
+            <div className="App">
               <Header />
-              <Navbar />
-              <Profile isAuthenticated={!!token} model={model} id={id}/>
-              <Footer/>
-        </>} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Notification isAuthenticated={!!token} model={model} id={id} />
+              </div>
+
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <div className="App">
+              <Header />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Profile isAuthenticated={!!token} model={model} id={id} />
+              </div>
+
+              <Footer />
+            </div>
+          }
+        />
         <Route path="*" element={<NoPage />} />
         {/* For admins */}
-        <Route path="/admin" element={<AdminHome isAuthenticated={!!adminToken} adminToken={adminToken} setAdminToken={setAdminToken}/>} />
-        <Route path="/admin/login" element={<AdminLogin setAdminToken={setAdminToken}/>} />
-        <Route path="/admin/logout" element={<AdminLogout setAdminToken={setAdminToken}/>} />
-        <Route path="/admin/dashboard" element={<Dashboard isAuthenticated={!!adminToken } className="SideMenuAndPageContent PageContent"/>} />
-        <Route path="/admin/students" element={<Students isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
-        <Route path="/admin/lecturers" element={<Lecturers isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
-        <Route path="/admin/news" element={<News isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
-        <Route path="/admin/requests" element={<AdminRequest isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
-        <Route path="/admin/grades" element={<Grade isAuthenticated={!!adminToken} className="SideMenuAndPageContent PageContent"/>} />
+        <Route
+          path="/admin"
+          element={
+            <AdminHome
+              isAuthenticated={!!adminToken}
+              adminToken={adminToken}
+              setAdminToken={setAdminToken}
+            />
+          }
+        />
+        <Route
+          path="/admin/login"
+          element={<AdminLogin setAdminToken={setAdminToken} />}
+        />
+        <Route
+          path="/admin/logout"
+          element={<AdminLogout setAdminToken={setAdminToken} />}
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <Dashboard
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/students"
+          element={
+            <Students
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/lecturers"
+          element={
+            <Lecturers
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/courses"
+          element={
+            <AdminCourse
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/news"
+          element={
+            <News
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/requests"
+          element={
+            <AdminRequest
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/chat"
+          element={
+            <AdminChat
+              isAuthenticated={!!adminToken}
+              adminToken={adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/grades"
+          element={
+            <Grade
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
+          path="/admin/profile"
+          element={
+            <AdminProfile
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
       </Routes>
     </Router>
   );
 }
 
-export default App
+export default App;

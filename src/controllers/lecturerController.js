@@ -126,7 +126,7 @@ exports.createLecturer = async (req, res) => {
       }
   
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
   
       // Create the lecturer
       const lecturer = await Lecturer.create({
@@ -138,7 +138,7 @@ exports.createLecturer = async (req, res) => {
         phone_number,
         profile_image,
         username,
-        password: hashedPassword
+        password
       });
   
       // Generate JWT token for the lecturer
@@ -173,6 +173,8 @@ exports.updateLecturer = async (req, res) => {
         lecturer.job_title = req.body.job_title || lecturer.job_title;
         lecturer.phone_number = req.body.phone_number || lecturer.phone_number;
         lecturer.profile_image = req.body.profile_image || lecturer.profile_image; 
+        lecturer.username = req.body.username || lecturer.username; 
+        lecturer.password = req.body.password || lecturer.password; 
   
         await lecturer.save();
   

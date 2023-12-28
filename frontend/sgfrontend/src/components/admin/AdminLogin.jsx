@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button} from 'antd';
 
 function AdminLogin({ setAdminToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
 
     // Make API request to login
     const response = await fetch('http://localhost:3000/api/admin/login', {
@@ -40,27 +40,17 @@ function AdminLogin({ setAdminToken }) {
   return (
     <div>
       <h2>Admin Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+      <Form onFinish={handleSubmit}>
+        <Form.Item label="Username" name="username">
+          <Input placeholder='Username' id='username' value={username} onChange={(e) => setUsername(e.target.value)} required></Input>
+        </Form.Item>
+        <Form.Item label="Password" name="password">
+          <Input.Password placeholder='Password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} required></Input.Password>
+        </Form.Item>
+        <Form.Item>
+          <Button block type='primary' htmlType='submit'>Login</Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 }

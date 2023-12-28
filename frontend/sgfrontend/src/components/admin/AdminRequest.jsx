@@ -1,6 +1,8 @@
-import { Avatar, Rate, Space, Table, Typography, Input } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert  } from "antd";
+import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../../css/AdminHome.css';
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
@@ -11,6 +13,9 @@ function AdminRequest({ isAuthenticated }) {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [searchedText, setSearchedText] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingRequest, setEditingRequest] = useState(null);
+  const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -33,6 +38,82 @@ function AdminRequest({ isAuthenticated }) {
     }
   }, []);
 
+
+  const addAlert = (message, type) => {
+    const newAlert = {
+      id: Date.now(),
+      message,
+      type,
+    };
+
+    setAlerts((prevAlerts) => [...prevAlerts, newAlert]);
+  };
+
+  const removeAlert = (id) => {
+    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
+  };
+
+  const onDeleteRequest = (record) => {
+    Modal.confirm({
+      title: 'Are you sure you want to delete this request record?',
+      okText: 'Yes',
+      okType: 'danger',
+      onOk: () => {
+        const adminToken = localStorage.getItem('adminToken');
+        const headers = { Authorization: `Bearer ${adminToken}` };
+        axios
+          .delete(`http://localhost:3000/api/admin/requests/${record.request_id}`, {headers})
+          .then((response) => {
+            // Handle successful deletion
+            console.log('Record deleted:', response.message);
+  
+            // Update the local state (dataSource) if needed
+            setDataSource((pre) => pre.filter((request) => request.request_id !== record.request_id));
+            addAlert('Request deleted successfully!', 'success');
+          })
+          .catch((error) => {
+            addAlert('Error deleting request: ' + String(error), 'error');
+            console.error('Error deleting request record:', error);
+          });
+      },
+    });
+  };
+  const onEditRequest = (record) => {
+    setIsEditing(true);
+    setEditingRequest({ ...record });
+  };
+  const resetEditing = () => {
+    setIsEditing(false);
+    setEditingRequest(null);
+  };
+
+  const onSaveEdit = async () => {
+    try {
+      const adminToken = localStorage.getItem('adminToken');
+      const headers = { Authorization: `Bearer ${adminToken}` };
+      editingRequest.updated_at = new Date()
+      const response = await axios.put(`http://localhost:3000/api/admin/requests/${editingRequest.request_id}`, editingRequest, { headers });
+      const updatedRequest = response.data;
+      console.log("Updated request: ");
+      console.log(updatedRequest);
+      setDataSource((pre) => {
+        return pre.map((request) => {
+          if (request.request_id === updatedRequest.request_id) {
+            return updatedRequest;
+          } else {
+            return request;
+          }
+        });
+      });
+      addAlert('Request updated successfully!', 'success');
+      resetEditing();
+    } catch (error) {
+      addAlert('Error updating request: ' + String(error), 'error');
+      console.error('Error updating request record:', error);
+      setIsEditing(false);
+    }
+  };
+
   return (
       <div className="App">
         <AdminHeader />
@@ -41,6 +122,22 @@ function AdminRequest({ isAuthenticated }) {
           
           <Space size={20} direction="vertical">
             <Typography.Title level={4}>Requests</Typography.Title>
+            {alerts.map((alert) => (
+              <Alert
+                key={alert.id}
+                message={alert.message}
+                type={alert.type}
+                showIcon
+                closable
+                afterClose={() => removeAlert(alert.id)}
+              />
+            ))}
+            <ReloadOutlined
+              onClick={() => {
+                window.location.reload();
+              }}
+              style={{ marginLeft: 12 }}
+            />
             <Input.Search
               placeholder="Search here..."
               style={{ width: '500px', float: 'right' }}
@@ -87,12 +184,76 @@ function AdminRequest({ isAuthenticated }) {
                   title: "Created at",
                   dataIndex: "created_at",
                 },
+                {
+                  title: "Updated at",
+                  dataIndex: "updated_at",
+                },
+                {
+                  title: "Actions",
+                  render: (record) => {
+                    return (
+                      <>
+                        <EditOutlined
+                          onClick={() => {
+                            onEditRequest(record);
+                          }}
+                        />
+                        <DeleteOutlined
+                          onClick={() => {
+                            onDeleteRequest(record);
+                          }}
+                          style={{ color: "red", marginLeft: 12 }}
+                        />
+                      </>
+                    );
+                  },
+                },
               ]}
-              dataSource={dataSource}
+              dataSource={dataSource.map((record) => ({ ...record, key: record.request_id + record.student_id }))}
               pagination={{
                 pageSize: 10,
               }}
             ></Table>
+            <Modal
+              title="Edit Request"
+              open={isEditing}
+              okText="Save"
+              onCancel={() => {
+                resetEditing();
+              }}
+              onOk={onSaveEdit}
+            >
+              <Input
+                placeholder="Type"
+                name="type"
+                value={editingRequest?.type}
+                onChange={(e) => {
+                  setEditingRequest((pre) => {
+                    return { ...pre, type: e.target.value };
+                  });
+                }}
+              />
+              <Input
+                placeholder="Details"
+                name="details"
+                value={editingRequest?.details}
+                onChange={(e) => {
+                  setEditingRequest((pre) => {
+                    return { ...pre, details: e.target.value };
+                  });
+                }}
+              />
+              <Input
+                placeholder="Status"
+                name="status"
+                value={editingRequest?.status}
+                onChange={(e) => {
+                  setEditingRequest((pre) => {
+                    return { ...pre, status: e.target.value };
+                  });
+                }}
+              />
+            </Modal>
           </Space>
         </div>
         <AdminFooter />

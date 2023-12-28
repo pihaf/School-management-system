@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Student = require('../models/Student');
 
 // Get student profile
@@ -126,7 +127,7 @@ exports.createStudent = async (req, res) => {
       }
   
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
   
       // Create the student
       const student = await Student.create({
@@ -141,7 +142,7 @@ exports.createStudent = async (req, res) => {
         phone_number,
         profile_image,
         username,
-        password: hashedPassword
+        password
       });
   
       // Generate JWT token for the student
@@ -149,6 +150,7 @@ exports.createStudent = async (req, res) => {
   
       res.status(201).json({ student, token });
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Failed to create student' });
     }
   };
@@ -164,7 +166,7 @@ exports.updateStudent = async (req, res) => {
         const student = await Student.findByPk(id);
   
         if (!student) {
-        return res.status(404).json({ error: 'Student not found' });
+          return res.status(404).json({ error: 'Student not found' });
         }
   
         // Update the student information
@@ -176,7 +178,9 @@ exports.updateStudent = async (req, res) => {
         student.citizen_id = req.body.citizen_id || student.citizen_id;
         student.email = req.body.email || student.email;
         student.phone_number = req.body.phone_number || student.phone_number;
-        student.profile_image = req.body.profile_image || student.profile_image;    
+        student.profile_image = req.body.profile_image || student.profile_image;
+        student.username = req.body.username || student.username;    
+        student.password = req.body.password || student.password;    
   
         await student.save();
   
@@ -234,7 +238,7 @@ exports.deleteStudent = async (req, res) => {
         const student = await Student.findByPk(id);
   
         if (!student) {
-        return res.status(404).json({ error: 'Student not found' });
+          return res.status(404).json({ error: 'Student not found' });
         }
         
         await student.destroy();

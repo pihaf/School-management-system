@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const authenticateToken = require('../middleware/auth');
 const Admin = require('../models/Admin');
 
-const adminController = require('../controllers/adminController');
+const adminController = require('../controllers/AdminController');
 
 // Admin login
 router.post('/api/admin/login', async (req, res) => {
@@ -38,9 +38,7 @@ router.post('/api/admin/login', async (req, res) => {
 
 // Logout
 router.post('/api/admin/logout', authenticateToken, (req, res) => {
-  try {
-    // may need additional logic
-    
+  try {    
     res.json({ message: 'Logout successful' });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });

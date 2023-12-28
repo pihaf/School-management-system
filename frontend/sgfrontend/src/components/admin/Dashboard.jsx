@@ -233,7 +233,7 @@ import SideMenu from "./SideMenu";
             },
           ]}
           loading={loading}
-          dataSource={dataSource}
+          dataSource={dataSource.map((record) => ({ ...record, key: record.request_id + record.student_id }))}
           pagination={false}
         ></Table>
       </>
