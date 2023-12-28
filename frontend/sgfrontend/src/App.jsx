@@ -32,6 +32,7 @@ import AdminRequest from "./components/admin/AdminRequest.jsx";
 import AdminChat from "./components/admin/AdminChat.jsx";
 import AdminCourse from "./components/admin/AdminCourse.jsx";
 import Grade from "./components/admin/Grade.jsx";
+import "./css/AdminHome.css";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -61,67 +62,81 @@ function App() {
           exact
           path="/"
           element={
-            <>
+            <div className="App">
               <Header model={model} id={id} />
-              <Navbar />
-              <Home />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+              </div>
+              {/* <Home /> */}
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
           path="/login"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Login setToken={setToken} setModel={setModel} setId={setId} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />{" "}
+                <Login setToken={setToken} setModel={setModel} setId={setId} />
+              </div>
+
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
           path="/logout"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Logout setToken={setToken} setModel={setModel} setId={setId} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Logout setToken={setToken} setModel={setModel} setId={setId} />
+              </div>
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
           path="/timetable"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Timetable isAuthenticated={!!token} model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Timetable isAuthenticated={!!token} model={model} id={id} />
+              </div>
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
           path="/course"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Course isAuthenticated={!!token} model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Course isAuthenticated={!!token} model={model} id={id} />
+              </div>
+
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
           path="/request"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Request isAuthenticated={!!token} model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Request isAuthenticated={!!token} model={model} id={id} />
+              </div>
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
@@ -138,23 +153,29 @@ function App() {
         <Route
           path="/notification"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Notification isAuthenticated={!!token} model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Notification isAuthenticated={!!token} model={model} id={id} />
+              </div>
+
               <Footer />
-            </>
+            </div>
           }
         />
         <Route
           path="/profile"
           element={
-            <>
+            <div className="App">
               <Header />
-              <Navbar />
-              <Profile isAuthenticated={!!token} model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Profile isAuthenticated={!!token} model={model} id={id} />
+              </div>
+
               <Footer />
-            </>
+            </div>
           }
         />
         <Route path="*" element={<NoPage />} />
