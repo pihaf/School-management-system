@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button} from 'antd';
 
 function Login({ setToken, setModel, setId }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
 
     // Make API request to login
     const response = await fetch('http://localhost:3000/api/login', {
@@ -45,7 +46,18 @@ function Login({ setToken, setModel, setId }) {
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <Form onFinish={handleSubmit}>
+        <Form.Item label="Username" name="username">
+          <Input placeholder='Username' id='username' value={username} onChange={(e) => setUsername(e.target.value)} required></Input>
+        </Form.Item>
+        <Form.Item label="Password" name="password">
+          <Input.Password placeholder='Password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} required></Input.Password>
+        </Form.Item>
+        <Form.Item>
+          <Button block type='primary' htmlType='submit'>Login</Button>
+        </Form.Item>
+      </Form>
+      {/* <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -65,7 +77,7 @@ function Login({ setToken, setModel, setId }) {
           />
         </div>
         <button type="submit">Login</button>
-      </form>
+      </form> */}
     </div>
   );
 }

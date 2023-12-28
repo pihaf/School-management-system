@@ -34,6 +34,27 @@ app.set("views", path.join(__dirname, "/views"));
 
 app.use(cors());
 
+// const socketIo = require("socket.io")(app, {
+//   cors: {
+//       origin: "*",
+//   }
+// });
+
+// socketIo.on("connection", (socket) => {
+//   console.log("New client connected" + socket.id);
+
+//   socket.emit("getId", socket.id);
+
+//   socket.on("sendDataClient", function(data) {
+//     console.log(data)
+//     socketIo.emit("sendDataServer", { data });
+//   })
+
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected");
+//   });
+// });
+
 // Importing routers
 const routes = require("./routers/");
 const homeRouter = require('./routers/homeRouter');
