@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space } from "antd";
-//import "../css/UserCourse.css";
+
+import "../css/UserCourse.css";
 const { Content } = Layout;
 
 function Course({ isAuthenticated, model, id }) {
@@ -124,6 +125,10 @@ function Course({ isAuthenticated, model, id }) {
               dataIndex: "semester",
             },
           ]}
+          rowClassName={(record, index) => {
+            const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
+            return style;
+          }}
           dataSource={dataSource.map((record) => ({
             ...record,
             key: record.course_id,
