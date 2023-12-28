@@ -67,7 +67,6 @@ function App() {
               <div className="SideMenuAndPageContent">
                 <Navbar />
               </div>
-              {/* <Home /> */}
               <Footer />
             </div>
           }
@@ -144,8 +143,16 @@ function App() {
           element={
             <>
               <Header />
-              <Navbar />
-              <Chat isAuthenticated={!!token} model={model} id={id} token={token}/>
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Chat
+                  isAuthenticated={!!token}
+                  model={model}
+                  id={id}
+                  token={token}
+                />
+              </div>
+
               <Footer />
             </>
           }
