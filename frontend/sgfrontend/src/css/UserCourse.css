@@ -1,0 +1,7 @@
+.ant-table-thead > tr > th {
+  background-color: #925fe2; /* Thay đổi màu nền của header */
+}
+
+.ant-table-tbody > tr > td {
+  background-color: #b99fe3; /* Thay đổi màu nền của các hàng */
+}
