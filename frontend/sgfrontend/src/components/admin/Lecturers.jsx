@@ -289,8 +289,9 @@ function Lecturers({ isAuthenticated }) {
                   return (
                     String(record.lecturer_id).toLowerCase().includes(value.toLowerCase()) ||
                     String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.department).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.email).toLowerCase().includes(value.toLowerCase()) 
+                    String(record.email).toLowerCase().includes(value.toLowerCase()) ||
+                    String(record.username).toLowerCase().includes(value.toLowerCase()) ||
+                    String(record.department).toLowerCase().includes(value.toLowerCase()) 
                   );
                 }
               },
@@ -317,6 +318,14 @@ function Lecturers({ isAuthenticated }) {
               {
                 title: "Phone number",
                 dataIndex: "phone_number",
+              },
+              {
+                title: "Username",
+                dataIndex: "username",
+              },
+              {
+                title: "Password",
+                dataIndex: "password",
               },
               {
                 title: "Actions",

@@ -5,9 +5,10 @@ const Lecturer = require('../models/Lecturer');
 
 async function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
+  // console.log("Header:", req.headers);
   const token = authHeader && authHeader.split(' ')[1];
-  // console.log("Token from authenticateToken: ");
-  // console.log(token);
+  console.log("Token from authenticateToken: ");
+  console.log(token);
   if (!token) {
     res.status(401).json({ error: 'Unauthorized. Invalid token.' });
     return;
