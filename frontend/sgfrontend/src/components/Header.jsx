@@ -50,10 +50,10 @@ function Header({ model, id }) {
   }
   return (
     <>
-      <Space size={20} direction="horizontal">
+      <Space size={ 20 } direction="horizontal" style={ { width: '100%' } }>
         <Input.Search
           placeholder="Search here..."
-          style={{ width: "500px", float: "right" }}
+          style={ { width: "700px", float: "right" } }
         />
 
         {model === "lecturer" ? (
@@ -81,8 +81,8 @@ function Header({ model, id }) {
             </Badge>
           </Space>
         ) : (
-          <>
-            <Space>
+            <div style={ { display: 'flex', width: '100%' } }>
+              <Space style={ { display: 'flex', justifyContent: 'flex-end', } }>
               <div className="user-info">
                 <div>{profileData.name}</div>
                 <div>{profileData.student_id}</div>
@@ -125,7 +125,7 @@ function Header({ model, id }) {
                 }}
               ></List>
             </Drawer>
-          </>
+            </div>
         )}
       </Space>
     </>
