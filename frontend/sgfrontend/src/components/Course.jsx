@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space } from "antd";
 
 import "../css/UserCourse.css";
@@ -10,6 +10,8 @@ function Course({ isAuthenticated, model, id }) {
   const [courses, setCourses] = useState([]);
   const [searchedText, setSearchedText] = useState("");
   const [dataSource, setDataSource] = useState([]);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [grades, setGrades] = useState([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -40,6 +42,25 @@ function Course({ isAuthenticated, model, id }) {
     }
   }, [isAuthenticated, navigate, model]);
 
+  useEffect(() => {
+    if (selectedCourseId) {
+      const url = `http://localhost:3000/api/grades/courses/${selectedCourseId}`;
+  
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setGrades(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching grades:", error);
+        });
+    }
+  }, [selectedCourseId]);
+
   return (
     <Content
       style={{
@@ -58,87 +79,100 @@ function Course({ isAuthenticated, model, id }) {
             setSearchedText(e.target.value);
           }}
         />
-        <Table
-          //loading={loading}
-          columns={[
-            {
-              title: "Course ID",
-              dataIndex: "course_id",
-              filteredValue: [searchedText],
-              onFilter: (value, record) => {
-                return (
-                  String(record.course_id)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.course_class_code)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.course_name)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.day).toLowerCase().includes(value.toLowerCase())
-                );
+          {dataSource.length === 0 ? (
+            <Typography.Text>No courses found.</Typography.Text>
+        ) : (
+          <Table
+            //loading={loading}
+            columns={[
+              {
+                title: "Course ID",
+                dataIndex: "course_id",
+                filteredValue: [searchedText],
+                onFilter: (value, record) => {
+                  return (
+                    String(record.course_id)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.course_class_code)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.course_name)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.day).toLowerCase().includes(value.toLowerCase())
+                  );
+                },
               },
-            },
-            {
-              title: "Course code",
-              dataIndex: "course_code",
-            },
-            {
-              title: "Course class code",
-              dataIndex: "course_class_code",
-            },
-            {
-              title: "Course name",
-              dataIndex: "course_name",
-            },
-            {
-              title: "Credits",
-              dataIndex: "credits",
-            },
-            {
-              title: "Number of students",
-              dataIndex: "number_of_students",
-            },
-            {
-              title: "Time",
-              dataIndex: "time",
-            },
-            {
-              title: "Day of week",
-              dataIndex: "day",
-            },
-            {
-              title: "Periods",
-              dataIndex: "periods",
-            },
-            {
-              title: "Location",
-              dataIndex: "location",
-            },
-            {
-              title: "Group",
-              dataIndex: "group",
-            },
-            {
-              title: "Semester",
-              dataIndex: "semester",
-            },
-          ]}
-          rowClassName={(record, index) => {
-            const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
-            return style;
-          }}
-          dataSource={dataSource.map((record) => ({
-            ...record,
-            key: record.course_id,
-          }))}
-          pagination={{
-            pageSize: 20,
-          }}
-        ></Table>
+              {
+                title: "Course code",
+                dataIndex: "course_code",
+              },
+              {
+                title: "Course class code",
+                dataIndex: "course_class_code",
+              },
+              {
+                title: "Course name",
+                dataIndex: "course_name",
+              },
+              {
+                title: "Credits",
+                dataIndex: "credits",
+              },
+              {
+                title: "Number of students",
+                dataIndex: "number_of_students",
+              },
+              {
+                title: "Time",
+                dataIndex: "time",
+              },
+              {
+                title: "Day of week",
+                dataIndex: "day",
+              },
+              {
+                title: "Periods",
+                dataIndex: "periods",
+              },
+              {
+                title: "Location",
+                dataIndex: "location",
+              },
+              {
+                title: "Group",
+                dataIndex: "group",
+              },
+              {
+                title: "Semester",
+                dataIndex: "semester",
+              },
+              {
+                title: "",
+                render: (_, record) => {
+                  return (
+                    <Link to={`/grades/${record.course_id}`}>
+                      View grade
+                    </Link>
+                  );
+                },
+              }
+            ]}
+            rowClassName={(record, index) => {
+              const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
+              return style;
+            }}
+            dataSource={dataSource.map((record) => ({
+              ...record,
+              key: record.course_id,
+            }))}
+            pagination={{
+              pageSize: 20,
+            }}
+          ></Table>
+        )}
       </Space>
-
       {/* <ul>
         {courses.map((course) => (
           <li key={course.course_id}>

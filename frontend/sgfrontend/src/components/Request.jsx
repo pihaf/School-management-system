@@ -39,24 +39,28 @@ function Request({ isAuthenticated, model, id }) {
   return (
     <div>
       <h1>Request</h1>
-      <ul>
-      {requests.map((request) => (
-        <li key={request.request_id}>
-          <p>Request ID: {request.request_id}</p>
-          <p>Student ID: {request.Student.student_id}</p>
-          <p>Type: {request.type}</p>
-          <p>Details: {request.details}</p>
-          <p>Status: {request.status}</p>
-          <p>Created at: {new Date(request.created_at).toLocaleDateString()}</p>
-          {request.Admin && (
-            <>
-              <p>Admin ID: {request.Admin.admin_id}</p>
-              <p>Admin Email: {request.Admin.email}</p>
-            </>
-          )}
-        </li>
-      ))}
-      </ul>
+      {grades.length === 0 ? (
+            <Typography.Text>No grades found for this course.</Typography.Text>
+        ) : (
+          <ul>
+          {requests.map((request) => (
+            <li key={request.request_id}>
+              <p>Request ID: {request.request_id}</p>
+              <p>Student ID: {request.Student.student_id}</p>
+              <p>Type: {request.type}</p>
+              <p>Details: {request.details}</p>
+              <p>Status: {request.status}</p>
+              <p>Created at: {new Date(request.created_at).toLocaleDateString()}</p>
+              {request.Admin && (
+                <>
+                  <p>Admin ID: {request.Admin.admin_id}</p>
+                  <p>Admin Email: {request.Admin.email}</p>
+                </>
+              )}
+            </li>
+          ))}
+          </ul>
+        )}
     </div>
   );
 }

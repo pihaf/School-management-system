@@ -6,51 +6,51 @@ const Student = require('./Student');
 
 const Notification = sequelize.define('Notification', {
     notification_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
     },
-    sender_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    admin_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
-    sender_type: {
-        type: DataTypes.ENUM('lecturer', 'admin'),
-        allowNull: false
+    sender_lecturer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     recipient_student_id: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true
     },
     recipient_lecturer_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     details: {
-        type: DataTypes.TEXT,
-        allowNull: false
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     status: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     },
     title: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     }
-}, {
+  }, {
     tableName: 'notifications',
-    timestamps: false,
-});
-
-Notification.belongsTo(Lecturer, { foreignKey: 'sender_id', onDelete: 'CASCADE' });
-Notification.belongsTo(Admin, { foreignKey: 'sender_id', onDelete: 'CASCADE' });
-Notification.belongsTo(Student, { foreignKey: 'recipient_student_id', onDelete: 'CASCADE' });
-Notification.belongsTo(Lecturer, { foreignKey: 'recipient_lecturer_id', onDelete: 'CASCADE' });
+    timestamps: false
+  });
+  
+  Notification.belongsTo(Lecturer, { foreignKey: 'sender_lecturer_id', as: 'senderLecturer', onDelete: 'CASCADE' });
+  Notification.belongsTo(Lecturer, { foreignKey: 'recipient_lecturer_id', as: 'recipientLecturer', onDelete: 'CASCADE' });
+  Notification.belongsTo(Admin, { foreignKey: 'admin_id', as: 'senderAdmin', onDelete: 'SET NULL' });
+  Notification.belongsTo(Student, { foreignKey: 'recipient_student_id', onDelete: 'CASCADE' });
 
 module.exports = Notification;

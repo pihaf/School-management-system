@@ -12,6 +12,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Timetable from "./components/Timetable";
 import Course from "./components/Course";
+import Grade from "./components/Grade.jsx";
 import Request from "./components/Request";
 import Chat from "./components/Chat.jsx";
 import Notification from "./components/Notification";
@@ -31,7 +32,8 @@ import News from "./components/admin/News.jsx";
 import AdminRequest from "./components/admin/AdminRequest.jsx";
 import AdminChat from "./components/admin/AdminChat.jsx";
 import AdminCourse from "./components/admin/AdminCourse.jsx";
-import Grade from "./components/admin/Grade.jsx";
+import AdminGrade from "./components/admin/AdminGrade.jsx";
+import AdminNotification from "./components/admin/AdminNotification.jsx";
 import "./css/AdminHome.css";
 
 function App() {
@@ -58,6 +60,19 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route
+          exact
+          path="/home"
+          element={
+            <div className="App">
+              <Header model={model} id={id} />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+              </div>
+              <Footer />
+            </div>
+          }
+        />
         <Route
           exact
           path="/"
@@ -112,7 +127,7 @@ function App() {
           }
         />
         <Route
-          path="/course"
+          path="/courses"
           element={
             <div className="App">
               <Header />
@@ -121,6 +136,19 @@ function App() {
                 <Course isAuthenticated={!!token} model={model} id={id} />
               </div>
 
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/grades/:courseId"
+          element={
+            <div className="App">
+              <Header />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <Grade isAuthenticated={!!token} model={model} id={id}/>
+              </div>
               <Footer />
             </div>
           }
@@ -158,7 +186,7 @@ function App() {
           }
         />
         <Route
-          path="/notification"
+          path="/notifications"
           element={
             <div className="App">
               <Header />
@@ -260,6 +288,15 @@ function App() {
           }
         />
         <Route
+          path="/admin/notifications"
+          element={
+            <AdminNotification
+              isAuthenticated={!!adminToken}
+              className="SideMenuAndPageContent PageContent"
+            />
+          }
+        />
+        <Route
           path="/admin/chat"
           element={
             <AdminChat
@@ -272,7 +309,7 @@ function App() {
         <Route
           path="/admin/grades"
           element={
-            <Grade
+            <AdminGrade
               isAuthenticated={!!adminToken}
               className="SideMenuAndPageContent PageContent"
             />

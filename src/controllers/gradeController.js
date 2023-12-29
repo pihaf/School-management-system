@@ -35,7 +35,7 @@ exports.getGradeById = async (req, res) => {
 // Get all grades of a student
 exports.getAllGradesOfStudent = async (req, res) => {
     const { studentId } = req.params;
-    if ((req.model === 'student' && studentId !== req.user.id) || req.model === 'lecturer') {
+    if ((req.model === 'student' && studentId !== req.user.student_id) || req.model === 'lecturer') {
         return res.status(403).json({ error: 'Not authorized' });
       }
 
@@ -60,13 +60,42 @@ exports.getAllGradesOfStudent = async (req, res) => {
     }
   };
   
+  exports.getAllGradesOfStudentCourse = async (req, res) => {
+    const { studentId, courseId } = req.params;
+  
+    // Authorization check
+    if ((req.model === 'student' && studentId !== req.user.student_id) || req.model === 'lecturer') {
+      return res.status(403).json({ error: 'Not authorized' });
+    }
+  
+    try {
+      const grades = await Grade.findAll({
+        where: { student_id: studentId, course_id: courseId },
+        include: [
+          {
+            model: Course,
+            attributes: ['course_id', 'course_class_code', 'course_name'],
+          },
+          {
+            model: Student,
+            attributes: ['student_id', 'name', 'email'],
+          }
+        ],
+      });
+  
+      res.json(grades);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch grades' });
+    }
+  };
+ 
 // Get all grades of a course
 exports.getAllGradesOfCourse = async (req, res) => {
     const { courseId } = req.params;
 
     try {
         if (req.model === 'lecturer') {
-          const lecturerId = req.user.id;
+          const lecturerId = req.user.lecturer_id;
           const lecturerCourse = await LecturerCourse.findOne({
             where: {
               lecturer_id: lecturerId,
@@ -97,6 +126,7 @@ exports.getAllGradesOfCourse = async (req, res) => {
 
         res.json(grades);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Failed to fetch grades' });
     }
 };
@@ -111,7 +141,7 @@ exports.createGrade = async (req, res) => {
   
     try {
       const lecturerCourse = await LecturerCourse.findOne({
-            where: { lecturer_id: req.user.lecture_id, course_id: course_id },
+            where: { lecturer_id: req.user.lecturer_id, course_id: course_id },
         });
     
         if (!lecturerCourse) {
