@@ -1,0 +1,15 @@
+.UserHeader{
+    width: 100%;
+    align-items: center;
+    margin-left: 0px;
+    padding: 4px 20px 4px 12px;
+    border-radius: 1px solid rgba(221, 44, 44, 0.15);
+}
+
+.user-info{
+    right: 0%;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 20px 4px 12px;
+}
+/* how to set user info to the left of header bar */
