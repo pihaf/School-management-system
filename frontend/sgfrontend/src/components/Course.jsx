@@ -125,10 +125,7 @@ function Course({ isAuthenticated, model, id }) {
               dataIndex: "semester",
             },
           ]}
-          rowClassName={(record, index) => {
-            const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
-            return style;
-          }}
+          rowClassName={ (record, index) => index % 2 === 0 ? 'row-even' : 'row-odd' }
           dataSource={dataSource.map((record) => ({
             ...record,
             key: record.course_id,

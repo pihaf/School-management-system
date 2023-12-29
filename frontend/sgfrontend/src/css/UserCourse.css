@@ -1,8 +1,18 @@
-.ant-table-thead > tr > th {
-  background-color: #94c7f4; /* Thay đổi màu nền của header */
+.ant-table-thead > tr > th{
+	background-color: #7193FF !important; /* Thay đổi màu nền của header */
+  /* font-size: ; */
 }
 
-/* .ant-table-tbody > tr > td {
-  background-color: #ceedf4; 
-  /* Thay đổi màu nền của các hàng 
-} */
+/* .ant-table-tbody > tr > td { */
+	/* background-color: #c5ecf6;  */
+	/* Thay đổi màu nền của các hàng */
+	/* font-size: 14px; */
+/* } */
+
+.row-odd {
+	background-color: #b6e6ee; /* light gray */
+}
+
+.row-even {
+	background-color: #aff0c1; /* white */
+}
