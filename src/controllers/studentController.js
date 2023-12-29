@@ -22,6 +22,7 @@ exports.updateStudentProfile = async (req, res) => {
         return res.status(403).json({ error: 'Forbidden' });
      }
   
+      console.log("req.body:", req.body);
       const student = req.user;
   
       // Update the student information
@@ -34,6 +35,7 @@ exports.updateStudentProfile = async (req, res) => {
       student.email = req.body.email || student.email;
       student.phone_number = req.body.phone_number || student.phone_number;
       student.profile_image = req.body.profile_image || student.profile_image;
+      student.password = req.body.password || student.password;
   
       await student.save();
   

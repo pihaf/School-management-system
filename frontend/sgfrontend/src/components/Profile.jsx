@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table } from "antd";
+import { Table, Space, Modal, Input, Alert, Typography } from "antd";
+import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import axios from 'axios';
 
 function Profile({ isAuthenticated, model, id }) {
   const navigate = useNavigate();
-  const [profileData, setProfileData] = useState(null);
+  const [profileData, setProfileData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingProfile, setEditingProfile] = useState(null);
+  const [alerts, setAlerts] = useState([]);
+  const [isFetchingProfile, setIsFetchingProfile] = useState(true); 
 
   useEffect(() =>
   {
@@ -40,6 +46,8 @@ function Profile({ isAuthenticated, model, id }) {
         } catch (error)
         {
           console.error(error);
+        } finally {
+          setIsFetchingProfile(false); 
         }
       };
 
@@ -47,10 +55,58 @@ function Profile({ isAuthenticated, model, id }) {
     }
   }, [isAuthenticated, model, navigate]);
 
-  if (!profileData)
+  if (isFetchingProfile)
   {
     return <div>Loading...</div>; // Return a loading state while fetching the profile data
   }
+
+  const addAlert = (message, type) => {
+    const newAlert = {
+      id: Date.now(),
+      message,
+      type,
+    };
+
+    setAlerts((prevAlerts) => [...prevAlerts, newAlert]);
+  };
+
+  const removeAlert = (id) => {
+    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
+  };
+
+  const onEditProfile = (record) => {
+    setIsEditing(true);
+    setEditingProfile({ ...record });
+  };
+  const resetEditing = () => {
+    setIsEditing(false);
+    setEditingProfile(null);
+  };
+
+  const onSaveEdit = async () => {
+    try {
+      const updatedData = {
+        ...profileData,
+        ...editingProfile
+      };
+      console.log("Current profile: ", updatedData);
+      const response = await axios.put(`http://localhost:3000/api/${model}s/profile`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const updatedProfile = response.data;
+      console.log("Updated profile: ");
+      console.log(updatedProfile);
+      setProfileData(updatedProfile);
+      addAlert('Updated successfully!', 'success');
+      resetEditing();
+    } catch (error) {
+      addAlert('Error updating profile: ' + String(error), 'error');
+      console.error('Error updating profile:', error);
+      setIsEditing(false);
+    }
+  };
 
   const columns = [
     {
@@ -61,43 +117,280 @@ function Profile({ isAuthenticated, model, id }) {
       title: "Value",
       dataIndex: "value",
     },
+    {
+      title: "",
+      render: (record) => {
+        return (
+          <>
+            <EditOutlined
+              onClick={() => {
+                onEditProfile(record);
+              }}
+            />
+          </>
+        );
+      },
+    },
   ];
 
   const data =
     model === "lecturer"
-      ? [
-        { field: "Name", value: profileData.name },
-        { field: "Email", value: profileData.email },
-        { field: "Department", value: profileData.department },
-        { field: "Subject/Lab", value: profileData["subject/lab"] },
-        { field: "Job Title", value: profileData.job_title },
-        { field: "Phone Number", value: profileData.phone_number },
-        { field: "Profile Image", value: profileData.profile_image },
+    ? [
+        { key: "1", field: "Name", value: profileData.name },
+        { key: "2", field: "Email", value: profileData.email },
+        { key: "3", field: "Department", value: profileData.department },
+        { key: "4", field: "Subject/Lab", value: profileData["subject/lab"] },
+        { key: "5", field: "Job Title", value: profileData.job_title },
+        { key: "6", field: "Phone Number", value: profileData.phone_number },
+        { key: "7", field: "Profile Image", value: profileData.profile_image },
+        { key: "8", field: "Username", value: profileData.username },
+        { key: "9", field: "Password", value: profileData.password },
 
       ]
-      : [
-        { field: "Student ID", value: profileData.student_id },
-        { field: "Class", value: profileData.student_class },
-        { field: "Name", value: profileData.name },
+    : [
+        { key: "1", field: "Student ID", value: profileData.student_id },
+        { key: "2", field: "Class", value: profileData.student_class },
+        { key: "3", field: "Name", value: profileData.name },
         {
+          key: "4",
           field: "Date of Birth",
-          value: new Date(
-            profileData.date_of_birth
-          ).toLocaleDateString(),
+          value: new Date(profileData.date_of_birth).toLocaleDateString(),
         },
-        { field: "Gender", value: profileData.gender },
-        { field: "Email", value: profileData.email },
-        { field: "Phone Number", value: profileData.phone_number },
-        {
-          field: "Profile Image",
-          value: profileData.profile_image,
-        },
+        { key: "5", field: "Gender", value: profileData.gender },
+        { key: "6", field: "Email", value: profileData.email },
+        { key: "7", field: "Phone Number", value: profileData.phone_number },
+        { key: "8", field: "Place of birth", value: profileData.place_of_birth },
+        { key: "9", field: "Citizen ID", value: profileData.citizen_id },
+        { key: "10", field: "Profile Image", value: profileData.profile_image },
+        { key: "11", field: "Username", value: profileData.username },
+        { key: "12", field: "Password", value: profileData.password },
       ];
 
   return (
     <div style={ { justifyContent: 'center', alignItems: 'center', height: '100vh' } }>
-      <h1>Profile</h1>
-      <Table columns={ columns } dataSource={ data } pagination={ false } />
+      <Typography.Title level={4}>Profile</Typography.Title>
+      <Space>
+        {alerts.map((alert) => (
+            <Alert
+              key={alert.id}
+              message={alert.message}
+              type={alert.type}
+              showIcon
+              closable
+              afterClose={() => removeAlert(alert.id)}
+            />
+          ))}
+        <Table columns={ columns } dataSource={ data } pagination={ false } />
+        <Modal
+              title="Edit Profile"
+              open={isEditing}
+              okText="Save"
+              onCancel={() => {
+                resetEditing();
+              }}
+              onOk={onSaveEdit}
+            >
+              {model === 'student' ? (
+                <>
+                  <Input
+                    placeholder="Student ID"
+                    name="student_id"
+                    value={editingProfile?.student_id}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, student_id: e.target.value };
+                      });
+                    }}
+                  />
+                
+                  <Input
+                    placeholder="Name"
+                    name="name"
+                    value={editingProfile?.name}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, name: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Gender"
+                    name="gender"
+                    value={editingProfile?.gender}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, gender: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Date of birth"
+                    name="date_of_birth"
+                    value={editingProfile?.date_of_birth}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, date_of_birth: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Class"
+                    name="student_class"
+                    value={editingProfile?.student_class}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, student_class: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Email"
+                    name="email"
+                    value={editingProfile?.email}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, email: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Place of birth"
+                    name="place_of_birth"
+                    value={editingProfile?.place_of_birth}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, place_of_birth: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Citizen ID"
+                    name="citizen_id"
+                    value={editingProfile?.citizen_id}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, citizen_id: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Phone number"
+                    name="phone_number"
+                    value={editingProfile?.phone_number}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, phone_number: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Username"
+                    name="username"
+                    value={editingProfile?.username}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, username: e.target.value };
+                      });
+                    }}
+                  />
+                  <Input
+                    placeholder="Password"
+                    name="password"
+                    value={editingProfile?.password}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, password: e.target.value };
+                      });
+                    }}
+                  />
+              </>
+              ) : model === 'lecturer' ? (
+                <>
+                {/* Render inputs for lecturer */}
+                  <Input
+                  placeholder="Name"
+                  name="name"
+                  value={editingProfile?.name}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, name: e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Department"
+                  name="department"
+                  value={editingProfile?.department}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, department: e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Subject/Lab"
+                  name="subject/lab"
+                  value={editingProfile?.['subject/lab']}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, 'subject/lab': e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Job title"
+                  name="job_title"
+                  value={editingProfile?.job_title}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, job_title: e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Email"
+                  name="email"
+                  value={editingProfile?.email}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, email: e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Phone number"
+                  name="phone_number"
+                  value={editingProfile?.phone_number}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, phone_number: e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Username"
+                  name="username"
+                  value={editingProfile?.username}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, username: e.target.value };
+                    });
+                  }}
+                />
+                <Input
+                  placeholder="Password"
+                  name="password"
+                  value={editingProfile?.password}
+                  onChange={(e) => {
+                    setEditingProfile((pre) => {
+                      return { ...pre, password: e.target.value };
+                    });
+                  }}
+                />
+              </>
+            ) : null}
+          </Modal>
+      </Space>
     </div>
   );
   //   return (

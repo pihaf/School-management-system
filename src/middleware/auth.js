@@ -5,6 +5,7 @@ const Lecturer = require('../models/Lecturer');
 
 async function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization;
+  // console.log("Header:", req.headers);
   const token = authHeader && authHeader.split(' ')[1];
   console.log("Token from authenticateToken: ");
   console.log(token);
@@ -33,8 +34,8 @@ async function authenticateToken(req, res, next) {
     }
 
     const user = await Model.verifyAuthToken(token);
-    console.log("User from authenticateToken: ");
-    console.log(user);
+    // console.log("User from authenticateToken: ");
+    // console.log(user);
     switch (model) {
       case 'student':
         // console.log("User.id: ");

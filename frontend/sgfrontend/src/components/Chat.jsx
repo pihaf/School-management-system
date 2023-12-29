@@ -9,7 +9,7 @@ function Chat({ isAuthenticated, model, id, token }) {
   const [mess, setMess] = useState([]);
   const [message, setMessage] = useState('');
   const [socketId, setSocketId] = useState();
-  const [isUser, setIsUser] = useState(false);
+  const [room, setRoom] = useState('');
 
   const socketRef = useRef();
   const messagesEnd = useRef();
@@ -21,13 +21,15 @@ function Chat({ isAuthenticated, model, id, token }) {
       setSocketId(data)
     })
 
-    socketRef.current.on('sendDataServer', dataGot => {
-      setMess(oldMsgs => [...oldMsgs, dataGot.data]);
-      scrollToBottom();
-    });
+    socketRef.current.on('sendDataServer', (dataGot) => {
+      console.log("From sendDataServer: ");
+      console.log(dataGot.data)
+      setMess(oldMsgs => [...oldMsgs, dataGot.data])
+      scrollToBottom()
+    })
 
     return () => {
-      socketRef.current.disconnect();
+      socketRef.current.disconnect({id, model});
     };
   }, []);
 
@@ -36,20 +38,34 @@ function Chat({ isAuthenticated, model, id, token }) {
       alert('You need to login');
       navigate('/login');
     } else {
-      if (token) {
-        setIsUser(true);
+      if (socketId) {
+        const newRoom = `${model}_${id}`;
+        setRoom(newRoom);
+        console.log('User room from fe:');
+        console.log(newRoom);
       }
     }
-  }, [isAuthenticated, navigate, model, token]);
+  }, [isAuthenticated, navigate, model, id, token, socketId]);
+
+  useEffect(() => {
+    if (room) {
+      socketRef.current.emit('sendUserRoomToServer', { room: room });
+      socketRef.current.emit("join_room", room);
+    } else {
+      console.log("User room not exists");
+    }
+  }, [room]);
 
   const sendMessage = () => {
     if(message !== null) {
       const msg = {
-        content: message, 
-        socketId: socketId
+        message: message, 
+        socketId: socketId,
+        room: room,
       }
-      socketRef.current.emit('sendDataClient', msg)
-      setMessage('')
+      socketRef.current.emit('sendDataClient', msg);
+      setMess(oldMsgs => [...oldMsgs, msg]);
+      setMessage('');
     }
   }
 
@@ -57,16 +73,11 @@ function Chat({ isAuthenticated, model, id, token }) {
     messagesEnd.current.scrollIntoView({ behavior: "smooth" });
   }
   
-  const renderMess = mess.map((m, index) =>
-    (m.isUser || isUser) ? (
-      <div
-        key={index}
-        className={`${m.socketId === socketId ? 'your-message' : 'other-people'} chat-item`}
-      >
-        {m.content}
-      </div>
-    ) : null
-  );
+  const renderMess =  mess.map((m, index) => 
+        <div key={index} className={`${m.socketId === socketId ? 'your-message' : 'other-people'} chat-item`}>
+          {m.message}
+        </div>
+      )
 
   const handleChange = (e) => {
     setMessage(e.target.value)
@@ -79,15 +90,15 @@ function Chat({ isAuthenticated, model, id, token }) {
   }
 
   return (
-    <div class="box-chat">
-      <div class="box-chat_message">
+    <div className="box-chat">
+      <div className="box-chat_message">
       {renderMess}
       <div style={{ float:"left", clear: "both" }}
              ref={messagesEnd}>
         </div>
       </div>
 
-      <div class="send-box">
+      <div className="send-box">
           <textarea 
             value={message}  
             onKeyDown={onEnterPress}

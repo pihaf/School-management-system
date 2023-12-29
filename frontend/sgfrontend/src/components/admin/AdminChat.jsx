@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import socketIOClient from "socket.io-client";
-import { Avatar, Rate, Space, Typography } from "antd";
+import { Avatar, Rate, Space, Typography, Button, List } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
@@ -15,7 +16,8 @@ function AdminChat({ isAuthenticated, adminToken }) {
   const [mess, setMess] = useState([]);
   const [message, setMessage] = useState('');
   const [socketId, setSocketId] = useState();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [room, setRoom] = useState('');
+  const [userRooms, setUserRooms] = useState([]);
 
   const socketRef = useRef();
   const messagesEnd = useRef();
@@ -27,9 +29,17 @@ function AdminChat({ isAuthenticated, adminToken }) {
       setSocketId(data)
     })
 
-    socketRef.current.on('sendDataServer', dataGot => {
+    socketRef.current.on('sendDataServer', (dataGot) => {
+      console.log("From sendDataServer: ");
+      console.log(dataGot.data)
       setMess(oldMsgs => [...oldMsgs, dataGot.data]);
       scrollToBottom();
+    });
+
+    socketRef.current.on('serverSendUserRooms', (userRooms) => {
+      console.log("User rooms:");
+      console.log(userRooms);
+      setUserRooms(userRooms);
     });
 
     return () => {
@@ -42,22 +52,25 @@ function AdminChat({ isAuthenticated, adminToken }) {
         alert('You need to login');
         navigate('/login');
       } else {
-        // Check if the user is an admin based on the adminToken
-        if (adminToken) {
-            setIsAdmin(true);
-            socketRef.current.emit('adminConnected'); // Notify the server that an admin is connected
+        if (socketId){
+          socketRef.current.emit('sendAdminSocketToServer', socketId);
         }
-    }
-  }, [isAuthenticated, navigate, adminToken]);
+      }
+  }, [isAuthenticated, navigate, adminToken, socketId]);
 
   const sendMessage = () => {
-    if(message !== null) {
-      const msg = {
-        content: message, 
-        socketId: socketId
+    if (room !== null) {
+      console.log("Room in sendMessage:", room);
+      if(message !== null) {
+        const msg = {
+          message: message, 
+          socketId: socketId,
+          room: room
+        }
+        socketRef.current.emit('sendDataClient', msg)
+        setMess(oldMsgs => [...oldMsgs, msg])
+        setMessage('')
       }
-      socketRef.current.emit('sendDataClient', msg)
-      setMessage('')
     }
   }
 
@@ -65,16 +78,20 @@ function AdminChat({ isAuthenticated, adminToken }) {
     messagesEnd.current.scrollIntoView({ behavior: "smooth" });
   }
   
-  const renderMess = mess.map((m, index) =>
-    (m.isAdmin || isAdmin) ? (
-      <div
-        key={index}
-        className={`${m.socketId === socketId ? 'your-message' : 'other-people'} chat-item`}
-      >
-        {m.content}
-      </div>
-    ) : null
-  );
+  const renderMess =  mess.map((m, index) => 
+        <div key={index} className={`${m.socketId === socketId ? 'your-message' : 'other-people'} chat-item`}>
+          <div className="sender-info">
+            {m.socketId !== socketId && (
+              <Avatar size={24} icon={<UserOutlined />} />
+            )}
+            {m.socketId === socketId && (
+              <Avatar size={24} icon={<UserOutlined />} className="admin-avatar" />
+            )}
+            {m.socketId === socketId ? 'Admin' : 'User'}
+          </div>
+          {m.message}
+        </div>
+      );
 
   const handleChange = (e) => {
     setMessage(e.target.value)
@@ -86,12 +103,35 @@ function AdminChat({ isAuthenticated, adminToken }) {
     }
   }
 
+  // const handleRoomSelection = (selectedRoom) => {
+  //   setRoom(selectedRoom);
+  //   setMess([]); // Clear the messages when a new room is selected
+  // };
+
   return (
       <div className="App">
         <AdminHeader />
         <div className="SideMenuAndPageContent">
           <SideMenu></SideMenu>
             <Typography.Title level={4}>Chat</Typography.Title>
+              <div className="user-rooms">
+                <Typography.Title level={5}>User Rooms</Typography.Title>
+                <List
+                  dataSource={Array.from(new Set(userRooms))}
+                  renderItem={(room, index) => (
+                    <List.Item key={`${room}_${index}`}>
+                      {room}
+                      <Button
+                        type="link"
+                        style={{ color: 'red' }}
+                        onClick={() => {setRoom(room)}}
+                      >
+                        Select
+                      </Button>
+                    </List.Item>
+                  )}
+                />
+              </div>
             {/* <Space size={20} direction="horizontal"> */}
               <div className="box-chat">
                 <div className="box-chat_message">
@@ -105,13 +145,12 @@ function AdminChat({ isAuthenticated, adminToken }) {
                       value={message}  
                       onKeyDown={onEnterPress}
                       onChange={handleChange} 
-                      placeholder="Nhập tin nhắn ..." 
+                      placeholder="Enter message ..." 
                     />
                     <button onClick={sendMessage}>
                       Send
                     </button>
                 </div>
-
               </div>
         </div>
         <AdminFooter />

@@ -2,6 +2,7 @@
   background-color: #94c7f4; /* Thay đổi màu nền của header */
 }
 
-.ant-table-tbody > tr > td {
-  background-color: #ceedf4; /* Thay đổi màu nền của các hàng */
-}
+/* .ant-table-tbody > tr > td {
+  background-color: #ceedf4; 
+  /* Thay đổi màu nền của các hàng 
+} */
