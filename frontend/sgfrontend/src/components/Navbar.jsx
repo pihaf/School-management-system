@@ -28,7 +28,7 @@ function Navbar() {
       <Menu
         className="SideMenuVertical"
         mode="vertical"
-        theme="light"
+        theme="dark"
         onClick={(item) => {
           //item.key
           navigate(item.key);
