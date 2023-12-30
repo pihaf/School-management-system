@@ -59,7 +59,7 @@ function App() {
               <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                 </div>
                 <Footer />
               </div><><Home /></></>
@@ -72,7 +72,7 @@ function App() {
               <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                 </div>
                 <Footer />
               </div><><Home /></></>
@@ -84,7 +84,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />{" "}
+                  <Navbar model={model}/>{" "}
                   <Login setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
                 </div>
 
@@ -98,7 +98,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Logout setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
                 </div>
                 <Footer />
@@ -111,7 +111,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Timetable isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
@@ -124,7 +124,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Course isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -138,7 +138,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <AllCourses isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -152,7 +152,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <AllStudentsCourse isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -166,7 +166,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Grade isAuthenticated={!!token} model={model} id={id}/>
                 </div>
                 <Footer />
@@ -179,7 +179,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Request isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
@@ -192,7 +192,7 @@ function App() {
               <>
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Chat
                     isAuthenticated={!!token}
                     model={model}
@@ -211,7 +211,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <NewsContent/>
                 </div>
                 <Footer />
@@ -224,7 +224,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <News isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
@@ -237,7 +237,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Notification isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -251,7 +251,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar />
+                  <Navbar model={model}/>
                   <Profile isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -259,8 +259,6 @@ function App() {
               </div>
             }
           />
-        </Routes>
-      <Routes>
         <Route path="*" element={<NoPage />} />
 
 

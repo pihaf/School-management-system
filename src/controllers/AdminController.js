@@ -51,9 +51,10 @@ exports.updateAdminProfile = async (req, res) => {
     const admin = await Admin.verifyAuthToken(req.token);
 
     // Update the admin information
-    admin.name = req.body.name;
-    admin.email = req.body.email;
-    admin.username = req.body.username;
+    admin.name = req.body.name || admin.name;
+    admin.email = req.body.email || admin.email;
+    admin.username = req.body.username || admin.username;
+    admin.password = req.body.password || admin.password;
 
     await admin.save();
 

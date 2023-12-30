@@ -13,7 +13,7 @@ import { Menu, Layout } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ model }) {
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState("/");
 
@@ -25,68 +25,128 @@ function Navbar() {
   const navigate = useNavigate();
   return (
     <div className="SideMenu">
-      <Menu
-        className="SideMenuVertical"
-        mode="vertical"
-        theme="dark"
-        onClick={(item) => {
-          //item.key
-          navigate(item.key);
-        }}
-        selectedKeys={[selectedKeys]}
-        items={[
-          {
-            label: "Home",
-            icon: <HomeOutlined />,
-            key: "/home",
-          },
-          {
-            label: "Profile",
-            icon: <ProfileOutlined />,
-            key: "/profile",
-          },
-          {
-            label: "Timetable",
-            key: "/timetable",
-            icon: <ProjectOutlined />,
-          },
-          {
-            label: "Courses",
-            key: "/courses",
-            icon: <ReadOutlined />,
-          },
-          {
-            label: "News",
-            key: "/news",
-            icon: <ProjectOutlined />,
-          },
-          {
-            label: "Notifications",
-            key: "/notifications",
-            icon: <NotificationOutlined />,
-          },
-          {
-            label: "Requests",
-            key: "/requests",
-            icon: <SolutionOutlined />,
-          },
-          {
-            label: "Chat",
-            key: "/chat",
-            icon: <CommentOutlined />,
-          },
-          {
-            label: "Login",
-            key: "/login",
-            icon: <LoginOutlined />,
-          },
-          {
-            label: "Logout",
-            key: "/logout",
-            icon: <LogoutOutlined />,
-          },
-        ]}
-      ></Menu>
+      { model === 'student' || model === null ? (
+          <Menu
+            className="SideMenuVertical"
+            mode="vertical"
+            theme="dark"
+            onClick={(item) => {
+              //item.key
+              navigate(item.key);
+            }}
+            selectedKeys={[selectedKeys]}
+            items={[
+              {
+                label: "Home",
+                icon: <HomeOutlined />,
+                key: "/home",
+              },
+              {
+                label: "Profile",
+                icon: <ProfileOutlined />,
+                key: "/profile",
+              },
+              {
+                label: "Timetable",
+                key: "/timetable",
+                icon: <ProjectOutlined />,
+              },
+              {
+                label: "Courses",
+                key: "/courses",
+                icon: <ReadOutlined />,
+              },
+              {
+                label: "News",
+                key: "/news",
+                icon: <ProjectOutlined />,
+              },
+              {
+                label: "Notifications",
+                key: "/notifications",
+                icon: <NotificationOutlined />,
+              },
+              {
+                label: "Requests",
+                key: "/requests",
+                icon: <SolutionOutlined />,
+              },
+              {
+                label: "Chat",
+                key: "/chat",
+                icon: <CommentOutlined />,
+              },
+              {
+                label: "Login",
+                key: "/login",
+                icon: <LoginOutlined />,
+              },
+              {
+                label: "Logout",
+                key: "/logout",
+                icon: <LogoutOutlined />,
+              },
+            ]}
+          ></Menu>
+      ) : (
+        <Menu
+          className="SideMenuVertical"
+          mode="vertical"
+          theme="dark"
+          onClick={(item) => {
+            //item.key
+            navigate(item.key);
+          }}
+          selectedKeys={[selectedKeys]}
+          items={[
+            {
+              label: "Home",
+              icon: <HomeOutlined />,
+              key: "/home",
+            },
+            {
+              label: "Profile",
+              icon: <ProfileOutlined />,
+              key: "/profile",
+            },
+            {
+              label: "Timetable",
+              key: "/timetable",
+              icon: <ProjectOutlined />,
+            },
+            {
+              label: "Courses",
+              key: "/courses",
+              icon: <ReadOutlined />,
+            },
+            {
+              label: "News",
+              key: "/news",
+              icon: <ProjectOutlined />,
+            },
+            {
+              label: "Notifications",
+              key: "/notifications",
+              icon: <NotificationOutlined />,
+            },
+            {
+              label: "Chat",
+              key: "/chat",
+              icon: <CommentOutlined />,
+            },
+            {
+              label: "Login",
+              key: "/login",
+              icon: <LoginOutlined />,
+            },
+            {
+              label: "Logout",
+              key: "/logout",
+              icon: <LogoutOutlined />,
+            },
+          ]}
+        ></Menu>
+      )}
     </div>
   );
 }

@@ -62,9 +62,12 @@ exports.getAllRequestsOfAStudent = async (req, res) => {
   
 // Route to create a new request
 exports.createRequest = async (req, res) => {
+  if (req.model !== 'student') {
+    return res.status(403).json({ error: 'Only students can send requests' });
+  }
     // Extract request details from the request body
     const { student_id, admin_id, type, details, status } = req.body;
-    if (student_id !== req.user.id) {
+    if (student_id !== req.user.student_id) {
       return res.status(403).json({ error: 'You are not authorized to create this request' });
     }
     try {

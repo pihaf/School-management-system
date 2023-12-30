@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Table, Typography, Layout, Space, Button, Alert, Modal } from "antd";
+import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import axios from 'axios';
+import "../css/UserCourse.css";
+const { Content } = Layout;
 
 function Request({ isAuthenticated, model, id }) {
   const navigate = useNavigate();
+  const [searchedText, setSearchedText] = useState("");
   const [requests, setRequests] = useState([]);
+  const [isAdding, setIsAdding] = useState(false);
+  const [addingRequest, setAddingRequest] = useState(null);
+  const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -37,32 +45,188 @@ function Request({ isAuthenticated, model, id }) {
     }
   }, [isAuthenticated, navigate, id]);
   
+  const addAlert = (message, type) => {
+    const newAlert = {
+      id: Date.now(),
+      message,
+      type,
+    };
+
+    setAlerts((prevAlerts) => [...prevAlerts, newAlert]);
+  };
+
+  const removeAlert = (id) => {
+    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
+  };
+
+
+  const onAddingRequest = () => {
+    setIsAdding(true);
+    setAddingRequest({});
+  };
+  const resetAdding = () => {
+    setIsAdding(false);
+    setAddingRequest(null);
+  };
+  const onAddRequest = async () => {
+    try {
+      console.log({...addingRequest, student_id: id, status: "Pending", created_at: new Date()});
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const response = await axios.post(
+        'http://localhost:3000/api/requests',
+        {...addingRequest, student_id: id, status: "Pending", created_at: new Date()}, { headers }
+      );
+        
+      const createdRequest = response.data;
+      console.log(createdRequest);
+      setRequests((pre) => {
+        return [...pre, createdRequest];
+      });
+      resetAdding();
+      addAlert('Request added successfully!', 'success');
+    } catch (error) {
+      addAlert('Error adding request: '+ String(error), 'error');
+      console.error('Error creating request: ', error);
+      setIsAdding(false);
+    }
+  };
+
   return (
-    <div>
-      <h1>Request</h1>
-      {requests.length === 0 ? (
-            <Typography.Text>No requests found for this course.</Typography.Text>
+    <Content
+      style={{
+        margin: "0px 28px 0px 24px",
+      }}
+    >
+      <Space size={25} direction="vertical">
+        <Typography.Title level={2}>Requests</Typography.Title>
+        <Button onClick={() => {
+                            onAddingRequest();
+                          }}
+            >Add a new Request</Button>
+            <Modal
+              title="Add Request"
+              open={isAdding}
+              onOk={onAddRequest}
+              onCancel={() => {
+                resetAdding();
+              }}
+            >
+              <Input
+                placeholder="Type"
+                name="type"
+                value={addingRequest?.type}
+                onChange={(e) => {
+                  setAddingRequest((pre) => {
+                    return { ...pre, type: e.target.value };
+                  });
+                }}
+              />
+              <Input
+                placeholder="Details"
+                name="details"
+                value={addingRequest?.details}
+                onChange={(e) => {
+                  setAddingRequest((pre) => {
+                    return { ...pre, details: e.target.value };
+                  });
+                }}
+              />
+            </Modal>
+          {alerts.map((alert) => (
+              <Alert
+                key={alert.id}
+                message={alert.message}
+                type={alert.type}
+                showIcon
+                closable
+                afterClose={() => removeAlert(alert.id)}
+              />
+            ))}
+            <ReloadOutlined
+              onClick={() => {
+                window.location.reload();
+              }}
+              style={{ marginLeft: 12 }}
+            />
+        <Input.Search
+          placeholder="Search here..."
+          style={{ width: "400px", float: "right" }}
+          onSearch={(value) => {
+            setSearchedText(value);
+          }}
+          onChange={(e) => {
+            setSearchedText(e.target.value);
+          }}
+        />
+          {requests.length === 0 ? (
+                <Typography.Text>No requests found.</Typography.Text>
         ) : (
-          <ul>
-          {requests.map((request) => (
-            <li key={request.request_id}>
-              <p>Request ID: {request.request_id}</p>
-              <p>Student ID: {request.Student.student_id}</p>
-              <p>Type: {request.type}</p>
-              <p>Details: {request.details}</p>
-              <p>Status: {request.status}</p>
-              <p>Created at: {new Date(request.created_at).toLocaleDateString()}</p>
-              {request.Admin && (
-                <>
-                  <p>Admin ID: {request.Admin.admin_id}</p>
-                  <p>Admin Email: {request.Admin.email}</p>
-                </>
-              )}
-            </li>
-          ))}
-          </ul>
+          <Table
+            columns={[
+              {
+                title: "Request ID",
+                dataIndex: "request_id",
+                filteredValue: [searchedText],
+                onFilter: (value, record) => {
+                  return (
+                    String(record.request_id)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.admin_id)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.type)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.details).toLowerCase().includes(value.toLowerCase()) ||
+                    String(record.created_at).toLowerCase().includes(value.toLowerCase())
+                  );
+                },
+              },
+              {
+                title: "Student ID",
+                dataIndex: "student_id"
+              },
+              {
+                title: "Admin ID",
+                dataIndex: "admin_id",
+              },
+              {
+                title: "Type",
+                dataIndex: "type",
+              },
+              {
+                title: "Details",
+                dataIndex: "details",
+              },
+              {
+                title: "Status",
+                dataIndex: "status",
+              },
+              {
+                title: "Created at",
+                dataIndex: "created_at",
+              },
+              {
+                title: "Updated at",
+                dataIndex: "updated_at",
+              },
+            ]}
+            rowClassName={(record, index) => {
+              const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
+              return style;
+            }}
+            dataSource={requests.map((record) => ({
+              ...record,
+              key: record.request_id,
+            }))}
+            pagination={{
+              pageSize: 20,
+            }}
+          ></Table>
         )}
-    </div>
+      </Space>
+    </Content>
   );
 }
 
