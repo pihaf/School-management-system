@@ -67,13 +67,13 @@ function App() {
           exact
           path="/home"
           element={
-            <div className="App">
+            <><div className="App">
               <Header model={model} id={id} />
               <div className="SideMenuAndPageContent">
                 <Navbar />
               </div>
               <Footer />
-            </div>
+            </div><><Home /></></>
           }
         />
         <Route
