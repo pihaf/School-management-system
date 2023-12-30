@@ -12,6 +12,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Timetable from "./components/Timetable";
 import Course from "./components/Course";
+import AllCourses from "./components/AllCourses.jsx";
 import Grade from "./components/Grade.jsx";
 import Request from "./components/Request";
 import Chat from "./components/Chat.jsx";
@@ -37,6 +38,7 @@ import AdminCourse from "./components/admin/AdminCourse.jsx";
 import AdminGrade from "./components/admin/AdminGrade.jsx";
 import AdminNotification from "./components/admin/AdminNotification.jsx";
 import "./css/AdminHome.css";
+import AllStudentsCourse from "./components/AllStudentsCourse.jsx";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -124,6 +126,34 @@ function App() {
                 <div className="SideMenuAndPageContent">
                   <Navbar />
                   <Course isAuthenticated={!!token} model={model} id={id} />
+                </div>
+
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/all/courses"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <AllCourses isAuthenticated={!!token} model={model} id={id} />
+                </div>
+
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/courses/:courseId"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <AllStudentsCourse isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
                 <Footer />
@@ -230,9 +260,10 @@ function App() {
             }
           />
         </Routes>
-
       <Routes>
         <Route path="*" element={<NoPage />} />
+
+
         {/* For admins */}
         <Route
           path="/admin"

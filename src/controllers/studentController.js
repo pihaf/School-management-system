@@ -1,5 +1,44 @@
 const bcrypt = require('bcrypt');
 const Student = require('../models/Student');
+const Course = require('../models/Course');
+const StudentCourse = require('../models/StudentCourse');
+
+exports.getStudentsOfCourse = async (req, res) => {
+
+  const { courseId, userId } = req.params;
+
+  if (req.model === 'lecturer'){
+    if (userId != req.user.lecturer_id) {
+      return res.status(403).json({ error: 'You can only view your courses' });
+    }
+  } else if (req.model === 'student'){
+    if (userId != req.user.student_id) {
+      return res.status(403).json({ error: 'You can only view your courses' });
+    }
+  }
+
+  try {
+    // Retrieve all student_id values for the given course
+    const studentCourseRecords = await StudentCourse.findAll({
+      where: { course_id: courseId },
+      attributes: ['student_id', 'course_id', 'notes'],
+    });
+
+    // Extract the student_id values from the studentCourseRecords
+    const studentIds = studentCourseRecords.map(record => record.student_id);
+
+    // Retrieve the students based on the extracted studentIds
+    const students = await Student.findAll({
+      where: { student_id: studentIds },
+      attributes: ['student_id', 'name', 'email', 'date_of_birth', 'class', 'phone_number'],
+    });
+
+    res.json(students);
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Failed to retrieve students' });
+  }
+};
 
 // Get student profile
 exports.getStudentProfile = async (req, res) => {

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../models/DB');
 const Course = require('../models/Course');
+const Student = require('../models/Student');
 
 const StudentCourse = sequelize.define('student_course', {
     student_id: {
@@ -35,5 +36,6 @@ const StudentCourse = sequelize.define('student_course', {
   });
   
 StudentCourse.belongsTo(Course, { foreignKey: 'course_id' });
+Student.hasMany(StudentCourse, { foreignKey: 'student_id' });
 
 module.exports = StudentCourse;
