@@ -38,7 +38,6 @@ import AdminGrade from "./components/admin/AdminGrade.jsx";
 import AdminNotification from "./components/admin/AdminNotification.jsx";
 import "./css/AdminHome.css";
 
-
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [adminToken, setAdminToken] = useState(
@@ -46,202 +45,193 @@ function App() {
   );
   const [model, setModel] = useState(localStorage.getItem("model"));
   const [id, setId] = useState(localStorage.getItem("id"));
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-
-  //   // Redirect to the login page if the token is not present
-  //   if (!token && window.location.pathname !== '/login') {
-  //     window.location.href = '/login';
-  //   }
-  // }, [token]);
-
-  // function isAuthenticated() {
-  //   return !!token; // Returns true if the token exists, false otherwise
-  // };
+  const [profileHeader, setProfileHeader] = useState(null);
 
   return (
     <Router>
+        <Routes>
+          <Route
+            exact
+            path="/home"
+            element={
+              <><div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                </div>
+                <Footer />
+              </div><><Home /></></>
+            }
+          />
+          <Route
+            exact
+            path="/"
+            element={
+              <><div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                </div>
+                <Footer />
+              </div><><Home /></></>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />{" "}
+                  <Login setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
+                </div>
+
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/logout"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Logout setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
+                </div>
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/timetable"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Timetable isAuthenticated={!!token} model={model} id={id} />
+                </div>
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/courses"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Course isAuthenticated={!!token} model={model} id={id} />
+                </div>
+
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/grades/:courseId"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Grade isAuthenticated={!!token} model={model} id={id}/>
+                </div>
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/requests"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Request isAuthenticated={!!token} model={model} id={id} />
+                </div>
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <>
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Chat
+                    isAuthenticated={!!token}
+                    model={model}
+                    id={id}
+                    token={token}
+                  />
+                </div>
+
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/news/:newId"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <NewsContent/>
+                </div>
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/news"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <News isAuthenticated={!!token} model={model} id={id} />
+                </div>
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Notification isAuthenticated={!!token} model={model} id={id} />
+                </div>
+
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar />
+                  <Profile isAuthenticated={!!token} model={model} id={id} />
+                </div>
+
+                <Footer />
+              </div>
+            }
+          />
+        </Routes>
+
       <Routes>
-        <Route
-          exact
-          path="/home"
-          element={
-            <><div className="App">
-              <Header model={model} id={id} />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-              </div>
-              <Footer />
-            </div><><Home /></></>
-          }
-        />
-        <Route
-          exact
-          path="/"
-          element={
-            <div className="App">
-              <Header model={model} id={id} />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />{" "}
-                <Login setToken={setToken} setModel={setModel} setId={setId} />
-              </div>
-
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/logout"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Logout setToken={setToken} setModel={setModel} setId={setId} />
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/timetable"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Timetable isAuthenticated={!!token} model={model} id={id} />
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/courses"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Course isAuthenticated={!!token} model={model} id={id} />
-              </div>
-
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/grades/:courseId"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Grade isAuthenticated={!!token} model={model} id={id}/>
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/requests"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Request isAuthenticated={!!token} model={model} id={id} />
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/chat"
-          element={
-            <>
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Chat
-                  isAuthenticated={!!token}
-                  model={model}
-                  id={id}
-                  token={token}
-                />
-              </div>
-
-              <Footer />
-            </>
-          }
-        />
-        <Route
-          path="/news/:newId"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <NewsContent/>
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/news"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <News isAuthenticated={!!token} model={model} id={id} />
-              </div>
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/notifications"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Notification isAuthenticated={!!token} model={model} id={id} />
-              </div>
-
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <div className="App">
-              <Header />
-              <div className="SideMenuAndPageContent">
-                <Navbar />
-                <Profile isAuthenticated={!!token} model={model} id={id} />
-              </div>
-
-              <Footer />
-            </div>
-          }
-        />
         <Route path="*" element={<NoPage />} />
         {/* For admins */}
         <Route
