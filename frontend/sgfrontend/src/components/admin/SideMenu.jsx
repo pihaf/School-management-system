@@ -7,7 +7,8 @@ import {
     CheckSquareOutlined,
     ReadOutlined,
     ProfileOutlined,
-    CommentOutlined
+    CommentOutlined,
+    NotificationOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -68,6 +69,11 @@ function SideMenu() {
                 label: "Requests",
                 key: "/admin/requests",
                 icon: <SolutionOutlined />,
+            },
+            {
+                label: "Notifications",
+                key: "/admin/notifications",
+                icon: <NotificationOutlined />,
             },
             {
                 label: "Grades",

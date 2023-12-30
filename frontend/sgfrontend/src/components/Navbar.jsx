@@ -7,7 +7,7 @@ import {
   NotificationOutlined,
   LoginOutlined,
   LogoutOutlined,
-  WechatOutlined,
+  CommentOutlined
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import { useEffect, useState } from "react";
@@ -38,7 +38,7 @@ function Navbar() {
           {
             label: "Home",
             icon: <HomeOutlined />,
-            key: "/",
+            key: "/home",
           },
           {
             label: "Profile",
@@ -52,23 +52,28 @@ function Navbar() {
           },
           {
             label: "Courses",
-            key: "/course",
+            key: "/courses",
             icon: <ReadOutlined />,
           },
           {
-            label: "Notification",
-            key: "/notification",
+            label: "News",
+            key: "/news",
+            icon: <ProjectOutlined />,
+          },
+          {
+            label: "Notifications",
+            key: "/notifications",
             icon: <NotificationOutlined />,
           },
           {
             label: "Requests",
-            key: "/request",
+            key: "/requests",
             icon: <SolutionOutlined />,
           },
           {
             label: "Chat",
             key: "/chat",
-            icon: <WechatOutlined />,
+            icon: <CommentOutlined />,
           },
           {
             label: "Login",

@@ -87,6 +87,9 @@ const studentController = require('../controllers/studentController');
 //   }
 // });
 
+// Get all students of a course
+router.get('/api/students/:userId/:courseId', authenticateToken, studentController.getStudentsOfCourse);
+
 // Get student profile
 router.get('/api/students/profile', authenticateToken, studentController.getStudentProfile);
 

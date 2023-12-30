@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button} from 'antd';
 
-function Login({ setToken, setModel, setId }) {
+function Login({ setToken, setModel, setId, setProfileHeader }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -35,6 +35,30 @@ function Login({ setToken, setModel, setId }) {
       setModel(model);
       setId(id);
 
+      const fetchProfileData = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:3000/api/${model}s/profile`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+  
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setProfileHeader(data);
+          } else {
+            navigate("/login");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchProfileData();
       // Redirect to the home page or any desired page
       navigate('/');
     } else {
@@ -57,27 +81,6 @@ function Login({ setToken, setModel, setId }) {
           <Button block type='primary' htmlType='submit'>Login</Button>
         </Form.Item>
       </Form>
-      {/* <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form> */}
     </div>
   );
 }

@@ -1,52 +1,59 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert  } from "antd";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
-import AdminFooter from "./AdminFooter";
-import AdminHeader from "./AdminHeader";
-import SideMenu from "./SideMenu";
+import "../css/UserCourse.css";
+import axios from "axios";
+const { Content } = Layout;
 
-function Grade({ isAuthenticated }) {
+function Grade({ isAuthenticated, model, id}) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
+  const { courseId } = useParams();
   const [searchedText, setSearchedText] = useState("");
+  const [grades, setGrades] = useState([]);
+  const [alerts, setAlerts] = useState([]);
+  const [isAdding, setIsAdding] = useState(false);
+  const [addingGrade, setAddingGrade] = useState({course_id: courseId, });
   const [isEditing, setIsEditing] = useState(false);
   const [editingGrade, setEditingGrade] = useState(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [addingGrade, setAddingGrade] = useState(null);
-  const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
-    } else {
-        setLoading(true);
-        fetch("http://localhost:3000/api/admin/grades", { 
+        alert("You need to login");
+        navigate("/login");
+      } else {
+        let url;
+        if (model === 'lecturer') {
+            fetch(`http://localhost:3000/api/grades/courses/${courseId}`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-        }).then(response => response.json())
-        .then(data => {
-            const processedData = data.map(record => {
-                return {
-                    ...record,
-                    ...record.Course,
-                    ...record.Student
-                };
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Grades data:", data);
+                setGrades(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching grades:", error);
             });
-          setDataSource(processedData);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error('Error fetching grades:', error);
-        });
+        } else if (model === 'student') {
+          fetch(`http://localhost:3000/api/grades/students/${id}/courses/${courseId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Grades data:", data);
+                setGrades(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching grades:", error);
+            });
+        }
     }
-  }, []);
-
+  }, [isAuthenticated, navigate, model, courseId]);
 
   const addAlert = (message, type) => {
     const newAlert = {
@@ -72,23 +79,23 @@ function Grade({ isAuthenticated }) {
   };
   const onAddGrade = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
-      const headers = { Authorization: `Bearer ${adminToken}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
       const response = await axios.post(
-        'http://localhost:3000/api/admin/grades',
-        addingGrade, { headers }
+        'http://localhost:3000/api/grades',
+        { ...addingGrade, course_id: courseId }, { headers }
       );
   
       const createdGrade = response.data;
       console.log(createdGrade);
       const course = createdGrade.Course;
       const student = createdGrade.Student;
-      setDataSource((pre) => {
+      setGrades((pre) => {
         return [...pre, {
           grade_id: createdGrade.grade_id,
           student_id: createdGrade.student_id,
           name: student.name,
           email: student.email,
+          course: course.course_id,
           course_class_code: course.course_class_code,
           course_name: course.course_name,
           component_score: createdGrade.component_score,
@@ -105,22 +112,19 @@ function Grade({ isAuthenticated }) {
       setIsAdding(false);
     }
   };
+
   const onDeleteGrade = (record) => {
     Modal.confirm({
       title: 'Are you sure you want to delete this grade record?',
       okText: 'Yes',
       okType: 'danger',
       onOk: () => {
-        const adminToken = localStorage.getItem('adminToken');
-        const headers = { Authorization: `Bearer ${adminToken}` };
+        const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
         axios
-          .delete(`http://localhost:3000/api/admin/grades/${record.grade_id}`, {headers})
+          .delete(`http://localhost:3000/api/grades/${record.grade_id}`, {headers})
           .then((response) => {
-            // Handle successful deletion
             console.log('Record deleted:', response.message);
-  
-            // Update the local state (dataSource) if needed
-            setDataSource((pre) => pre.filter((grade) => grade.grade_id !== record.grade_id));
+              setGrades((pre) => pre.filter((grade) => grade.grade_id !== record.grade_id));
             addAlert('Grade deleted successfully!', 'success');
           })
           .catch((error) => {
@@ -130,6 +134,7 @@ function Grade({ isAuthenticated }) {
       },
     });
   };
+
   const onEditGrade = (record) => {
     setIsEditing(true);
     setEditingGrade({ ...record });
@@ -141,15 +146,14 @@ function Grade({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
-      const headers = { Authorization: `Bearer ${adminToken}` };
-      const response = await axios.put(`http://localhost:3000/api/admin/grades/${editingGrade.grade_id}`, editingGrade, { headers });
+      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const response = await axios.put(`http://localhost:3000/api/grades/${editingGrade.grade_id}`, { ...editingGrade, course_id: courseId }, { headers });
       const updatedGrade = response.data;
       console.log("Updated grade: ");
       console.log(updatedGrade);
       const course = updatedGrade.Course;
       const student = updatedGrade.Student;
-      setDataSource((pre) => {
+      setGrades((pre) => {
         return pre.map((grade) => {
           if (grade.grade_id === updatedGrade.grade_id) {
             return {
@@ -179,20 +183,28 @@ function Grade({ isAuthenticated }) {
   };
 
   return (
-      <div className="App">
-        <AdminHeader />
-        <div className="SideMenuAndPageContent">
-          <SideMenu></SideMenu>
-          
-          <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Grades</Typography.Title>
-            <Button onClick={() => {
-                            onAddingGrade();
-                          }}
-            >Add a new Grade</Button>
-            <Modal
+    <Content
+      style={{
+        margin: "0px 28px 0px 24px",
+      }}
+    >
+      <Space size={25} direction="vertical">
+          <Typography.Title level={2}>Grades for Course {courseId}</Typography.Title>
+          <Button
+              onClick={() => {
+                navigate("/courses");
+              }}
+            >
+              Back
+            </Button>
+          {model === "lecturer" && (
+          <>
+            <Button onClick={onAddingGrade}>Add a new grade</Button>
+          </>
+        )}
+          <Modal
               title="Add Grade"
-              open={isAdding}
+              open={isAdding && model==='lecturer'}
               onOk={onAddGrade}
               onCancel={() => {
                 resetAdding();
@@ -208,7 +220,7 @@ function Grade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              {/* <Input
                 placeholder="Course ID"
                 name="course_id"
                 value={addingGrade?.course_id}
@@ -217,7 +229,8 @@ function Grade({ isAuthenticated }) {
                     return { ...pre, course_id: e.target.value };
                   });
                 }}
-              />
+                disabled={false}
+              /> */}
               <Input
                 placeholder="Component score"
                 name="component_score"
@@ -285,87 +298,97 @@ function Grade({ isAuthenticated }) {
                 setSearchedText(e.target.value);
               }}
             />
-            <Table
-              loading={loading}
-              columns={[
-                {
-                  title: "Grade ID",
-                  dataIndex: "grade_id",
-                  filteredValue: [searchedText],
-                  onFilter: (value, record) => {
-                    return (
-                      String(record.grade_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.course_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.course_name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.course_class_code).toLowerCase().includes(value.toLowerCase()) 
-                    );
-                  }
+          {grades.length === 0 ? (
+            <Typography.Text>No grades found for this course.</Typography.Text>
+        ) : (
+          <Table 
+          columns={[
+            {
+              title: "Grade ID",
+              dataIndex: "grade_id",
+              filteredValue: [searchedText],
+              onFilter: (value, record) => {
+                return (
+                  String(record.grade_id).toLowerCase().includes(value.toLowerCase()) ||
+                  String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
+                  String(record.course_id).toLowerCase().includes(value.toLowerCase()) ||
+                  String(record.student_name).toLowerCase().includes(value.toLowerCase()) ||
+                  String(record.course_name).toLowerCase().includes(value.toLowerCase()) ||
+                  String(record.course_class_code).toLowerCase().includes(value.toLowerCase()) 
+                );
+              }
+            },
+            {
+              title: "Student ID",
+              dataIndex: ["Student", "student_id"],
+            },
+            {
+              title: "Student name",
+              dataIndex: ["Student", "name"],
+            },
+            {
+              title: "Email",
+              dataIndex: ["Student", "email"],
+            },
+            {
+              title: "Course ID",
+              dataIndex: ["Course", "course_id"],
+            },
+            {
+              title: "Course class code",
+              dataIndex: ["Course", "course_class_code"],
+            },
+            {
+              title: "Course name",
+              dataIndex: ["Course", "course_name"],
+            },
+            {
+                title: "Component score",
+                dataIndex: "component_score",
+              },
+              {
+                title: "Midterm score",
+                dataIndex: "midterm_score",
+              },
+              {
+                title: "Finalterm score",
+                dataIndex: "finalterm_score",
+              },
+              {
+                title: "Overall score",
+                dataIndex: "overall_score",
+              },
+              {
+                title: "Actions",
+                render: (record) => {
+                  return (
+                    <>
+                      <EditOutlined
+                        onClick={() => {
+                          onEditGrade(record);
+                        }}
+                      />
+                      <DeleteOutlined
+                        onClick={() => {
+                          onDeleteGrade(record);
+                        }}
+                        style={{ color: "red", marginLeft: 12 }}
+                      />
+                    </>
+                  );
                 },
-                {
-                  title: "Student ID",
-                  dataIndex: "student_id",
-                },
-                {
-                  title: "Student name",
-                  dataIndex: "name",
-                },
-                {
-                  title: "Student email",
-                  dataIndex: "email",
-                },
-                {
-                  title: "Course class code",
-                  dataIndex: "course_class_code",
-                },
-                {
-                  title: "Course name",
-                  dataIndex: "course_name",
-                },
-                {
-                    title: "Component score",
-                    dataIndex: "component_score",
-                },
-                {
-                    title: "Midterm score",
-                    dataIndex: "midterm_score",
-                },
-                {
-                    title: "Finalterm score",
-                    dataIndex: "finalterm_score",
-                },
-                {
-                    title: "Overall",
-                    dataIndex: "overall_score",
-                },
-                {
-                  title: "Actions",
-                  render: (record) => {
-                    return (
-                      <>
-                        <EditOutlined
-                          onClick={() => {
-                            onEditGrade(record);
-                          }}
-                        />
-                        <DeleteOutlined
-                          onClick={() => {
-                            onDeleteGrade(record);
-                          }}
-                          style={{ color: "red", marginLeft: 12 }}
-                        />
-                      </>
-                    );
-                  },
-                },
-              ]}
-              dataSource={dataSource.map((record) => ({ ...record, key: record.grade_id }))}
-              pagination={{
-                pageSize: 10,
-              }}
-            ></Table>
-            <Modal
+              },
+          ]}
+          dataSource={grades.map((record) => ({
+            ...record,
+            key: record.grade_id,
+          }))}
+          pagination={{
+            pageSize: 20,
+          }}
+        ></Table>
+        )}
+        <Modal
               title="Edit Grade"
               open={isEditing}
               okText="Save"
@@ -381,16 +404,6 @@ function Grade({ isAuthenticated }) {
                 onChange={(e) => {
                   setEditingGrade((pre) => {
                     return { ...pre, student_id: e.target.value };
-                  });
-                }}
-              />
-              <Input
-                placeholder="Course ID"
-                name="course_id"
-                value={editingGrade?.course_id}
-                onChange={(e) => {
-                  setEditingGrade((pre) => {
-                    return { ...pre, course_id: e.target.value };
                   });
                 }}
               />
@@ -435,10 +448,9 @@ function Grade({ isAuthenticated }) {
                 }}
               />
             </Modal>
-          </Space>
-        </div>
-        <AdminFooter />
-    </div>
+      </Space>
+    </Content>
   );
 }
+
 export default Grade;

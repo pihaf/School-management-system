@@ -9,6 +9,9 @@ router.get('/api/grades/:gradeId', authenticateToken, gradeController.getGradeBy
 
 // Get all grades of a student
 router.get('/api/grades/students/:studentId', authenticateToken, gradeController.getAllGradesOfStudent);
+
+// Get all grades of a student course
+router.get('/api/grades/students/:studentId/courses/:courseId', authenticateToken, gradeController.getAllGradesOfStudentCourse);
   
 // Get all grades of a course
 router.get('/api/grades/courses/:courseId', authenticateToken, gradeController.getAllGradesOfCourse);

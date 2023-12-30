@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Logout({ setToken, setModel, setId }) {
+function Logout({ setToken, setModel, setId, setProfileHeader }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function Logout({ setToken, setModel, setId }) {
     setToken(null);
     setModel(null);
     setId(null);
-    
+    setProfileHeader(null);
     // Redirect to the login page
     navigate('/login');
   }, [setToken, setModel, navigate]);
