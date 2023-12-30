@@ -174,7 +174,7 @@ function Course({ isAuthenticated, model, id }) {
               }
             ]}
             rowClassName={(record, index) => {
-              const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
+              const style = index % 2 === 0 ? 'even-row' : 'odd-row';
               return style;
             }}
             dataSource={dataSource.map((record) => ({
