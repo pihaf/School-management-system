@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal } from "antd";
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import "../css/UserCourse.css";
 import axios from "axios";
@@ -217,7 +217,7 @@ function Notification({ isAuthenticated, model, id }) {
                 resetAdding();
               } }
             >
-              <Input
+              Course ID<Input
                 placeholder="Course ID"
                 name="course_id"
                 value={addingNotification?.course_id}
@@ -227,7 +227,7 @@ function Notification({ isAuthenticated, model, id }) {
                   });
                 } }
                 disabled={false} />
-              <Input
+              Title<Input
                 placeholder="Title"
                 name="title"
                 value={addingNotification?.title}
@@ -236,7 +236,7 @@ function Notification({ isAuthenticated, model, id }) {
                     return { ...pre, title: e.target.value };
                   });
                 } } />
-              <Input
+              Details<Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={addingNotification?.details}
@@ -485,7 +485,7 @@ function Notification({ isAuthenticated, model, id }) {
               )}
             </Space></>
       )}
-      
+      <BackTop />
     </Content>
   );
 }

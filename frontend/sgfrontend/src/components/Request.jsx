@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal } from "antd";
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import "../css/UserCourse.css";
@@ -111,7 +111,7 @@ function Request({ isAuthenticated, model, id }) {
                 resetAdding();
               }}
             >
-              <Input
+              Type<Input
                 placeholder="Type"
                 name="type"
                 value={addingRequest?.type}
@@ -121,7 +121,7 @@ function Request({ isAuthenticated, model, id }) {
                   });
                 }}
               />
-              <Input
+              Details<Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={addingRequest?.details}
@@ -226,6 +226,7 @@ function Request({ isAuthenticated, model, id }) {
           ></Table>
         )}
       </Space>
+      <BackTop />
     </Content>
   );
 }

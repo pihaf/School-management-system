@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input,  Button, Modal, Alert  } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input,  Button, Modal, Alert, BackTop  } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -165,7 +165,7 @@ function AdminCourse({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              <Input
+              Course name<Input
                 placeholder="Course name"
                 name="course_name"
                 value={addingCourse?.course_name}
@@ -175,7 +175,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Course code<Input
                 placeholder="Course code"
                 name="course_code"
                 value={addingCourse?.course_code}
@@ -185,7 +185,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Course class code<Input
                 placeholder="Course class code"
                 name="course_class_code"
                 value={addingCourse?.course_class_code}
@@ -195,7 +195,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Credits<Input
                 placeholder="Credits"
                 name="credits"
                 value={addingCourse?.credits}
@@ -205,7 +205,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Number of students<Input
                 placeholder="Number of students"
                 name="number_of_students"
                 value={addingCourse?.number_of_students}
@@ -215,7 +215,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Time<Input
                 placeholder="Time"
                 name="time"
                 value={addingCourse?.time}
@@ -225,8 +225,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
-                placeholder="Day"
+              Day of week(number)<Input
+                placeholder="Day of week(number)"
                 name="day"
                 value={addingCourse?.day}
                 onChange={(e) => {
@@ -235,7 +235,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Periods<Input
                 placeholder="Periods"
                 name="periods"
                 value={addingCourse?.periods}
@@ -245,7 +245,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Location<Input
                 placeholder="Location"
                 name="location"
                 value={addingCourse?.location}
@@ -255,7 +255,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Group<Input
                 placeholder="Group"
                 name="group"
                 value={addingCourse?.group}
@@ -265,7 +265,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Semester<Input
                 placeholder="Semester"
                 name="semester"
                 value={addingCourse?.semester}
@@ -397,7 +397,7 @@ function AdminCourse({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Course name<Input
                 placeholder="Course name"
                 name="course_name"
                 value={editingCourse?.course_name}
@@ -407,7 +407,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Course code<Input
                 placeholder="Course code"
                 name="course_code"
                 value={editingCourse?.course_code}
@@ -417,7 +417,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Course class code<Input
                 placeholder="Course class code"
                 name="course_class_code"
                 value={editingCourse?.course_class_code}
@@ -427,7 +427,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Credits<Input
                 placeholder="Credits"
                 name="credits"
                 value={editingCourse?.credits}
@@ -437,7 +437,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Number of students<Input
                 placeholder="Number of students"
                 name="number_of_students"
                 value={editingCourse?.number_of_students}
@@ -447,7 +447,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Time<Input
                 placeholder="Time"
                 name="time"
                 value={editingCourse?.time}
@@ -457,8 +457,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
-                placeholder="Day of week"
+              Day of week<Input
+                placeholder="Day of week(number)"
                 name="day"
                 value={editingCourse?.day}
                 onChange={(e) => {
@@ -467,7 +467,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Periods<Input
                 placeholder="Periods"
                 name="periods"
                 value={editingCourse?.periods}
@@ -477,7 +477,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Location<Input
                 placeholder="Location"
                 name="location"
                 value={editingCourse?.location}
@@ -487,7 +487,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Group<Input
                 placeholder="Group"
                 name="group"
                 value={editingCourse?.group}
@@ -497,7 +497,7 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Semester<Input
                 placeholder="Semester"
                 name="semester"
                 value={editingCourse?.semester}
@@ -510,6 +510,7 @@ function AdminCourse({ isAuthenticated }) {
             </Modal>
         </Space>
       </div>
+      <BackTop/>
       <AdminFooter />
     </div>
   );

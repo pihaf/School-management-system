@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Space, Modal, Input, Alert, Typography } from "antd";
+import { Table, Space, Modal, Input, Alert, Typography, Button } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from 'axios';
 
@@ -74,9 +74,9 @@ function Profile({ isAuthenticated, model, id }) {
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   };
 
-  const onEditProfile = (record) => {
+  const onEditProfile = () => {
     setIsEditing(true);
-    setEditingProfile({ ...record });
+    setEditingProfile({ ...profileData });
   };
   const resetEditing = () => {
     setIsEditing(false);
@@ -117,60 +117,45 @@ function Profile({ isAuthenticated, model, id }) {
       title: "Value",
       dataIndex: "value",
     },
-    {
-      title: "",
-      render: (record) => {
-        return (
-          <>
-            {record.editable && ( // Only render the edit button for rows with editable flag set to true
-              <EditOutlined
-                onClick={() => {
-                  onEditProfile(record);
-                }}
-              />
-            )}
-          </>
-        );
-      },
-    },
   ];
 
   const data =
     model === "lecturer"
     ? [
-        { key: "1", field: "Name", value: profileData.name, editable: false },
-        { key: "2", field: "Email", value: profileData.email , editable: true },
-        { key: "3", field: "Department", value: profileData.department , editable: true },
-        { key: "4", field: "Subject/Lab", value: profileData["subject/lab"] , editable: true },
-        { key: "5", field: "Job Title", value: profileData.job_title , editable: true },
-        { key: "6", field: "Phone Number", value: profileData.phone_number , editable: true },
-        { key: "7", field: "Profile Image", value: profileData.profile_image, editable: true  },
-        { key: "8", field: "Username", value: profileData.username , editable: false },
-        { key: "9", field: "Password", value: profileData.password, editable: true  },
+        { key: "1", field: "Name", value: profileData.name},
+        { key: "2", field: "Email", value: profileData.email },
+        { key: "3", field: "Department", value: profileData.department },
+        { key: "4", field: "Subject/Lab", value: profileData["subject/lab"] },
+        { key: "5", field: "Job Title", value: profileData.job_title },
+        { key: "6", field: "Phone Number", value: profileData.phone_number },
+        { key: "7", field: "Profile Image", value: profileData.profile_image },
+        { key: "8", field: "Username", value: profileData.username },
+        { key: "9", field: "Password", value: profileData.password },
 
       ]
     : [
-        { key: "1", field: "Student ID", value: profileData.student_id, editable: false  },
-        { key: "2", field: "Class", value: profileData.student_class, editable: false  },
-        { key: "3", field: "Name", value: profileData.name, editable: false  },
+        { key: "1", field: "Student ID", value: profileData.student_id },
+        { key: "2", field: "Class", value: profileData.student_class },
+        { key: "3", field: "Name", value: profileData.name },
         {
           key: "4",
           field: "Date of Birth",
-          value: new Date(profileData.date_of_birth).toLocaleDateString(), editable: false 
+          value: new Date(profileData.date_of_birth).toLocaleDateString()
         },
-        { key: "5", field: "Gender", value: profileData.gender, editable: true  },
-        { key: "6", field: "Email", value: profileData.email, editable: false  },
-        { key: "7", field: "Phone Number", value: profileData.phone_number, editable: true  },
-        { key: "8", field: "Place of birth", value: profileData.place_of_birth, editable: false  },
-        { key: "9", field: "Citizen ID", value: profileData.citizen_id, editable: false  },
-        { key: "10", field: "Profile Image", value: profileData.profile_image, editable: true  },
-        { key: "11", field: "Username", value: profileData.username, editable: false  },
-        { key: "12", field: "Password", value: profileData.password, editable: true  },
+        { key: "5", field: "Gender", value: profileData.gender },
+        { key: "6", field: "Email", value: profileData.email },
+        { key: "7", field: "Phone Number", value: profileData.phone_number },
+        { key: "8", field: "Place of birth", value: profileData.place_of_birth },
+        { key: "9", field: "Citizen ID", value: profileData.citizen_id },
+        { key: "10", field: "Profile Image", value: profileData.profile_image },
+        { key: "11", field: "Username", value: profileData.username },
+        { key: "12", field: "Password", value: profileData.password },
       ];
 
   return (
     <div style={ { justifyContent: 'center', alignItems: 'center', height: '100vh' } }>
       <Typography.Title level={4}>Profile</Typography.Title>
+      <Button onClick={() => {onEditProfile();}}>Update profile</Button>
       <ReloadOutlined
               onClick={() => {
                 window.location.reload();
@@ -199,7 +184,8 @@ function Profile({ isAuthenticated, model, id }) {
             >
               {model === 'student' ? (
                 <>
-                  <Input
+                  Student ID<Input
+                    disabled
                     placeholder="Student ID"
                     name="student_id"
                     value={editingProfile?.student_id}
@@ -210,7 +196,8 @@ function Profile({ isAuthenticated, model, id }) {
                     }}
                   />
                 
-                  <Input
+                  Name<Input
+                    disabled
                     placeholder="Name"
                     name="name"
                     value={editingProfile?.name}
@@ -220,7 +207,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Gender<Input
+                    disabled
                     placeholder="Gender"
                     name="gender"
                     value={editingProfile?.gender}
@@ -230,7 +218,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Date of birth<Input
+                    disabled
                     placeholder="Date of birth"
                     name="date_of_birth"
                     value={editingProfile?.date_of_birth}
@@ -240,7 +229,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Class<Input
+                    disabled
                     placeholder="Class"
                     name="student_class"
                     value={editingProfile?.student_class}
@@ -250,7 +240,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Email<Input
+                    disabled
                     placeholder="Email"
                     name="email"
                     value={editingProfile?.email}
@@ -260,7 +251,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Place of birth<Input
+                    disabled
                     placeholder="Place of birth"
                     name="place_of_birth"
                     value={editingProfile?.place_of_birth}
@@ -270,7 +262,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Citizen ID<Input
+                    disabled
                     placeholder="Citizen ID"
                     name="citizen_id"
                     value={editingProfile?.citizen_id}
@@ -280,7 +273,7 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Phone number<Input
                     placeholder="Phone number"
                     name="phone_number"
                     value={editingProfile?.phone_number}
@@ -290,7 +283,8 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Username<Input
+                    disabled
                     placeholder="Username"
                     name="username"
                     value={editingProfile?.username}
@@ -300,7 +294,7 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
-                  <Input
+                  Password<Input.Password
                     placeholder="Password"
                     name="password"
                     value={editingProfile?.password}
@@ -310,11 +304,21 @@ function Profile({ isAuthenticated, model, id }) {
                       });
                     }}
                   />
+                  Image<Input
+                    placeholder="Image"
+                    name="image"
+                    value={editingProfile?.profile_image}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, profile_image: e.target.value };
+                      });
+                    }}
+                  />
               </>
               ) : model === 'lecturer' ? (
                 <>
                 {/* Render inputs for lecturer */}
-                  <Input
+                  Name<Input
                   placeholder="Name"
                   name="name"
                   value={editingProfile?.name}
@@ -324,7 +328,7 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Department<Input
                   placeholder="Department"
                   name="department"
                   value={editingProfile?.department}
@@ -334,7 +338,7 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Subject/Lab<Input
                   placeholder="Subject/Lab"
                   name="subject/lab"
                   value={editingProfile?.['subject/lab']}
@@ -344,7 +348,7 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Job title<Input
                   placeholder="Job title"
                   name="job_title"
                   value={editingProfile?.job_title}
@@ -354,7 +358,7 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Email<Input
                   placeholder="Email"
                   name="email"
                   value={editingProfile?.email}
@@ -364,7 +368,7 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Phone number<Input
                   placeholder="Phone number"
                   name="phone_number"
                   value={editingProfile?.phone_number}
@@ -374,7 +378,8 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Username<Input
+                  disabled
                   placeholder="Username"
                   name="username"
                   value={editingProfile?.username}
@@ -384,7 +389,7 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
-                <Input
+                Password<Input.Password
                   placeholder="Password"
                   name="password"
                   value={editingProfile?.password}
@@ -394,6 +399,16 @@ function Profile({ isAuthenticated, model, id }) {
                     });
                   }}
                 />
+                Image<Input
+                    placeholder="Image"
+                    name="image"
+                    value={editingProfile?.profile_image}
+                    onChange={(e) => {
+                      setEditingProfile((pre) => {
+                        return { ...pre, profile_image: e.target.value };
+                      });
+                    }}
+                  />
               </>
             ) : null}
           </Modal>

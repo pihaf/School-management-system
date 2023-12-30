@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Image, Button, Modal, Alert } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Image, Button, Modal, Alert, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -167,7 +167,7 @@ function AdminNews({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              <Input
+              Title<Input
                 placeholder="Title"
                 name="title"
                 value={addingNews?.title}
@@ -177,7 +177,7 @@ function AdminNews({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Content<Input.TextArea
                 placeholder="Content"
                 name="content"
                 value={addingNews?.content}
@@ -187,7 +187,7 @@ function AdminNews({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Image<Input
                 placeholder="Image"
                 name="image"
                 value={addingNews?.image}
@@ -296,7 +296,7 @@ function AdminNews({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Title<Input
                 placeholder="Title"
                 name="title"
                 value={editingNews?.title}
@@ -306,7 +306,7 @@ function AdminNews({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Content<Input.TextArea
                 placeholder="Content"
                 name="content"
                 value={editingNews?.content}
@@ -316,7 +316,7 @@ function AdminNews({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Image<Input
                 placeholder="Image"
                 name="image"
                 value={editingNews?.image}
@@ -329,6 +329,7 @@ function AdminNews({ isAuthenticated }) {
             </Modal>
           </Space>
         </div>
+        <BackTop />
         <AdminFooter />
     </div>
   );

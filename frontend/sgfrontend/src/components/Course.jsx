@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Button } from "antd";
+import { Input, Table, Typography, Layout, Space, Button, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 
 import "../css/UserCourse.css";
@@ -206,6 +206,7 @@ function Course({ isAuthenticated, model, id }) {
           </li>
         ))}
       </ul> */}
+      <BackTop />
     </Content>
   );
 }

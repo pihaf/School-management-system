@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Card, Tag, List} from "antd";
+import { Input, Table, Typography, Layout, Space, Card, Tag, List, BackTop} from "antd";
 
 import "../css/UserCourse.css";
 const { Content } = Layout;
@@ -85,6 +85,7 @@ return (
               }}
           />
         )}
+        <BackTop />
     </Content>
   );
 }

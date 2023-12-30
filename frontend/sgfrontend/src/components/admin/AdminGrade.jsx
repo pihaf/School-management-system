@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert  } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop  } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -199,7 +199,7 @@ function AdminGrade({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              <Input
+              Student ID<Input
                 placeholder="Student ID"
                 name="student_id"
                 value={addingGrade?.student_id}
@@ -209,7 +209,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Course ID<Input
                 placeholder="Course ID"
                 name="course_id"
                 value={addingGrade?.course_id}
@@ -219,7 +219,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Component score<Input
                 placeholder="Component score"
                 name="component_score"
                 value={addingGrade?.component_score}
@@ -229,7 +229,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Midterm score<Input
                 placeholder="Midterm score"
                 name="midterm_score"
                 value={addingGrade?.midterm_score}
@@ -239,7 +239,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Finalterm score<Input
                 placeholder="Finalterm score"
                 name="finalterm_score"
                 value={addingGrade?.finalterm_score}
@@ -249,7 +249,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Overall<Input
                 placeholder="Overall"
                 name="overall_score"
                 value={addingGrade?.overall_score}
@@ -375,7 +375,7 @@ function AdminGrade({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Student ID<Input
                 placeholder="Student ID"
                 name="student_id"
                 value={editingGrade?.student_id}
@@ -385,7 +385,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Course ID<Input
                 placeholder="Course ID"
                 name="course_id"
                 value={editingGrade?.course_id}
@@ -395,7 +395,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Component score<Input
                 placeholder="Component score"
                 name="component_score"
                 value={editingGrade?.component_score}
@@ -405,7 +405,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Midterm score<Input
                 placeholder="Midterm score"
                 name="midterm_score"
                 value={editingGrade?.midterm_score}
@@ -415,7 +415,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Finalterm score<Input
                 placeholder="Finalterm score"
                 name="finalterm_score"
                 value={editingGrade?.finalterm_score}
@@ -425,7 +425,7 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Overall score<Input
                 placeholder="Overall score"
                 name="overall_score"
                 value={editingGrade?.overall_score}
@@ -438,6 +438,7 @@ function AdminGrade({ isAuthenticated }) {
             </Modal>
           </Space>
         </div>
+        <BackTop />
         <AdminFooter />
     </div>
   );

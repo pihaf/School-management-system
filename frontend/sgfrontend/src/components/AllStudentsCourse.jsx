@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Layout} from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Layout, BackTop} from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams} from 'react-router-dom';
@@ -112,6 +112,7 @@ function AllStudentsCourse({ isAuthenticated, model, id }) {
           ></Table>
         )}
       </Space>
+      <BackTop />
     </Content>
   );
 }

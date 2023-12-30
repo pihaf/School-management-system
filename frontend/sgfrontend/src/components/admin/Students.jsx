@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -165,7 +165,7 @@ function Students({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              <Input
+              Student ID<Input
                 placeholder="Student ID"
                 name="student_id"
                 value={addingStudent?.student_id}
@@ -175,7 +175,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Name<Input
                 placeholder="Name"
                 name="name"
                 value={addingStudent?.name}
@@ -185,7 +185,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Email<Input
                 placeholder="Email"
                 name="email"
                 value={addingStudent?.email}
@@ -195,7 +195,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Class<Input
                 placeholder="Class"
                 name="student_class"
                 value={addingStudent?.student_class}
@@ -205,7 +205,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Gender<Input
                 placeholder="Gender"
                 name="gender"
                 value={addingStudent?.gender}
@@ -215,7 +215,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Date of birth<Input
                 placeholder="Date of birth"
                 name="date_of_birth"
                 value={addingStudent?.date_of_birth}
@@ -225,7 +225,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Place of birth<Input
                 placeholder="Place of birth"
                 name="place_of_birth"
                 value={addingStudent?.place_of_birth}
@@ -235,7 +235,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Citizen ID<Input
                 placeholder="Citizen ID"
                 name="citizen_id"
                 value={addingStudent?.citizen_id}
@@ -245,7 +245,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Phone number<Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={addingStudent?.phone_number}
@@ -255,7 +255,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Username<Input
                 placeholder="Username"
                 name="username"
                 value={addingStudent?.username}
@@ -265,7 +265,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Password<Input.Password
                 placeholder="Password"
                 name="password"
                 value={addingStudent?.password}
@@ -400,7 +400,7 @@ function Students({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Student ID<Input
                 placeholder="Student ID"
                 name="student_id"
                 value={editingStudent?.student_id}
@@ -410,7 +410,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Name<Input
                 placeholder="Name"
                 name="name"
                 value={editingStudent?.name}
@@ -420,7 +420,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Gender<Input
                 placeholder="Gender"
                 name="gender"
                 value={editingStudent?.gender}
@@ -430,7 +430,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Date of birth<Input
                 placeholder="Date of birth"
                 name="date_of_birth"
                 value={editingStudent?.date_of_birth}
@@ -440,7 +440,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Class<Input
                 placeholder="Class"
                 name="student_class"
                 value={editingStudent?.student_class}
@@ -450,7 +450,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Email<Input
                 placeholder="Email"
                 name="email"
                 value={editingStudent?.email}
@@ -460,7 +460,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Place of birth<Input
                 placeholder="Place of birth"
                 name="place_of_birth"
                 value={editingStudent?.place_of_birth}
@@ -470,7 +470,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Citizen ID<Input
                 placeholder="Citizen ID"
                 name="citizen_id"
                 value={editingStudent?.citizen_id}
@@ -480,7 +480,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Phone number<Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={editingStudent?.phone_number}
@@ -490,7 +490,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Username<Input
                 placeholder="Username"
                 name="username"
                 value={editingStudent?.username}
@@ -500,7 +500,7 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Password<Input.Password
                 placeholder="Password"
                 name="password"
                 value={editingStudent?.password}
@@ -513,6 +513,7 @@ function Students({ isAuthenticated }) {
             </Modal>
           </Space>
         </div>
+        <BackTop />
         <AdminFooter />
     </div>
   );

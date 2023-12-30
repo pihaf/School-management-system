@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -164,7 +164,7 @@ function Lecturers({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              <Input
+              Name<Input
                 placeholder="Name"
                 name="name"
                 value={addingLecturer?.name}
@@ -174,7 +174,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Email<Input
                 placeholder="Email"
                 name="email"
                 value={addingLecturer?.email}
@@ -184,7 +184,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Department<Input
                 placeholder="Department"
                 name="department"
                 value={addingLecturer?.department}
@@ -194,7 +194,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Subject/Lab<Input
                 placeholder="Subject/Lab"
                 name="subject/lab"
                 value={addingLecturer?.['subject/lab']}
@@ -204,7 +204,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Job title<Input
                 placeholder="Job title"
                 name="job_title"
                 value={addingLecturer?.job_title}
@@ -214,7 +214,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Phone number<Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={addingLecturer?.phone_number}
@@ -224,7 +224,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Username<Input
                 placeholder="Username"
                 name="username"
                 value={addingLecturer?.username}
@@ -234,7 +234,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Password<Input.Password
                 placeholder="Password"
                 name="password"
                 value={addingLecturer?.password}
@@ -362,7 +362,7 @@ function Lecturers({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Name<Input
                 placeholder="Name"
                 name="name"
                 value={editingLecturer?.name}
@@ -372,7 +372,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Department<Input
                 placeholder="Department"
                 name="department"
                 value={editingLecturer?.department}
@@ -382,7 +382,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Subject/Lab<Input
                 placeholder="Subject/Lab"
                 name="subject/lab"
                 value={editingLecturer?.['subject/lab']}
@@ -392,7 +392,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Job title<Input
                 placeholder="Job title"
                 name="job_title"
                 value={editingLecturer?.job_title}
@@ -402,7 +402,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Email<Input
                 placeholder="Email"
                 name="email"
                 value={editingLecturer?.email}
@@ -412,7 +412,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Phone number<Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={editingLecturer?.phone_number}
@@ -422,7 +422,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Username<Input
                 placeholder="Username"
                 name="username"
                 value={editingLecturer?.username}
@@ -432,7 +432,7 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Password<Input.Password
                 placeholder="Password"
                 name="password"
                 value={editingLecturer?.password}
@@ -445,6 +445,7 @@ function Lecturers({ isAuthenticated }) {
             </Modal>
         </Space>
       </div>
+      <BackTop />
       <AdminFooter />
     </div>
   );

@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Modal, Alert, Input } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Modal, Alert, Input, Button, BackTop } from "antd";
 import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -61,9 +61,9 @@ function AdminProfile({ isAuthenticated }) {
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   };
 
-  const onEditProfile = (record) => {
-    setIsEditing(true);
-    setEditingProfile({ ...record });
+  const onEditProfile = () => {
+      setIsEditing(true);
+      setEditingProfile({...profileData});
   };
   const resetEditing = () => {
     setIsEditing(false);
@@ -104,30 +104,14 @@ function AdminProfile({ isAuthenticated }) {
       title: "Value",
       dataIndex: "value",
     },
-    {
-      title: "",
-      render: (record) => {
-        return (
-          <>
-            {record.editable && ( 
-              <EditOutlined
-                onClick={() => {
-                  onEditProfile(record);
-                }}
-              />
-            )}
-          </>
-        );
-      },
-    },
   ];
   
   const data = [
-    { key: "1", field: "Admin ID", value: profileData.admin_id, editable: false },
-    { key: "2", field: "Name", value: profileData.name, editable: true },
-    { key: "3", field: "Email", value: profileData.email, editable: true },
-    { key: "4", field: "Username", value: profileData.username, editable: false },
-    { key: "5", field: "Password", value: profileData.password, editable: true },
+    { key: "1", field: "Admin ID", value: profileData.admin_id },
+    { key: "2", field: "Name", value: profileData.name },
+    { key: "3", field: "Email", value: profileData.email },
+    { key: "4", field: "Username", value: profileData.username },
+    { key: "5", field: "Password", value: profileData.password },
   ];
 
   return (
@@ -138,6 +122,7 @@ function AdminProfile({ isAuthenticated }) {
           
           <Space size={20} direction="vertical">
             <Typography.Title level={4}>Admin Profile</Typography.Title>
+            <Button onClick={() => {onEditProfile();}} >Update Profile</Button>
             <ReloadOutlined
             onClick={() => {
               window.location.reload();
@@ -163,7 +148,7 @@ function AdminProfile({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Name<Input
                   placeholder="Name"
                   name="name"
                   value={editingProfile?.name}
@@ -173,7 +158,7 @@ function AdminProfile({ isAuthenticated }) {
                     });
                   }}
                 />
-                <Input
+                Email<Input
                   placeholder="Email"
                   name="email"
                   value={editingProfile?.email}
@@ -183,7 +168,8 @@ function AdminProfile({ isAuthenticated }) {
                     });
                   }}
                 />
-                <Input
+                Username<Input
+                  disabled
                   placeholder="Username"
                   name="username"
                   value={editingProfile?.username}
@@ -193,7 +179,7 @@ function AdminProfile({ isAuthenticated }) {
                     });
                   }}
                 />
-                <Input
+                Password<Input.Password
                   placeholder="Password"
                   name="password"
                   value={editingProfile?.password}
@@ -206,6 +192,7 @@ function AdminProfile({ isAuthenticated }) {
             </Modal>
           </Space>
         </div>
+        <BackTop />
         <AdminFooter />
     </div>
   );

@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, Select } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, Select, BackTop } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -142,7 +142,7 @@ function AdminNotification({ isAuthenticated }) {
                 resetAdding();
               } }
             >
-              <Input
+              Title<Input
                 placeholder="Title"
                 name="title"
                 value={addingNotification?.title}
@@ -151,7 +151,7 @@ function AdminNotification({ isAuthenticated }) {
                     return { ...pre, title: e.target.value };
                   });
                 } } />
-              <Input
+              Details<Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={addingNotification?.details}
@@ -160,7 +160,7 @@ function AdminNotification({ isAuthenticated }) {
                     return { ...pre, details: e.target.value };
                   });
                 } } />
-              <Select
+              <p>Select Route</p><Select
                 placeholder="Select Route"
                 value={selectedRoute}
                 onChange={(value) => setSelectedRoute(value)}
@@ -371,6 +371,7 @@ function AdminNotification({ isAuthenticated }) {
             )}
             </Space>
       </div>
+      <BackTop />
       <AdminFooter />
   </div>
 );

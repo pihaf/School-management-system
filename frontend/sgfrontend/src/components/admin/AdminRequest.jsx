@@ -1,4 +1,4 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert  } from "antd";
+import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop  } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -223,7 +223,7 @@ function AdminRequest({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              <Input
+              Type<Input
                 placeholder="Type"
                 name="type"
                 value={editingRequest?.type}
@@ -233,7 +233,7 @@ function AdminRequest({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              Details<Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={editingRequest?.details}
@@ -243,7 +243,7 @@ function AdminRequest({ isAuthenticated }) {
                   });
                 }}
               />
-              <Input
+              <p>Status</p><Input
                 placeholder="Status"
                 name="status"
                 value={editingRequest?.status}
@@ -256,6 +256,7 @@ function AdminRequest({ isAuthenticated }) {
             </Modal>
           </Space>
         </div>
+        <BackTop />
         <AdminFooter />
     </div>
   );
