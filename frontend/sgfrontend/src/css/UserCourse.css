@@ -9,10 +9,10 @@
 	/* font-size: 14px; */
 /* } */
 
-.row-odd {
+.odd-row {
 	background-color: #FFE2FD; /* light gray */
 }
 
-.row-even {
+.even-row {
 	background-color: #FCC9ED; /* white */
 }
