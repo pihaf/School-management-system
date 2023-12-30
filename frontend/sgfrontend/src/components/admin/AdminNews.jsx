@@ -8,7 +8,7 @@ import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 
-function News({ isAuthenticated }) {
+function AdminNews({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -231,7 +231,7 @@ function News({ isAuthenticated }) {
                   title: "Image",
                   dataIndex: "image",
                   render: (link) => {
-                    return <Image src={link} />;
+                    return <Image src={link} width={200}/>;
                   },
                 },
                 {
@@ -333,4 +333,4 @@ function News({ isAuthenticated }) {
     </div>
   );
 }
-export default News;
+export default AdminNews;

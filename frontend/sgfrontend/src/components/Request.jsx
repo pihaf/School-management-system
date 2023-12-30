@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal } from "antd";
 
 function Request({ isAuthenticated, model, id }) {
   const navigate = useNavigate();
@@ -39,8 +40,8 @@ function Request({ isAuthenticated, model, id }) {
   return (
     <div>
       <h1>Request</h1>
-      {grades.length === 0 ? (
-            <Typography.Text>No grades found for this course.</Typography.Text>
+      {requests.length === 0 ? (
+            <Typography.Text>No requests found for this course.</Typography.Text>
         ) : (
           <ul>
           {requests.map((request) => (

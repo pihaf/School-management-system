@@ -15,6 +15,8 @@ import Course from "./components/Course";
 import Grade from "./components/Grade.jsx";
 import Request from "./components/Request";
 import Chat from "./components/Chat.jsx";
+import News from "./components/News.jsx";
+import NewsContent from "./components/NewsContent.jsx";
 import Notification from "./components/Notification";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
@@ -28,13 +30,14 @@ import Dashboard from "./components/admin/Dashboard.jsx";
 import AdminProfile from "./components/admin/AdminProfile.jsx";
 import Students from "./components/admin/Students.jsx";
 import Lecturers from "./components/admin/Lecturers.jsx";
-import News from "./components/admin/News.jsx";
+import AdminNews from "./components/admin/AdminNews.jsx";
 import AdminRequest from "./components/admin/AdminRequest.jsx";
 import AdminChat from "./components/admin/AdminChat.jsx";
 import AdminCourse from "./components/admin/AdminCourse.jsx";
 import AdminGrade from "./components/admin/AdminGrade.jsx";
 import AdminNotification from "./components/admin/AdminNotification.jsx";
 import "./css/AdminHome.css";
+
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -154,7 +157,7 @@ function App() {
           }
         />
         <Route
-          path="/request"
+          path="/requests"
           element={
             <div className="App">
               <Header />
@@ -183,6 +186,32 @@ function App() {
 
               <Footer />
             </>
+          }
+        />
+        <Route
+          path="/news/:newId"
+          element={
+            <div className="App">
+              <Header />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <NewsContent/>
+              </div>
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/news"
+          element={
+            <div className="App">
+              <Header />
+              <div className="SideMenuAndPageContent">
+                <Navbar />
+                <News isAuthenticated={!!token} model={model} id={id} />
+              </div>
+              <Footer />
+            </div>
           }
         />
         <Route
@@ -272,7 +301,7 @@ function App() {
         <Route
           path="/admin/news"
           element={
-            <News
+            <AdminNews
               isAuthenticated={!!adminToken}
               className="SideMenuAndPageContent PageContent"
             />

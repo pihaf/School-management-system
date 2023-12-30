@@ -7,7 +7,7 @@ import {
   NotificationOutlined,
   LoginOutlined,
   LogoutOutlined,
-  CommentOutlined,
+  CommentOutlined
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import { useEffect, useState } from "react";
@@ -56,13 +56,18 @@ function Navbar() {
             icon: <ReadOutlined />,
           },
           {
+            label: "News",
+            key: "/news",
+            icon: <ProjectOutlined />,
+          },
+          {
             label: "Notifications",
             key: "/notifications",
             icon: <NotificationOutlined />,
           },
           {
             label: "Requests",
-            key: "/request",
+            key: "/requests",
             icon: <SolutionOutlined />,
           },
           {
