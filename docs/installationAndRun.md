@@ -3,9 +3,17 @@ Sau đây là các bước thực hiện để có thể chạy ứng dụng th�
 
 
 ## Clone git
+Vào folder muốn lưu project và chạy `git clone https://github.com/longvh-dev/UET-Support.git`
 
 ## Import dữ liệu trong folder database
-Nhóm sử dụng MySQL để lưu trữ dữ liệu, vì vậy một trong các yêu cầu chạy là cài đặt sẵn MySQL server (khuyến khích sử dụng MySQL Workbench).
+Nhóm sử dụng MySQL để lưu trữ dữ liệu, vì vậy một trong các yêu cầu chạy là cài đặt sẵn MySQL server.
+
+### Sử dụng terminal và MySQL server
+File dump dùng để import được lưu trong folder database/terminal
+`mysql -u [username] -p [database_name] < [dump_file.sql]`
+
+### Sử dụng MySQL Workbench
+Vào Server -> Import -> Chọn đúng đường dẫn đến folder database/workbench
 
 ## Sửa file .env
 Sửa file .env theo các config của MySQL server của máy và sửa biến SECRET_KEY dùng để tạo token xác thực người dùng 
