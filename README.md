@@ -18,6 +18,7 @@ UET Student Support Group Management Systems
 
 - [Giới Thiệu](#Giới-Thiệu)
 - [Tổng Quan](#Tổng-Quan---Chức-Năng-Chính)
+- [Chi tiết](#Chi-tiết)
 - [Minh hoạ](#Minh-hoạ)
 - [Full Demo](#full-demo)
 
@@ -48,8 +49,7 @@ UET Student Support Group Management Systems
 - [Thiết kế giao diện]()
 - [Lược đồ cơ sở dữ liệu]()
 - [Công cụ phát triển]()
-- [Hướng dẫn cài đặt và chạy ứng dụng]()
-- 
+- [Hướng dẫn cài đặt và chạy ứng dụng](/docs/installationAndRun.md)
 
 ## Minh hoạ
 <!-- | login screen                                        | Courses Screen                          |
