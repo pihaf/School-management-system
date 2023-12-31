@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space, Button, BackTop } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 
 import "../css/UserCourse.css";
 const { Content } = Layout;
@@ -46,7 +50,7 @@ function Course({ isAuthenticated, model, id }) {
   useEffect(() => {
     if (selectedCourseId) {
       const url = `http://localhost:3000/api/grades/courses/${selectedCourseId}`;
-  
+
       fetch(url, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -70,7 +74,14 @@ function Course({ isAuthenticated, model, id }) {
     >
       <Space size={25} direction="vertical">
         <Typography.Title level={2}>Courses</Typography.Title>
-        <Button onClick={() => {navigate('/all/courses');}}>View all school courses</Button>
+        <Button
+          onClick={() => {
+            navigate("/all/courses");
+          }}
+          style={{ width: "200px" }}
+        >
+          View all school courses
+        </Button>
         <Input.Search
           placeholder="Search here..."
           style={{ width: "400px", float: "right" }}
@@ -81,8 +92,8 @@ function Course({ isAuthenticated, model, id }) {
             setSearchedText(e.target.value);
           }}
         />
-          {dataSource.length === 0 ? (
-            <Typography.Text>No courses found.</Typography.Text>
+        {dataSource.length === 0 ? (
+          <Typography.Text>No courses found.</Typography.Text>
         ) : (
           <Table
             //loading={loading}
@@ -102,7 +113,9 @@ function Course({ isAuthenticated, model, id }) {
                     String(record.course_name)
                       .toLowerCase()
                       .includes(value.toLowerCase()) ||
-                    String(record.day).toLowerCase().includes(value.toLowerCase())
+                    String(record.day)
+                      .toLowerCase()
+                      .includes(value.toLowerCase())
                   );
                 },
               },
@@ -151,30 +164,26 @@ function Course({ isAuthenticated, model, id }) {
                 dataIndex: "semester",
               },
               {
-                title: "",
+                title: "View grade",
                 render: (_, record) => {
                   return (
-                    <Link to={`/grades/${record.course_id}`}>
-                      View grade
-                    </Link>
+                    <Link to={`/grades/${record.course_id}`}>View grade</Link>
                   );
                 },
               },
               {
-                title: "",
+                title: "View class list",
                 render: (_, record) => {
                   return (
-                    <Link to={
-                       `/courses/${record.course_id}`
-                    }>
+                    <Link to={`/courses/${record.course_id}`}>
                       View all students
                     </Link>
                   );
                 },
-              }
+              },
             ]}
             rowClassName={(record, index) => {
-              const style = index % 2 === 0 ? 'even-row' : 'odd-row';
+              const style = index % 2 === 0 ? "even-row" : "odd-row";
               return style;
             }}
             dataSource={dataSource.map((record) => ({
