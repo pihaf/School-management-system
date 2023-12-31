@@ -13,7 +13,7 @@ File dump dùng để import được lưu trong folder database/terminal
 `mysql -u [username] -p [database_name] < [dump_file.sql]`
 
 ### Sử dụng MySQL Workbench
-Vào Server -> Import -> Chọn đúng đường dẫn đến folder database/workbench
+Vào Server -> Data Import -> Chọn đúng đường dẫn đến folder database/workbench rồi chuyển sang tab Import Progress -> Nhấn Start Import
 
 ## Sửa file .env
 Sửa file .env theo các config của MySQL server của máy và sửa biến SECRET_KEY dùng để tạo token xác thực người dùng 
