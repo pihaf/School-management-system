@@ -1,5 +1,7 @@
 import React from "react";
-import { Typography } from "antd";
+import { Typography, Input } from "antd";
+import '../css/Footer.css';
+
 function Footer() {
   return (
     <div className="AppFooter">

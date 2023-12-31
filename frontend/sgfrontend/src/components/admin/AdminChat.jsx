@@ -30,16 +30,21 @@ function AdminChat({ isAuthenticated, adminToken }) {
     })
 
     socketRef.current.on('sendDataServer', (dataGot) => {
-      console.log("From sendDataServer: ");
+      // console.log("From sendDataServer: ");
       console.log(dataGot.data)
       setMess(oldMsgs => [...oldMsgs, dataGot.data]);
+      console.log("setMess", mess);
       scrollToBottom();
     });
 
-    socketRef.current.on('serverSendUserRooms', (userRooms) => {
-      console.log("User rooms:");
-      console.log(userRooms);
-      setUserRooms(userRooms);
+    socketRef.current.on('serverSendUserRooms', (receivedUserRooms) => {
+      console.log("User rooms receive from be:");
+      console.log(receivedUserRooms);
+
+      // Remove duplicates from the received user rooms
+      const uniqueUserRooms = Array.from(new Set(receivedUserRooms));
+  
+      setUserRooms(uniqueUserRooms);
     });
 
     return () => {
@@ -103,28 +108,26 @@ function AdminChat({ isAuthenticated, adminToken }) {
     }
   }
 
-  // const handleRoomSelection = (selectedRoom) => {
-  //   setRoom(selectedRoom);
-  //   setMess([]); // Clear the messages when a new room is selected
-  // };
+  const handleRoomSelection = (selectedRoom) => {
+    setRoom(selectedRoom);
+    setMess([]); // Clear the messages when a new room is selected
+  };
 
   return (
       <div className="App">
         <AdminHeader />
         <div className="SideMenuAndPageContent">
           <SideMenu></SideMenu>
-            <Typography.Title level={4}>Chat</Typography.Title>
               <div className="user-rooms">
-                <Typography.Title level={5}>User Rooms</Typography.Title>
+                <Typography.Title level={4}>Online users</Typography.Title>
                 <List
                   dataSource={Array.from(new Set(userRooms))}
                   renderItem={(room, index) => (
                     <List.Item key={`${room}_${index}`}>
                       {room}
                       <Button
-                        type="link"
-                        style={{ color: 'red' }}
-                        onClick={() => {setRoom(room)}}
+                        style={{ backgroundColor: 'yellow' }}
+                        onClick={() => {handleRoomSelection(room)}}
                       >
                         Select
                       </Button>

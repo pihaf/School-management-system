@@ -23,7 +23,7 @@ function AdminHeader() {
     <div className="AppHeader">
       <Image
         width={40}
-        src="https://yt3.ggpht.com/ytc/AMLnZu83ghQ28n1SqADR-RbI2BGYTrqqThAtJbfv9jcq=s176-c-k-c0x00ffffff-no-rj"
+        src="https://cdn-icons-png.flaticon.com/512/126/126472.png"
       ></Image>
       <Typography.Title>System</Typography.Title>
       <Space>
@@ -35,7 +35,7 @@ function AdminHeader() {
             }}
           />
         </Badge>
-        <Badge count={comments.length} dot>
+        <Badge count={0} dot showZero>
           <MailOutlined
             style={{ fontSize: 24 }}
             onClick={() => {
@@ -43,7 +43,7 @@ function AdminHeader() {
             }}
           />
         </Badge>
-        <Badge count={orders.length}>
+        <Badge count={0} showZero>
           <BellFilled
             style={{ fontSize: 24 }}
             onClick={() => {

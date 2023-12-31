@@ -18,7 +18,11 @@ function Chat({ isAuthenticated, model, id, token }) {
     socketRef.current = socketIOClient.connect(host)
   
     socketRef.current.on('getId', data => {
-      setSocketId(data)
+      setSocketId(data);
+      // const newRoom = `${model}_${id}`;
+      // setRoom(newRoom);
+      // socketRef.current.emit('sendUserRoomToServer', { room: newRoom });
+      // socketRef.current.emit("join_room", newRoom);
     })
 
     socketRef.current.on('sendDataServer', (dataGot) => {
@@ -29,7 +33,8 @@ function Chat({ isAuthenticated, model, id, token }) {
     })
 
     return () => {
-      socketRef.current.disconnect({id, model});
+      socketRef.current.emit("disconnect-event", { id, model });
+      socketRef.current.disconnect();
     };
   }, []);
 

@@ -25,7 +25,7 @@ function Navbar({ model }) {
   const navigate = useNavigate();
   return (
     <div className="SideMenu">
-      { model === 'student' || model === null ? (
+      { model === 'student' || model ===null ? (
           <Menu
             className="SideMenuVertical"
             mode="vertical"

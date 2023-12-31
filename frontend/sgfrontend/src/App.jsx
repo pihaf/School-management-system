@@ -56,26 +56,29 @@ function App() {
             exact
             path="/home"
             element={
-              <><div className="App">
+              <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model}/>
+                  <Home />
                 </div>
                 <Footer />
-              </div><><Home /></></>
+              </div>
             }
           />
           <Route
             exact
             path="/"
             element={
-              <><div className="App">
+              <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar/>
+                  <Home/>
                 </div>
                 <Footer />
-              </div><><Home /></></>
+              </div>
+
             }
           />
           <Route
@@ -189,7 +192,7 @@ function App() {
           <Route
             path="/chat"
             element={
-              <>
+              <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model}/>
@@ -202,7 +205,7 @@ function App() {
                 </div>
 
                 <Footer />
-              </>
+              </div>
             }
           />
           <Route

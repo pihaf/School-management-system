@@ -49,6 +49,7 @@ socketIo.on("connection", (socket) => {
   console.log("New client connected " + socket.id);
 
   socket.emit("getId", socket.id);
+  socket.emit("serverSendUserRooms", userRooms);
 
   socket.on("sendDataClient", (data) => { 
     console.log("From sendDataClient:");
@@ -66,7 +67,7 @@ socketIo.on("connection", (socket) => {
     console.log("User room be:");
     console.log(data.room);
     userRooms.push(data.room);
-    socket.emit("serverSendUserRooms", userRooms);
+    socketIo.emit("serverSendUserRooms", userRooms);
   });
 
   socket.on("sendAdminSocketToServer", (data) => {
@@ -89,18 +90,22 @@ socketIo.on("connection", (socket) => {
     socket.to(room).emit("stopTyping", "Someone stopped typing");
   });
 
-  socket.on("disconnect", (data) => {
-    console.log("Client disconnected");
-    // Remove user room from the array
-    console.log("userRooms before:", userRooms);
-    const temp = `${data.model}_${data.id}`;
-    const index = userRooms.indexOf(temp);
-    if (index !== -1) {
-      userRooms.splice(index, 1);
-    }
-
-    console.log("userRooms after:", userRooms);
+  socket.on("disconnect-event", (data) => {
+      if (data.model !== null){
+        console.log("Data when disconnect:", data);
+        // Remove user room from the array
+        console.log("userRooms before:", userRooms);
+        const temp = `${data.model}_${data.id}`;
+        const index = userRooms.indexOf(temp);
+        if (index > -1) {
+          userRooms.splice(index, 1);
+        }
+        // userRooms = userRooms.filter(room => room !== temp);
     
+        console.log("userRooms after:", userRooms);
+        socketIo.emit("serverSendUserRooms", userRooms);
+      }
+
     // Remove admin socket from user rooms
     userRooms.forEach((room) => {
       socket.leave(room);
@@ -110,6 +115,29 @@ socketIo.on("connection", (socket) => {
         console.log("Admin left room: " + room);
       }
     });
+    // const socketId = socket.id;
+
+    // // Remove admin socket from user rooms
+    // userRooms.forEach((room) => {
+    //   socket.leave(room);
+    //   console.log("Admin left room: " + room);
+    // });
+  
+    // // Remove user room from the array
+    // console.log("userRooms before:", userRooms);
+    // const temp = adminSocket.find((socket) => socket.id === socketId);
+    // if (temp) {
+    //   const index = userRooms.indexOf(temp.room);
+    //   if (index > -1) {
+    //     userRooms.splice(index, 1);
+    //   }
+    // }
+    // console.log("userRooms after:", userRooms);
+  
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnect");
   });
 });
 

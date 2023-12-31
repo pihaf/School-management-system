@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Space, Typography, Input, Drawer, Image, List, Badge } from "antd";
-import { BellFilled, LogoutOutlined } from "@ant-design/icons";
+import { Space, Typography, Input, Drawer, Image, List, Badge, Avatar } from "antd";
+import { MailOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
 function Header({ model, id, profileHeader}) {
   const navigate = useNavigate();
@@ -25,19 +25,22 @@ function Header({ model, id, profileHeader}) {
   return (
     <>
       <Space size={ 20 } direction="horizontal" style={ { width: '100%' } }>
-        {/* <Input.Search
+        <Input.Search
           placeholder="Search here..."
           style={ { width: "700px", float: "right" } }
-        /> */}
+        />
 
         {model === "lecturer" ? (
           <Space>
             <div className="user-info">
-              <div>{profileHeader.name}</div>
-              <div>{profileHeader.email}</div>
+              <div>
+                <Avatar icon={<UserOutlined />}/>
+                {profileHeader.name}
+                {profileHeader.email}
+              </div>
             </div>
-            <Badge count={orders.length}>
-              <BellFilled
+            <Badge count={0} showZero>
+              <MailOutlined
                 style={{ fontSize: 24 }}
                 onClick={() => {
                   setNotificationsOpen(true);
@@ -58,11 +61,14 @@ function Header({ model, id, profileHeader}) {
             <div style={ { display: 'flex', width: '100%' } }>
               <Space style={ { display: 'flex', justifyContent: 'flex-end', } }>
               <div className="user-info">
-                <div>{profileHeader.name}</div>
-                <div>{profileHeader.student_id}</div>
+                <div>
+                  <Avatar icon={<UserOutlined />}/>
+                  {profileHeader.name} 
+                  {profileHeader.student_id}
+                </div>
               </div>
-              <Badge count={orders.length}>
-                <BellFilled
+              <Badge count={0} showZero>
+                <MailOutlined
                   style={{ fontSize: 24 }}
                   onClick={() => {
                     setNotificationsOpen(true);

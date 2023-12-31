@@ -187,7 +187,7 @@ function AdminNews({ isAuthenticated }) {
                   });
                 }}
               />
-              Image<Input
+              <p>Image</p><Input
                 placeholder="Image"
                 name="image"
                 value={addingNews?.image}
