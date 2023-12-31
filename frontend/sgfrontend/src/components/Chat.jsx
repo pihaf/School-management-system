@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Avatar, Rate, Space, Typography, Button, List } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import socketIOClient from "socket.io-client";
 import '../../src/css/Chat.css';
 const host = "http://localhost:3000";
@@ -80,8 +82,17 @@ function Chat({ isAuthenticated, model, id, token }) {
   
   const renderMess =  mess.map((m, index) => 
         <div key={index} className={`${m.socketId === socketId ? 'your-message' : 'other-people'} chat-item`}>
+          <div className="sender-info">
+            {m.socketId !== socketId && (
+              <Avatar size={24} icon={<UserOutlined />} />
+            )}
+            {m.socketId === socketId && (
+              <Avatar size={24} icon={<UserOutlined />} className="admin-avatar" />
+            )}
+            {m.socketId === socketId ? 'Admin' : 'User'}
+          </div>
           {m.message}
-        </div>
+      </div>
       )
 
   const handleChange = (e) => {
