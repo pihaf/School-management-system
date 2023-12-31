@@ -59,7 +59,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Home />
                 </div>
                 <Footer />
@@ -87,7 +87,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>{" "}
+                  <Navbar model={model} />{" "}
                   <Login setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
                 </div>
 
@@ -101,7 +101,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Logout setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
                 </div>
                 <Footer />
@@ -114,7 +114,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Timetable isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
@@ -127,7 +127,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Course isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -141,7 +141,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <AllCourses isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -155,7 +155,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <AllStudentsCourse isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -169,7 +169,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Grade isAuthenticated={!!token} model={model} id={id}/>
                 </div>
                 <Footer />
@@ -182,7 +182,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Request isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
@@ -195,7 +195,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Chat
                     isAuthenticated={!!token}
                     model={model}
@@ -214,7 +214,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <NewsContent/>
                 </div>
                 <Footer />
@@ -227,7 +227,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <News isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
@@ -240,7 +240,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Notification isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
@@ -254,7 +254,7 @@ function App() {
               <div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
-                  <Navbar model={model}/>
+                  <Navbar model={model} />
                   <Profile isAuthenticated={!!token} model={model} id={id} />
                 </div>
 
