@@ -1,11 +1,11 @@
 # UET-Support
+
 UET Student Support Group Management Systems
 
 <p align="center">
   <br>
-  
   <img width=230px height=116px  src="" alt="Project logo">
- 
+
 </p>
 
 ---
@@ -22,24 +22,21 @@ UET Student Support Group Management Systems
 - [Minh hoạ](#Minh-hoạ)
 - [Full Demo](#full-demo)
 
-
 ## Giới Thiệu
 
 Đây là project cuối kì của môn "Phát triển ứng dụng web", thiết kế một Hệ thống quản lý quản lý tổ chức hỗ trợ sinh viên và giảng viên trên website. Website được lấy cảm hứng và kết hợp giữa vài website của trường ĐH Công nghệ.
 
+### Nhóm gồm các thành viên
 
-### Nhóm gồm các thành viên:
 - Vũ Đại Minh 21021521
 - Nguyễn Lê Linh Chi 21021457
 - Nguyễn Hải Nam 21020223
-- Vũ Hoàng Long	21021515
-
+- Vũ Hoàng Long 21021515
 
 ## Tổng Quan - Chức Năng Chính
 
-
 - Tài khoản xác thực ba loại người dùng khác nhau: Student - Lecturer - Admin.
-- Admin có thể thêm/sửa/xóa tài khoản người dùng, xử lý và update requests, thêm/sửa/xóa news... 
+- Admin có thể thêm/sửa/xóa tài khoản người dùng, xử lý và update requests, thêm/sửa/xóa news...
 - Có hệ thống thông báo notifications.
 - Có hệ thống chat
 
@@ -66,8 +63,4 @@ UET Student Support Group Management Systems
 
 ## Full Demo
 
-
 ## Run server
-
-
-
