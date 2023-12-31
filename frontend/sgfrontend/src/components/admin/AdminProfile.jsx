@@ -148,6 +148,7 @@ function AdminProfile({ isAuthenticated }) {
               onClick={() => {
                 onEditProfile();
               }}
+              style={{ width: "150px", height: "40px" }}
             >
               Update Profile
             </Button>

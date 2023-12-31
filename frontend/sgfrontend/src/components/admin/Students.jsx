@@ -189,6 +189,7 @@ function Students({ isAuthenticated }) {
               onClick={() => {
                 onAddingStudent();
               }}
+              style={{ width: "180px", height: "40px" }}
             >
               Add a new Student
             </Button>

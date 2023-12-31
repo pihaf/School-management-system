@@ -225,6 +225,7 @@ function AdminGrade({ isAuthenticated }) {
               onClick={() => {
                 onAddingGrade();
               }}
+              style={{ width: "170px", height: "40px" }}
             >
               Add a new Grade
             </Button>

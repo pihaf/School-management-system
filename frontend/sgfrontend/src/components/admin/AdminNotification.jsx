@@ -181,7 +181,10 @@ function AdminNotification({ isAuthenticated }) {
             <Typography.Title level={2}>
               Notifications sent by admins
             </Typography.Title>
-            <Button onClick={onAddingNotification}>
+            <Button
+              onClick={onAddingNotification}
+              style={{ width: "200px", height: "40px" }}
+            >
               Add a new notification
             </Button>
             <Modal

@@ -191,6 +191,7 @@ function AdminNews({ isAuthenticated }) {
               onClick={() => {
                 onAddingNews();
               }}
+              style={{ width: "160px", height: "40px" }}
             >
               Add a new News
             </Button>

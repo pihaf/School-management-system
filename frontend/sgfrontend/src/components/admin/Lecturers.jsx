@@ -191,6 +191,7 @@ function Lecturers({ isAuthenticated }) {
               onClick={() => {
                 onAddingLecturer();
               }}
+              style={{ width: "180px", height: "40px" }}
             >
               Add a new Lecturer
             </Button>

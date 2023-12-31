@@ -189,6 +189,7 @@ function AdminCourse({ isAuthenticated }) {
               onClick={() => {
                 onAddingCourse();
               }}
+              style={{ width: "170px", height: "40px" }}
             >
               Add a new Course
             </Button>
