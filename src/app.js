@@ -21,6 +21,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Http logger
 app.use(morgan("combined")); // Morgan middleware
 
+/*app.use('/', express.static('../frontend/sgfrontend/dist'));
+app.use('/home', express.static('../frontend/sgfrontend/dist'));
+app.use('/login', express.static('../frontend/sgfrontend/dist'));
+app.use('/logout', express.static('../frontend/sgfrontend/dist'));
+app.use('/timetable', express.static('../frontend/sgfrontend/dist'));
+app.use('/courses', express.static('../frontend/sgfrontend/dist'));
+app.use('/all/courses', express.static('../frontend/sgfrontend/dist'));
+app.use('/courses/:courseId', express.static('../frontend/sgfrontend/dist'));
+app.use('/grades/:courseId', express.static('../frontend/sgfrontend/dist'));
+app.use('/requests', express.static('../frontend/sgfrontend/dist'));
+app.use('/chat', express.static('../frontend/sgfrontend/dist'));
+app.use('/news/:newId', express.static('../frontend/sgfrontend/dist'));
+app.use('/news', express.static('../frontend/sgfrontend/dist'));
+app.use('/notifications', express.static('../frontend/sgfrontend/dist'));
+app.use('/profile', express.static('../frontend/sgfrontend/dist'));
+app.use('/questions', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/home', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/login', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/logout', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/dashboard', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/students', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/lecturers', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/courses', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/news', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/requests', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/notifications', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/chat', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/grades', express.static('../frontend/sgfrontend/dist'));
+app.use('/admin/profile', express.static('../frontend/sgfrontend/dist'));*/
+
 // Template engine
 app.engine(
 	"hbs",
