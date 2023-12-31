@@ -147,7 +147,7 @@ function AdminRequest({ isAuthenticated }) {
         <SideMenu></SideMenu>
         <Content
           style={{
-            margin: "0px 28px 0px 24px",
+            margin: "0px 28px 24px 24px",
           }}
         >
           <Space size={20} direction="vertical">

@@ -110,7 +110,7 @@ function Dashboard({ isAuthenticated }) {
         <SideMenu></SideMenu>
         <Content
           style={{
-            margin: "0px 28px 0px 24px",
+            margin: "0px 28px 24px 24px",
           }}
         >
           <Space size={20} direction="vertical">
@@ -223,7 +223,7 @@ function RecentRequests() {
 
   return (
     <>
-      <Typography.Text>Recent requests</Typography.Text>
+      <Typography.Title level={3}>Recent requests</Typography.Title>
       <Table
         columns={[
           {
@@ -300,7 +300,7 @@ function DashboardChart() {
   };
 
   return (
-    <Card style={{ width: 500, height: 250 }}>
+    <Card style={{ width: 500, height: 250, marginTop: "32px" }}>
       <Bar options={options} data={reveneuData} />
     </Card>
   );
