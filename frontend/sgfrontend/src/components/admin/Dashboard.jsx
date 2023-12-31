@@ -31,8 +31,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+import host from "../../../config";
 const { Content } = Layout;
+
 function Dashboard({ isAuthenticated }) {
   const navigate = useNavigate();
   const [students, setStudents] = useState(0);
@@ -46,7 +47,7 @@ function Dashboard({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       //get total requests
-      fetch("http://localhost:3000/api/admin/requests", {
+      fetch(`${host}/api/admin/requests`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -60,7 +61,7 @@ function Dashboard({ isAuthenticated }) {
         });
 
       //get total students
-      fetch("http://localhost:3000/api/admin/students", {
+      fetch(`${host}/api/admin/students`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -74,7 +75,7 @@ function Dashboard({ isAuthenticated }) {
         });
 
       //get total lecturers
-      fetch("http://localhost:3000/api/admin/lecturers", {
+      fetch(`${host}/api/admin/lecturers`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -88,7 +89,7 @@ function Dashboard({ isAuthenticated }) {
         });
 
       //get total lecturers
-      fetch("http://localhost:3000/api/courses", {
+      fetch(`${host}/api/courses`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -206,7 +207,7 @@ function RecentRequests() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:3000/api/admin/requests", {
+    fetch(`${host}/api/admin/requests`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
       },

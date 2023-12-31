@@ -4,6 +4,7 @@ import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatBut
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import "../css/UserCourse.css";
 import axios from "axios";
+import host from "../../config";
 const { Content } = Layout;
 
 function Notification({ isAuthenticated, model, id }) {
@@ -22,14 +23,14 @@ function Notification({ isAuthenticated, model, id }) {
       alert('You need to login');
       navigate('/login');
     } else {
-      fetch(`http://localhost:3000/api/notifications/${model}s/${id}`, {
+      fetch(`${host}/api/notifications/${model}s/${id}`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log("Notifications data:", data);
+            //console.log("Notifications data:", data);
 
             if (model=== 'lecturer') {
               setDataSourceReceive(data);
@@ -48,7 +49,7 @@ function Notification({ isAuthenticated, model, id }) {
             console.error("Error fetching notifications:", error);
         });
         if (model === 'lecturer'){
-          fetch(`http://localhost:3000/api/notifications/${model}/sent/${id}`, {
+          fetch(`${host}/api/notifications/${model}/sent/${id}`, {
               headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
@@ -110,7 +111,7 @@ function Notification({ isAuthenticated, model, id }) {
       console.log("addingNotification: ", addingNotification);
       const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
       const response = await axios.post(
-        `http://localhost:3000/api/notifications/lecturers/course/${addingNotification.course_id}`,
+        `${host}/api/notifications/lecturers/course/${addingNotification.course_id}`,
         {...addingNotification, status: 'Sent', created_at: new Date()}, { headers }
       );
   

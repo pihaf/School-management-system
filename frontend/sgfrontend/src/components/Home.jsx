@@ -7,23 +7,23 @@ function Home() {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-      //console.log(host)
-      fetch("http://localhost:3000/api/news", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("News data:", data);
-          setDataSource(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching news:", error);
-        });
-  }, []);
+  // useEffect(() => {
+  //     console.log(host)
+  //     fetch(`${host}/api/news`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log("News data:", data);
+  //         setDataSource(data);
+  //         setLoading(false);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching news:", error);
+  //       });
+  // }, []);
 
   return (
     <div style={{ backgroundColor: "yellow", height: "100%", width: "100%" }}>

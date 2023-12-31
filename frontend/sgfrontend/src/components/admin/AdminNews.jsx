@@ -24,7 +24,7 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
 
 function AdminNews({ isAuthenticated }) {
@@ -44,7 +44,7 @@ function AdminNews({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch("http://localhost:3000/api/news", {
+      fetch(`${host}/api/news`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -88,7 +88,7 @@ function AdminNews({ isAuthenticated }) {
       const headers = { Authorization: `Bearer ${adminToken}` };
       addingNews.created_at = new Date();
       const response = await axios.post(
-        "http://localhost:3000/api/admin/news",
+          `${host}/api/admin/news`,
         addingNews,
         { headers }
       );
@@ -115,7 +115,7 @@ function AdminNews({ isAuthenticated }) {
         const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/news/${record.new_id}`, {
+          .delete(`${host}/api/admin/news/${record.new_id}`, {
             headers,
           })
           .then((response) => {
@@ -150,7 +150,7 @@ function AdminNews({ isAuthenticated }) {
       const headers = { Authorization: `Bearer ${adminToken}` };
       editingNews.updated_at = new Date();
       const response = await axios.put(
-        `http://localhost:3000/api/admin/news/${editingNews.new_id}`,
+        `${host}/api/admin/news/${editingNews.new_id}`,
         editingNews,
         { headers }
       );

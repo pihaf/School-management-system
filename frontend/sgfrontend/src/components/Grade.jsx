@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import host from "../../config";
 import "../css/UserCourse.css";
 import axios from "axios";
 const { Content } = Layout;
@@ -24,7 +25,7 @@ function Grade({ isAuthenticated, model, id}) {
       } else {
         let url;
         if (model === 'lecturer') {
-            fetch(`http://localhost:3000/api/grades/courses/${courseId}`, {
+            fetch(`${host}/api/grades/courses/${courseId}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -38,7 +39,7 @@ function Grade({ isAuthenticated, model, id}) {
                 console.error("Error fetching grades:", error);
             });
         } else if (model === 'student') {
-          fetch(`http://localhost:3000/api/grades/students/${id}/courses/${courseId}`, {
+          fetch(`${host}/api/grades/students/${id}/courses/${courseId}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -81,7 +82,7 @@ function Grade({ isAuthenticated, model, id}) {
     try {
       const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
       const response = await axios.post(
-        'http://localhost:3000/api/grades',
+        `${host}/api/grades`,
         { ...addingGrade, course_id: courseId }, { headers }
       );
   
@@ -121,7 +122,7 @@ function Grade({ isAuthenticated, model, id}) {
       onOk: () => {
         const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
         axios
-          .delete(`http://localhost:3000/api/grades/${record.grade_id}`, {headers})
+          .delete(`${host}/api/grades/${record.grade_id}`, {headers})
           .then((response) => {
             console.log('Record deleted:', response.message);
               setGrades((pre) => pre.filter((grade) => grade.grade_id !== record.grade_id));
@@ -147,7 +148,7 @@ function Grade({ isAuthenticated, model, id}) {
   const onSaveEdit = async () => {
     try {
       const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
-      const response = await axios.put(`http://localhost:3000/api/grades/${editingGrade.grade_id}`, { ...editingGrade, course_id: courseId }, { headers });
+      const response = await axios.put(`${host}/api/grades/${editingGrade.grade_id}`, { ...editingGrade, course_id: courseId }, { headers });
       const updatedGrade = response.data;
       console.log("Updated grade: ");
       console.log(updatedGrade);
@@ -449,7 +450,7 @@ function Grade({ isAuthenticated, model, id}) {
               />
             </Modal>
       </Space>
-      <BackTop />
+      <FloatButton.BackTop />
     </Content>
   );
 }

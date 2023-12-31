@@ -16,6 +16,7 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import host from "../../config";
 
 const { Content } = Layout;
 function Profile({ isAuthenticated, model, id }) {
@@ -34,7 +35,7 @@ function Profile({ isAuthenticated, model, id }) {
       const fetchProfileData = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3000/api/${model}s/profile`,
+            `${host}/api/${model}s/profile`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -94,7 +95,7 @@ function Profile({ isAuthenticated, model, id }) {
       };
       console.log("Current profile: ", updatedData);
       const response = await axios.put(
-        `http://localhost:3000/api/${model}s/profile`,
+        `${host}/api/${model}s/profile`,
         updatedData,
         {
           headers: {

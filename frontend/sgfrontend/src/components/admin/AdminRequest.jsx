@@ -23,8 +23,9 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
+
 function AdminRequest({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,7 @@ function AdminRequest({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch("http://localhost:3000/api/admin/requests", {
+      fetch(`${host}/api/admin/requests`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -80,7 +81,7 @@ function AdminRequest({ isAuthenticated }) {
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
           .delete(
-            `http://localhost:3000/api/admin/requests/${record.request_id}`,
+            `${host}/api/admin/requests/${record.request_id}`,
             { headers }
           )
           .then((response) => {
@@ -115,7 +116,7 @@ function AdminRequest({ isAuthenticated }) {
       const headers = { Authorization: `Bearer ${adminToken}` };
       editingRequest.updated_at = new Date();
       const response = await axios.put(
-        `http://localhost:3000/api/admin/requests/${editingRequest.request_id}`,
+        `${host}/api/admin/requests/${editingRequest.request_id}`,
         editingRequest,
         { headers }
       );

@@ -19,8 +19,9 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
+
 function AdminProfile({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ function AdminProfile({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch("http://localhost:3000/api/admin/profile", {
+      fetch(`${host}/api/admin/profile`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -92,7 +93,7 @@ function AdminProfile({ isAuthenticated }) {
       };
       console.log("Current profile: ", updatedData);
       const response = await axios.put(
-        `http://localhost:3000/api/admin/profile`,
+        `${host}/api/admin/profile`,
         updatedData,
         {
           headers: {

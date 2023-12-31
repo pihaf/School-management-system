@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button} from 'antd';
+import host from "../../config";
 
 function Login({ setToken, setModel, setId, setProfileHeader }) {
   const [username, setUsername] = useState('');
@@ -11,7 +12,7 @@ function Login({ setToken, setModel, setId, setProfileHeader }) {
     // e.preventDefault();
 
     // Make API request to login
-    const response = await fetch('http://localhost:3000/api/login', {
+    const response = await fetch(`${host}/api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

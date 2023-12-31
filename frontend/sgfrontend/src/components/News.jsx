@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space, Card, Tag, List, FloatButton} from "antd";
-
+import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
@@ -16,7 +16,7 @@ function News({ isAuthenticated, model, id }) {
       alert("You need to login");
       navigate("/login");
     } else {
-      fetch('http://localhost:3000/api/news', {
+      fetch(`${host}/api/news`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

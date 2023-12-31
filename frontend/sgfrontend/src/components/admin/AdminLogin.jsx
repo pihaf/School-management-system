@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button} from 'antd';
+import host from "../../../config";
 
 function AdminLogin({ setAdminToken }) {
   const [username, setUsername] = useState('');
@@ -10,7 +11,7 @@ function AdminLogin({ setAdminToken }) {
   const handleSubmit = async () => {
 
     // Make API request to login
-    const response = await fetch('http://localhost:3000/api/admin/login', {
+    const response = await fetch(`${host}/api/admin/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -23,7 +23,7 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
 
 function Lecturers({ isAuthenticated }) {
@@ -43,7 +43,7 @@ function Lecturers({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch("http://localhost:3000/api/admin/lecturers", {
+      fetch(`${host}/api/admin/lecturers`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -86,7 +86,7 @@ function Lecturers({ isAuthenticated }) {
       const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        "http://localhost:3000/api/admin/lecturers",
+        `${host}/api/admin/lecturers`,
         addingLecturer,
         { headers }
       );
@@ -114,7 +114,7 @@ function Lecturers({ isAuthenticated }) {
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
           .delete(
-            `http://localhost:3000/api/admin/lecturers/${record.lecturer_id}`,
+            `${host}/api/admin/lecturers/${record.lecturer_id}`,
             { headers }
           )
           .then((response) => {
@@ -150,7 +150,7 @@ function Lecturers({ isAuthenticated }) {
       const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.put(
-        `http://localhost:3000/api/admin/lecturers/${editingLecturer.lecturer_id}`,
+        `${host}/api/admin/lecturers/${editingLecturer.lecturer_id}`,
         editinglecturer,
         { headers }
       );

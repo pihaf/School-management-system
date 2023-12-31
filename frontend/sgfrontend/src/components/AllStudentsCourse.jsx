@@ -2,7 +2,7 @@ import { Avatar, Rate, Space, Table, Typography, Input, Button, Layout, FloatBut
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams} from 'react-router-dom';
-
+import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
@@ -19,7 +19,7 @@ function AllStudentsCourse({ isAuthenticated, model, id }) {
         navigate('/login');
     } else {
         setLoading(true);
-        fetch(`http://localhost:3000/api/students/${id}/${courseId}`, { 
+        fetch(`${host}/api/students/${id}/${courseId}`, { 
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
@@ -112,7 +112,7 @@ function AllStudentsCourse({ isAuthenticated, model, id }) {
           ></Table>
         )}
       </Space>
-      <BackTop />
+      <FloatButton.BackTop />
     </Content>
   );
 }

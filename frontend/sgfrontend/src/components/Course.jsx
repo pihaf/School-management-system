@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space, Button, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
-
+import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
@@ -22,9 +22,9 @@ function Course({ isAuthenticated, model, id }) {
       // Fetch the list of courses based on the user's role
       let url;
       if (model === "student") {
-        url = `http://localhost:3000/api/courses/students/${id}`;
+        url = `${host}/api/courses/students/${id}`;
       } else if (model === "lecturer") {
-        url = `http://localhost:3000/api/courses/lecturers/${id}`;
+        url = `${host}/api/courses/lecturers/${id}`;
       }
 
       fetch(url, {
@@ -45,7 +45,7 @@ function Course({ isAuthenticated, model, id }) {
 
   useEffect(() => {
     if (selectedCourseId) {
-      const url = `http://localhost:3000/api/grades/courses/${selectedCourseId}`;
+      const url = `${host}/api/grades/courses/${selectedCourseId}`;
 
       fetch(url, {
         headers: {

@@ -23,7 +23,7 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
 
 function AdminCourse({ isAuthenticated }) {
@@ -43,7 +43,7 @@ function AdminCourse({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch("http://localhost:3000/api/courses", {
+      fetch(`${host}/api/courses`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -86,7 +86,7 @@ function AdminCourse({ isAuthenticated }) {
       const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        "http://localhost:3000/api/admin/courses",
+        `${host}/api/admin/courses`,
         addingCourse,
         { headers }
       );
@@ -114,7 +114,7 @@ function AdminCourse({ isAuthenticated }) {
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
           .delete(
-            `http://localhost:3000/api/admin/courses/${record.course_id}`,
+            `${host}/api/admin/courses/${record.course_id}`,
             { headers }
           )
           .then((response) => {
@@ -148,7 +148,7 @@ function AdminCourse({ isAuthenticated }) {
       const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.put(
-        `http://localhost:3000/api/admin/courses/${editingCourse.course_id}`,
+        `${host}/api/admin/courses/${editingCourse.course_id}`,
         editingCourse,
         { headers }
       );

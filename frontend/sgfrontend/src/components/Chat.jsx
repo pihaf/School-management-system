@@ -4,7 +4,7 @@ import { Avatar, Rate, Space, Typography, Button, List } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import socketIOClient from "socket.io-client";
 import '../../src/css/Chat.css';
-const host = "http://localhost:3000";
+import host from "../../config";
 
 function Chat({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate()

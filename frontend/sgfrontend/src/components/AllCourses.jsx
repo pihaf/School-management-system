@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Input, Table, Typography, Layout, Space, Button, FloatButton } from "antd";
+import host from "../../config";
 
 import "../css/UserCourse.css";
 const { Content } = Layout;
@@ -15,7 +16,7 @@ function AllCourses({ isAuthenticated, model, id }) {
       alert("You need to login");
       navigate("/login");
     } else {
-      fetch('http://localhost:3000/api/courses', {
+      fetch(`${host}/api/courses`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

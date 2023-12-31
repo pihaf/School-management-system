@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from 'axios';
+import host from '../../config';
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
@@ -24,7 +25,7 @@ function Request({ isAuthenticated, model, id }) {
     } else {
       const fetchRequests = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/api/requests/students/${id}`, {
+          const response = await fetch(`${host}/api/requests/students/${id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
@@ -73,7 +74,7 @@ function Request({ isAuthenticated, model, id }) {
       console.log({...addingRequest, student_id: id, status: "Pending", created_at: new Date()});
       const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
       const response = await axios.post(
-        'http://localhost:3000/api/requests',
+        `${host}/api/requests`,
         {...addingRequest, student_id: id, status: "Pending", created_at: new Date()}, { headers }
       );
         

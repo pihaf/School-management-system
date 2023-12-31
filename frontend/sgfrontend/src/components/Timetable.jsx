@@ -4,6 +4,7 @@ import {FloatButton} from 'antd';
 // import { Dayjs } from 'dayjs';
 // import { BadgeProps, CalendarProps } from 'antd';
 import { Calendar, Badge } from 'antd';
+import host from "../../config";
 
 function Timetable({ isAuthenticated, model, id }) {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Timetable({ isAuthenticated, model, id }) {
       alert('You need to login');
       navigate('/login');
     } else {
-      fetch("http://localhost:3000/api/courses", { 
+      fetch(`${host}/api/courses`, { 
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

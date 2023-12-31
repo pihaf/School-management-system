@@ -24,10 +24,9 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
 
-const host = "http://localhost:3000";
 const routes = [
   {
     value: host + "/api/admin/notifications/students",
@@ -77,7 +76,7 @@ function AdminNotification({ isAuthenticated }) {
       alert("You need to login");
       navigate("/admin/login");
     } else {
-      fetch(`http://localhost:3000/api/admin/notifications`, {
+      fetch(`${host}/api/admin/notifications`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -90,7 +89,7 @@ function AdminNotification({ isAuthenticated }) {
 
           if (Array.isArray(data.lecturerNotifications)) {
             setDataSourceSentLecturer(data.lecturerNotifications);
-            console.log(data.lecturerNotifications);
+            //console.log(data.lecturerNotifications);
           }
         })
         .catch((error) => {

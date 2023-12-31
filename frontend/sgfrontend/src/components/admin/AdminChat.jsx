@@ -8,8 +8,7 @@ import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 import '../../css/Chat.css';
 import '../../css/AdminHome.css';
-
-const host = "http://localhost:3000";
+import host from "../../../config";
 
 function AdminChat({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();

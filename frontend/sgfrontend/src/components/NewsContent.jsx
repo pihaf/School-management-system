@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { Typography, Layout, Button, Image, FloatButton} from "antd";
-
+import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
@@ -12,7 +12,7 @@ function NewsContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      fetch(`http://localhost:3000/api/news/${newId}`, {
+      fetch(`${host}/api/news/${newId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

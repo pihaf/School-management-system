@@ -43,7 +43,6 @@ import "./css/AdminHome.css";
 import AllStudentsCourse from "./components/AllStudentsCourse.jsx";
 
 function App() {
-  const host = "http://localhost:3000"//"http://fall2324w20g5.int3306.freeddns.org"
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [adminToken, setAdminToken] = useState(
     localStorage.getItem("adminToken")
@@ -63,7 +62,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader} />
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Home host={host}/>
+                  <Home />
                 </div>
                 <Footer />
               </div><Floatbuttons/></>

@@ -23,7 +23,7 @@ import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
-
+import host from "../../../config";
 const { Content } = Layout;
 
 function AdminGrade({ isAuthenticated }) {
@@ -43,7 +43,7 @@ function AdminGrade({ isAuthenticated }) {
       navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch("http://localhost:3000/api/admin/grades", {
+      fetch(`${host}/api/admin/grades`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -93,7 +93,7 @@ function AdminGrade({ isAuthenticated }) {
       const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        "http://localhost:3000/api/admin/grades",
+        `${host}/api/admin/grades`,
         addingGrade,
         { headers }
       );
@@ -137,7 +137,7 @@ function AdminGrade({ isAuthenticated }) {
         const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/grades/${record.grade_id}`, {
+          .delete(`${host}/api/admin/grades/${record.grade_id}`, {
             headers,
           })
           .then((response) => {
@@ -171,7 +171,7 @@ function AdminGrade({ isAuthenticated }) {
       const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.put(
-        `http://localhost:3000/api/admin/grades/${editingGrade.grade_id}`,
+        `${host}/api/admin/grades/${editingGrade.grade_id}`,
         editingGrade,
         { headers }
       );
