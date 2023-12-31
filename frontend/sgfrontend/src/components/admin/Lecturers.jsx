@@ -1,12 +1,30 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Button,
+  Modal,
+  Alert,
+  BackTop,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
+
+const { Content } = Layout;
 
 function Lecturers({ isAuthenticated }) {
   const navigate = useNavigate();
@@ -21,21 +39,22 @@ function Lecturers({ isAuthenticated }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
+      alert("You need to login");
+      navigate("/admin/login");
     } else {
-        setLoading(true);
-        fetch("http://localhost:3000/api/admin/lecturers", { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-            },
-        }).then(response => response.json())
-        .then(data => {
+      setLoading(true);
+      fetch("http://localhost:3000/api/admin/lecturers", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
           setDataSource(data);
           setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching lecturers:', error);
+        .catch((error) => {
+          console.error("Error fetching lecturers:", error);
         });
     }
   }, []);
@@ -64,47 +83,55 @@ function Lecturers({ isAuthenticated }) {
   };
   const onAddLecturer = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        'http://localhost:3000/api/admin/lecturers',
-        addingLecturer, { headers }
+        "http://localhost:3000/api/admin/lecturers",
+        addingLecturer,
+        { headers }
       );
-  
+
       const createdLecturer = response.data.lecturer;
       console.log(createdLecturer);
       setDataSource((pre) => {
         return [...pre, createdLecturer];
       });
       resetAdding();
-      addAlert('Lecturer added successfully!', 'success');
+      addAlert("Lecturer added successfully!", "success");
     } catch (error) {
-      addAlert('Error adding lecturer: ' + String(error), 'error');
-      console.error('Error creating lecturer:', error);
+      addAlert("Error adding lecturer: " + String(error), "error");
+      console.error("Error creating lecturer:", error);
       setIsAdding(false);
     }
   };
   const onDeleteLecturer = (record) => {
     Modal.confirm({
-      title: 'Are you sure you want to delete this lecturer record?',
-      okText: 'Yes',
-      okType: 'danger',
+      title: "Are you sure you want to delete this lecturer record?",
+      okText: "Yes",
+      okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem('adminToken');
+        const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/lecturers/${record.lecturer_id}`, {headers})
+          .delete(
+            `http://localhost:3000/api/admin/lecturers/${record.lecturer_id}`,
+            { headers }
+          )
           .then((response) => {
             // Handle successful deletion
-            console.log('Record deleted:', response.message);
-  
+            console.log("Record deleted:", response.message);
+
             // Update the local state (dataSource) if needed
-            setDataSource((pre) => pre.filter((lecturer) => lecturer.lecturer_id !== record.lecturer_id));
-            addAlert('Lecturer deleted successfully!', 'success');
+            setDataSource((pre) =>
+              pre.filter(
+                (lecturer) => lecturer.lecturer_id !== record.lecturer_id
+              )
+            );
+            addAlert("Lecturer deleted successfully!", "success");
           })
           .catch((error) => {
-            addAlert('Error deleting lecturer: ' + String(error), 'error');
-            console.error('Error deleting lecturer record:', error);
+            addAlert("Error deleting lecturer: " + String(error), "error");
+            console.error("Error deleting lecturer record:", error);
           });
       },
     });
@@ -120,9 +147,13 @@ function Lecturers({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
-      const response = await axios.put(`http://localhost:3000/api/admin/lecturers/${editingLecturer.lecturer_id}`, editinglecturer, { headers });
+      const response = await axios.put(
+        `http://localhost:3000/api/admin/lecturers/${editingLecturer.lecturer_id}`,
+        editinglecturer,
+        { headers }
+      );
       const updatedlecturer = response.data;
       console.log("Updated lecturer: ");
       console.log(updatedlecturer);
@@ -135,11 +166,11 @@ function Lecturers({ isAuthenticated }) {
           }
         });
       });
-      addAlert('Lecturer updated successfully!', 'success');
+      addAlert("Lecturer updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating lecturer: ' + String(error), 'error');
-      console.error('Error updating lecturer record:', error);
+      addAlert("Error updating lecturer: " + String(error), "error");
+      console.error("Error updating lecturer record:", error);
       setIsEditing(false);
     }
   };
@@ -149,13 +180,20 @@ function Lecturers({ isAuthenticated }) {
       <AdminHeader />
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
-        
-        <Space size={20} direction="vertical">
-          <Typography.Title level={4}>Lecturers</Typography.Title>
-          <Button onClick={() => {
-                            onAddingLecturer();
-                          }}
-            >Add a new Lecturer</Button>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
+          <Space size={20} direction="vertical">
+            <Typography.Title level={2}>Lecturers</Typography.Title>
+            <Button
+              onClick={() => {
+                onAddingLecturer();
+              }}
+            >
+              Add a new Lecturer
+            </Button>
             <Modal
               title="Add Lecturer"
               open={isAdding}
@@ -164,7 +202,8 @@ function Lecturers({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              Name<Input
+              Name
+              <Input
                 placeholder="Name"
                 name="name"
                 value={addingLecturer?.name}
@@ -174,7 +213,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Email<Input
+              Email
+              <Input
                 placeholder="Email"
                 name="email"
                 value={addingLecturer?.email}
@@ -184,7 +224,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Department<Input
+              Department
+              <Input
                 placeholder="Department"
                 name="department"
                 value={addingLecturer?.department}
@@ -194,17 +235,19 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Subject/Lab<Input
+              Subject/Lab
+              <Input
                 placeholder="Subject/Lab"
                 name="subject/lab"
-                value={addingLecturer?.['subject/lab']}
+                value={addingLecturer?.["subject/lab"]}
                 onChange={(e) => {
                   setAddingLecturer((pre) => {
-                    return { ...pre, 'subject/lab': e.target.value };
+                    return { ...pre, "subject/lab": e.target.value };
                   });
                 }}
               />
-              Job title<Input
+              Job title
+              <Input
                 placeholder="Job title"
                 name="job_title"
                 value={addingLecturer?.job_title}
@@ -214,7 +257,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Phone number<Input
+              Phone number
+              <Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={addingLecturer?.phone_number}
@@ -224,7 +268,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Username<Input
+              Username
+              <Input
                 placeholder="Username"
                 name="username"
                 value={addingLecturer?.username}
@@ -234,7 +279,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Password<Input.Password
+              Password
+              <Input.Password
                 placeholder="Password"
                 name="password"
                 value={addingLecturer?.password}
@@ -261,9 +307,9 @@ function Lecturers({ isAuthenticated }) {
               }}
               style={{ marginLeft: 12 }}
             />
-          <Input.Search
+            <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
@@ -271,88 +317,101 @@ function Lecturers({ isAuthenticated }) {
                 setSearchedText(e.target.value);
               }}
             />
-          <Table
-            loading={loading}
-            columns={[
-              {
-                title: "Photo",
-                dataIndex: "profile_image",
-                render: (link) => {
-                  return <Avatar src={link} />;
+            <Table
+              loading={loading}
+              columns={[
+                {
+                  title: "Photo",
+                  dataIndex: "profile_image",
+                  render: (link) => {
+                    return <Avatar src={link} />;
+                  },
                 },
-              },
-              {
-                title: "Lecturer ID",
-                dataIndex: "lecturer_id",
-                filteredValue: [searchedText],
-                onFilter: (value, record) => {
-                  return (
-                    String(record.lecturer_id).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.email).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.username).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.department).toLowerCase().includes(value.toLowerCase()) 
-                  );
-                }
-              },
-              {
-                title: "Name",
-                dataIndex: "name",
-              },
-              {
-                title: "Department",
-                dataIndex: "department",
-              },
-              {
-                title: "Subject/lab",
-                dataIndex: "subject/lab",
-              },
-              {
-                title: "Email",
-                dataIndex: "email",
-              },
-              {
-                title: "Job title",
-                dataIndex: "job_tile",
-              },
-              {
-                title: "Phone number",
-                dataIndex: "phone_number",
-              },
-              {
-                title: "Username",
-                dataIndex: "username",
-              },
-              {
-                title: "Password",
-                dataIndex: "password",
-              },
-              {
-                title: "Actions",
-                render: (record) => {
-                  return (
-                    <>
-                      <EditOutlined
-                        onClick={() => {
-                          onEditLecturer(record);
-                        }}
-                      />
-                      <DeleteOutlined
-                        onClick={() => {
-                          onDeleteLecturer(record);
-                        }}
-                        style={{ color: "red", marginLeft: 12 }}
-                      />
-                    </>
-                  );
+                {
+                  title: "Lecturer ID",
+                  dataIndex: "lecturer_id",
+                  filteredValue: [searchedText],
+                  onFilter: (value, record) => {
+                    return (
+                      String(record.lecturer_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.name)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.email)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.username)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.department)
+                        .toLowerCase()
+                        .includes(value.toLowerCase())
+                    );
+                  },
                 },
-              },
-            ]}
-            dataSource={dataSource.map((record) => ({ ...record, key: record.lecturer_id }))}
-            pagination={{
-              pageSize: 20,
-            }}
-          ></Table>
+                {
+                  title: "Name",
+                  dataIndex: "name",
+                },
+                {
+                  title: "Department",
+                  dataIndex: "department",
+                },
+                {
+                  title: "Subject/lab",
+                  dataIndex: "subject/lab",
+                },
+                {
+                  title: "Email",
+                  dataIndex: "email",
+                },
+                {
+                  title: "Job title",
+                  dataIndex: "job_tile",
+                },
+                {
+                  title: "Phone number",
+                  dataIndex: "phone_number",
+                },
+                {
+                  title: "Username",
+                  dataIndex: "username",
+                },
+                {
+                  title: "Password",
+                  dataIndex: "password",
+                },
+                {
+                  title: "Actions",
+                  render: (record) => {
+                    return (
+                      <>
+                        <EditOutlined
+                          onClick={() => {
+                            onEditLecturer(record);
+                          }}
+                        />
+                        <DeleteOutlined
+                          onClick={() => {
+                            onDeleteLecturer(record);
+                          }}
+                          style={{ color: "red", marginLeft: 12 }}
+                        />
+                      </>
+                    );
+                  },
+                },
+              ]}
+              dataSource={dataSource.map((record) => ({
+                ...record,
+                key: record.lecturer_id,
+              }))}
+              pagination={{
+                pageSize: 20,
+              }}
+            ></Table>
             <Modal
               title="Edit Lecturer"
               open={isEditing}
@@ -362,7 +421,8 @@ function Lecturers({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              Name<Input
+              Name
+              <Input
                 placeholder="Name"
                 name="name"
                 value={editingLecturer?.name}
@@ -372,7 +432,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Department<Input
+              Department
+              <Input
                 placeholder="Department"
                 name="department"
                 value={editingLecturer?.department}
@@ -382,17 +443,19 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Subject/Lab<Input
+              Subject/Lab
+              <Input
                 placeholder="Subject/Lab"
                 name="subject/lab"
-                value={editingLecturer?.['subject/lab']}
+                value={editingLecturer?.["subject/lab"]}
                 onChange={(e) => {
                   setEditingLecturer((pre) => {
-                    return { ...pre, 'subject/lab': e.target.value };
+                    return { ...pre, "subject/lab": e.target.value };
                   });
                 }}
               />
-              Job title<Input
+              Job title
+              <Input
                 placeholder="Job title"
                 name="job_title"
                 value={editingLecturer?.job_title}
@@ -402,7 +465,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Email<Input
+              Email
+              <Input
                 placeholder="Email"
                 name="email"
                 value={editingLecturer?.email}
@@ -412,7 +476,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Phone number<Input
+              Phone number
+              <Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={editingLecturer?.phone_number}
@@ -422,7 +487,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Username<Input
+              Username
+              <Input
                 placeholder="Username"
                 name="username"
                 value={editingLecturer?.username}
@@ -432,7 +498,8 @@ function Lecturers({ isAuthenticated }) {
                   });
                 }}
               />
-              Password<Input.Password
+              Password
+              <Input.Password
                 placeholder="Password"
                 name="password"
                 value={editingLecturer?.password}
@@ -443,7 +510,8 @@ function Lecturers({ isAuthenticated }) {
                 }}
               />
             </Modal>
-        </Space>
+          </Space>
+        </Content>
       </div>
       <BackTop />
       <AdminFooter />

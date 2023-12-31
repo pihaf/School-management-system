@@ -1,12 +1,30 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop  } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Button,
+  Modal,
+  Alert,
+  BackTop,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
+
+const { Content } = Layout;
 
 function AdminGrade({ isAuthenticated }) {
   const navigate = useNavigate();
@@ -21,32 +39,32 @@ function AdminGrade({ isAuthenticated }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
+      alert("You need to login");
+      navigate("/admin/login");
     } else {
-        setLoading(true);
-        fetch("http://localhost:3000/api/admin/grades", { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-            },
-        }).then(response => response.json())
-        .then(data => {
-            const processedData = data.map(record => {
-                return {
-                    ...record,
-                    ...record.Course,
-                    ...record.Student
-                };
-            });
+      setLoading(true);
+      fetch("http://localhost:3000/api/admin/grades", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const processedData = data.map((record) => {
+            return {
+              ...record,
+              ...record.Course,
+              ...record.Student,
+            };
+          });
           setDataSource(processedData);
           setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching grades:', error);
+        .catch((error) => {
+          console.error("Error fetching grades:", error);
         });
     }
   }, []);
-
 
   const addAlert = (message, type) => {
     const newAlert = {
@@ -72,61 +90,69 @@ function AdminGrade({ isAuthenticated }) {
   };
   const onAddGrade = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        'http://localhost:3000/api/admin/grades',
-        addingGrade, { headers }
+        "http://localhost:3000/api/admin/grades",
+        addingGrade,
+        { headers }
       );
-  
+
       const createdGrade = response.data;
       console.log(createdGrade);
       const course = createdGrade.Course;
       const student = createdGrade.Student;
       setDataSource((pre) => {
-        return [...pre, {
-          grade_id: createdGrade.grade_id,
-          student_id: createdGrade.student_id,
-          name: student.name,
-          email: student.email,
-          course: course.course_id,
-          course_class_code: course.course_class_code,
-          course_name: course.course_name,
-          component_score: createdGrade.component_score,
-          midterm_score: createdGrade.midterm_score,
-          finalterm_score: createdGrade.finalterm_score,
-          overall_score: createdGrade.overall_score
-        }];
+        return [
+          ...pre,
+          {
+            grade_id: createdGrade.grade_id,
+            student_id: createdGrade.student_id,
+            name: student.name,
+            email: student.email,
+            course: course.course_id,
+            course_class_code: course.course_class_code,
+            course_name: course.course_name,
+            component_score: createdGrade.component_score,
+            midterm_score: createdGrade.midterm_score,
+            finalterm_score: createdGrade.finalterm_score,
+            overall_score: createdGrade.overall_score,
+          },
+        ];
       });
       resetAdding();
-      addAlert('Grade added successfully!', 'success');
+      addAlert("Grade added successfully!", "success");
     } catch (error) {
-      addAlert('Error adding grade: ' + String(error), 'error');
-      console.error('Error creating grade:', error);
+      addAlert("Error adding grade: " + String(error), "error");
+      console.error("Error creating grade:", error);
       setIsAdding(false);
     }
   };
   const onDeleteGrade = (record) => {
     Modal.confirm({
-      title: 'Are you sure you want to delete this grade record?',
-      okText: 'Yes',
-      okType: 'danger',
+      title: "Are you sure you want to delete this grade record?",
+      okText: "Yes",
+      okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem('adminToken');
+        const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/grades/${record.grade_id}`, {headers})
+          .delete(`http://localhost:3000/api/admin/grades/${record.grade_id}`, {
+            headers,
+          })
           .then((response) => {
             // Handle successful deletion
-            console.log('Record deleted:', response.message);
-  
+            console.log("Record deleted:", response.message);
+
             // Update the local state (dataSource) if needed
-            setDataSource((pre) => pre.filter((grade) => grade.grade_id !== record.grade_id));
-            addAlert('Grade deleted successfully!', 'success');
+            setDataSource((pre) =>
+              pre.filter((grade) => grade.grade_id !== record.grade_id)
+            );
+            addAlert("Grade deleted successfully!", "success");
           })
           .catch((error) => {
-            addAlert('Error deleting grade: ' + String(error), 'error');
-            console.error('Error deleting grade record:', error);
+            addAlert("Error deleting grade: " + String(error), "error");
+            console.error("Error deleting grade record:", error);
           });
       },
     });
@@ -142,9 +168,13 @@ function AdminGrade({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
-      const response = await axios.put(`http://localhost:3000/api/admin/grades/${editingGrade.grade_id}`, editingGrade, { headers });
+      const response = await axios.put(
+        `http://localhost:3000/api/admin/grades/${editingGrade.grade_id}`,
+        editingGrade,
+        { headers }
+      );
       const updatedGrade = response.data;
       console.log("Updated grade: ");
       console.log(updatedGrade);
@@ -163,34 +193,41 @@ function AdminGrade({ isAuthenticated }) {
               component_score: updatedGrade.component_score,
               midterm_score: updatedGrade.midterm_score,
               finalterm_score: updatedGrade.finalterm_score,
-              overall_score: updatedGrade.overall_score
+              overall_score: updatedGrade.overall_score,
             };
           } else {
             return grade;
           }
         });
       });
-      addAlert('Grade updated successfully!', 'success');
+      addAlert("Grade updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating grade: ' + String(error), 'error');
-      console.error('Error updating grade record:', error);
+      addAlert("Error updating grade: " + String(error), "error");
+      console.error("Error updating grade record:", error);
       setIsEditing(false);
     }
   };
 
   return (
-      <div className="App">
-        <AdminHeader />
-        <div className="SideMenuAndPageContent">
-          <SideMenu></SideMenu>
-          
+    <div className="App">
+      <AdminHeader />
+      <div className="SideMenuAndPageContent">
+        <SideMenu></SideMenu>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
           <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Grades</Typography.Title>
-            <Button onClick={() => {
-                            onAddingGrade();
-                          }}
-            >Add a new Grade</Button>
+            <Typography.Title level={2}>Grades</Typography.Title>
+            <Button
+              onClick={() => {
+                onAddingGrade();
+              }}
+            >
+              Add a new Grade
+            </Button>
             <Modal
               title="Add Grade"
               open={isAdding}
@@ -199,7 +236,8 @@ function AdminGrade({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              Student ID<Input
+              Student ID
+              <Input
                 placeholder="Student ID"
                 name="student_id"
                 value={addingGrade?.student_id}
@@ -209,7 +247,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Course ID<Input
+              Course ID
+              <Input
                 placeholder="Course ID"
                 name="course_id"
                 value={addingGrade?.course_id}
@@ -219,7 +258,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Component score<Input
+              Component score
+              <Input
                 placeholder="Component score"
                 name="component_score"
                 value={addingGrade?.component_score}
@@ -229,7 +269,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Midterm score<Input
+              Midterm score
+              <Input
                 placeholder="Midterm score"
                 name="midterm_score"
                 value={addingGrade?.midterm_score}
@@ -239,7 +280,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Finalterm score<Input
+              Finalterm score
+              <Input
                 placeholder="Finalterm score"
                 name="finalterm_score"
                 value={addingGrade?.finalterm_score}
@@ -249,7 +291,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Overall<Input
+              Overall
+              <Input
                 placeholder="Overall"
                 name="overall_score"
                 value={addingGrade?.overall_score}
@@ -278,7 +321,7 @@ function AdminGrade({ isAuthenticated }) {
             />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
@@ -295,14 +338,26 @@ function AdminGrade({ isAuthenticated }) {
                   filteredValue: [searchedText],
                   onFilter: (value, record) => {
                     return (
-                      String(record.grade_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.course_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.course_name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.course_class_code).toLowerCase().includes(value.toLowerCase()) 
+                      String(record.grade_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.student_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.course_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.student_name)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.course_name)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.course_class_code)
+                        .toLowerCase()
+                        .includes(value.toLowerCase())
                     );
-                  }
+                  },
                 },
                 {
                   title: "Student ID",
@@ -325,20 +380,20 @@ function AdminGrade({ isAuthenticated }) {
                   dataIndex: "course_name",
                 },
                 {
-                    title: "Component score",
-                    dataIndex: "component_score",
+                  title: "Component score",
+                  dataIndex: "component_score",
                 },
                 {
-                    title: "Midterm score",
-                    dataIndex: "midterm_score",
+                  title: "Midterm score",
+                  dataIndex: "midterm_score",
                 },
                 {
-                    title: "Finalterm score",
-                    dataIndex: "finalterm_score",
+                  title: "Finalterm score",
+                  dataIndex: "finalterm_score",
                 },
                 {
-                    title: "Overall",
-                    dataIndex: "overall_score",
+                  title: "Overall",
+                  dataIndex: "overall_score",
                 },
                 {
                   title: "Actions",
@@ -361,7 +416,10 @@ function AdminGrade({ isAuthenticated }) {
                   },
                 },
               ]}
-              dataSource={dataSource.map((record) => ({ ...record, key: record.grade_id }))}
+              dataSource={dataSource.map((record) => ({
+                ...record,
+                key: record.grade_id,
+              }))}
               pagination={{
                 pageSize: 10,
               }}
@@ -375,7 +433,8 @@ function AdminGrade({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              Student ID<Input
+              Student ID
+              <Input
                 placeholder="Student ID"
                 name="student_id"
                 value={editingGrade?.student_id}
@@ -385,7 +444,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Course ID<Input
+              Course ID
+              <Input
                 placeholder="Course ID"
                 name="course_id"
                 value={editingGrade?.course_id}
@@ -395,7 +455,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Component score<Input
+              Component score
+              <Input
                 placeholder="Component score"
                 name="component_score"
                 value={editingGrade?.component_score}
@@ -405,7 +466,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Midterm score<Input
+              Midterm score
+              <Input
                 placeholder="Midterm score"
                 name="midterm_score"
                 value={editingGrade?.midterm_score}
@@ -415,7 +477,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Finalterm score<Input
+              Finalterm score
+              <Input
                 placeholder="Finalterm score"
                 name="finalterm_score"
                 value={editingGrade?.finalterm_score}
@@ -425,7 +488,8 @@ function AdminGrade({ isAuthenticated }) {
                   });
                 }}
               />
-              Overall score<Input
+              Overall score
+              <Input
                 placeholder="Overall score"
                 name="overall_score"
                 value={editingGrade?.overall_score}
@@ -437,9 +501,10 @@ function AdminGrade({ isAuthenticated }) {
               />
             </Modal>
           </Space>
-        </div>
-        <BackTop />
-        <AdminFooter />
+        </Content>
+      </div>
+      <BackTop />
+      <AdminFooter />
     </div>
   );
 }

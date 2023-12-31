@@ -1,13 +1,26 @@
-import { Avatar, Rate, Space, Table, Typography, Modal, Alert, Input, Button, BackTop } from "antd";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Modal,
+  Alert,
+  Input,
+  Button,
+  BackTop,
+  Layout,
+} from "antd";
 import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 
+const { Content } = Layout;
 function AdminProfile({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -18,16 +31,17 @@ function AdminProfile({ isAuthenticated }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      alert('You need to log in');
-      navigate('/admin/login');
+      alert("You need to log in");
+      navigate("/admin/login");
     } else {
       setLoading(true);
-      fetch('http://localhost:3000/api/admin/profile', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('adminToken')}`, 
-          },
-        }).then(response => response.json())
-        .then(data => {
+      fetch("http://localhost:3000/api/admin/profile", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
           console.log(data);
           setProfileData(data);
           setLoading(false);
@@ -62,8 +76,8 @@ function AdminProfile({ isAuthenticated }) {
   };
 
   const onEditProfile = () => {
-      setIsEditing(true);
-      setEditingProfile({...profileData});
+    setIsEditing(true);
+    setEditingProfile({ ...profileData });
   };
   const resetEditing = () => {
     setIsEditing(false);
@@ -74,23 +88,27 @@ function AdminProfile({ isAuthenticated }) {
     try {
       const updatedData = {
         ...profileData,
-        ...editingProfile
+        ...editingProfile,
       };
       console.log("Current profile: ", updatedData);
-      const response = await axios.put(`http://localhost:3000/api/admin/profile`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      });
+      const response = await axios.put(
+        `http://localhost:3000/api/admin/profile`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
       const updatedProfile = response.data;
       console.log("Updated profile: ");
       console.log(updatedProfile);
       setProfileData(updatedProfile);
-      addAlert('Updated successfully!', 'success');
+      addAlert("Updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating profile: ' + String(error), 'error');
-      console.error('Error updating profile:', error);
+      addAlert("Error updating profile: " + String(error), "error");
+      console.error("Error updating profile:", error);
       setIsEditing(false);
     }
   };
@@ -105,7 +123,7 @@ function AdminProfile({ isAuthenticated }) {
       dataIndex: "value",
     },
   ];
-  
+
   const data = [
     { key: "1", field: "Admin ID", value: profileData.admin_id },
     { key: "2", field: "Name", value: profileData.name },
@@ -116,30 +134,41 @@ function AdminProfile({ isAuthenticated }) {
 
   return (
     <div className="App">
-        <AdminHeader />
-        <div className="SideMenuAndPageContent">
-          <SideMenu></SideMenu>
-          
+      <AdminHeader />
+      <div className="SideMenuAndPageContent">
+        <SideMenu></SideMenu>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
           <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Admin Profile</Typography.Title>
-            <Button onClick={() => {onEditProfile();}} >Update Profile</Button>
+            <Typography.Title level={2}>Admin Profile</Typography.Title>
+            <Button
+              onClick={() => {
+                onEditProfile();
+              }}
+            >
+              Update Profile
+            </Button>
             <ReloadOutlined
-            onClick={() => {
-              window.location.reload();
-            } }
-            style={{ marginLeft: 12 }} />
-              {alerts.map((alert) => (
-                <Alert
-                  key={alert.id}
-                  message={alert.message}
-                  type={alert.type}
-                  showIcon
-                  closable
-                  afterClose={() => removeAlert(alert.id)}
-                />
-              ))}
-              <Table columns={ columns } dataSource={ data } pagination={ false } />
-              <Modal
+              onClick={() => {
+                window.location.reload();
+              }}
+              style={{ marginLeft: 12 }}
+            />
+            {alerts.map((alert) => (
+              <Alert
+                key={alert.id}
+                message={alert.message}
+                type={alert.type}
+                showIcon
+                closable
+                afterClose={() => removeAlert(alert.id)}
+              />
+            ))}
+            <Table columns={columns} dataSource={data} pagination={false} />
+            <Modal
               title="Edit Profile"
               open={isEditing}
               okText="Save"
@@ -148,52 +177,57 @@ function AdminProfile({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              Name<Input
-                  placeholder="Name"
-                  name="name"
-                  value={editingProfile?.name}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, name: e.target.value };
-                    });
-                  }}
-                />
-                Email<Input
-                  placeholder="Email"
-                  name="email"
-                  value={editingProfile?.email}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, email: e.target.value };
-                    });
-                  }}
-                />
-                Username<Input
-                  disabled
-                  placeholder="Username"
-                  name="username"
-                  value={editingProfile?.username}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, username: e.target.value };
-                    });
-                  }}
-                />
-                Password<Input.Password
-                  placeholder="Password"
-                  name="password"
-                  value={editingProfile?.password}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, password: e.target.value };
-                    });
-                  }}
-                />
+              Name
+              <Input
+                placeholder="Name"
+                name="name"
+                value={editingProfile?.name}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, name: e.target.value };
+                  });
+                }}
+              />
+              Email
+              <Input
+                placeholder="Email"
+                name="email"
+                value={editingProfile?.email}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, email: e.target.value };
+                  });
+                }}
+              />
+              Username
+              <Input
+                disabled
+                placeholder="Username"
+                name="username"
+                value={editingProfile?.username}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, username: e.target.value };
+                  });
+                }}
+              />
+              Password
+              <Input.Password
+                placeholder="Password"
+                name="password"
+                value={editingProfile?.password}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, password: e.target.value };
+                  });
+                }}
+              />
             </Modal>
           </Space>
-        </div>
-        <BackTop />
-        <AdminFooter />
+        </Content>
+      </div>
+      <BackTop />
+      <AdminFooter />
     </div>
   );
 }

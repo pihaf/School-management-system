@@ -1,12 +1,30 @@
-import { Avatar, Rate, Space, Table, Typography, Input,  Button, Modal, Alert, BackTop  } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Button,
+  Modal,
+  Alert,
+  BackTop,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
+
+const { Content } = Layout;
 
 function AdminCourse({ isAuthenticated }) {
   const navigate = useNavigate();
@@ -21,21 +39,22 @@ function AdminCourse({ isAuthenticated }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
+      alert("You need to login");
+      navigate("/admin/login");
     } else {
-        setLoading(true);
-        fetch("http://localhost:3000/api/courses", { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-            },
-        }).then(response => response.json())
-        .then(data => {
+      setLoading(true);
+      fetch("http://localhost:3000/api/courses", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
           setDataSource(data);
           setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching courses:', error);
+        .catch((error) => {
+          console.error("Error fetching courses:", error);
         });
     }
   }, []);
@@ -54,7 +73,6 @@ function AdminCourse({ isAuthenticated }) {
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   };
 
-
   const onAddingCourse = () => {
     setIsAdding(true);
     setAddingCourse({});
@@ -65,47 +83,53 @@ function AdminCourse({ isAuthenticated }) {
   };
   const onAddCourse = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        'http://localhost:3000/api/admin/courses',
-        addingCourse, { headers }
+        "http://localhost:3000/api/admin/courses",
+        addingCourse,
+        { headers }
       );
-  
+
       const createdCourse = response.data;
       console.log(createdCourse);
       setDataSource((pre) => {
         return [...pre, createdCourse];
       });
       resetAdding();
-      addAlert('Course added successfully!', 'success');
+      addAlert("Course added successfully!", "success");
     } catch (error) {
-      addAlert('Error adding course: '+ String(error), 'error');
-      console.error('Error creating course: ', error);
+      addAlert("Error adding course: " + String(error), "error");
+      console.error("Error creating course: ", error);
       setIsAdding(false);
     }
   };
   const onDeleteCourse = (record) => {
     Modal.confirm({
-      title: 'Are you sure you want to delete this course record?',
-      okText: 'Yes',
-      okType: 'danger',
+      title: "Are you sure you want to delete this course record?",
+      okText: "Yes",
+      okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem('adminToken');
+        const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/courses/${record.course_id}`, {headers})
+          .delete(
+            `http://localhost:3000/api/admin/courses/${record.course_id}`,
+            { headers }
+          )
           .then((response) => {
             // Handle successful deletion
-            console.log('Record deleted:', response.message);
-  
+            console.log("Record deleted:", response.message);
+
             // Update the local state (dataSource) if needed
-            setDataSource((pre) => pre.filter((course) => course.course_id !== record.course_id));
-            addAlert('Course deleted successfully!', 'success');
+            setDataSource((pre) =>
+              pre.filter((course) => course.course_id !== record.course_id)
+            );
+            addAlert("Course deleted successfully!", "success");
           })
           .catch((error) => {
-            addAlert('Error deleting course: ' + String(error), 'error');
-            console.error('Error deleting course record:', error);
+            addAlert("Error deleting course: " + String(error), "error");
+            console.error("Error deleting course record:", error);
           });
       },
     });
@@ -121,9 +145,13 @@ function AdminCourse({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
-      const response = await axios.put(`http://localhost:3000/api/admin/courses/${editingCourse.course_id}`, editingCourse, { headers });
+      const response = await axios.put(
+        `http://localhost:3000/api/admin/courses/${editingCourse.course_id}`,
+        editingCourse,
+        { headers }
+      );
       const updatedCourse = response.data;
       console.log("Updated course: ");
       console.log(updatedCourse);
@@ -136,11 +164,11 @@ function AdminCourse({ isAuthenticated }) {
           }
         });
       });
-      addAlert('Course updated successfully!', 'success');
+      addAlert("Course updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating course: ' + String(error), 'error');
-      console.error('Error updating course record:', error);
+      addAlert("Error updating course: " + String(error), "error");
+      console.error("Error updating course record:", error);
       setIsEditing(false);
     }
   };
@@ -150,13 +178,20 @@ function AdminCourse({ isAuthenticated }) {
       <AdminHeader />
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
-        
-        <Space size={20} direction="vertical">
-          <Typography.Title level={4}>Courses</Typography.Title>
-          <Button onClick={() => {
-                            onAddingCourse();
-                          }}
-            >Add a new Course</Button>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
+          <Space size={20} direction="vertical">
+            <Typography.Title level={2}>Courses</Typography.Title>
+            <Button
+              onClick={() => {
+                onAddingCourse();
+              }}
+            >
+              Add a new Course
+            </Button>
             <Modal
               title="Add Course"
               open={isAdding}
@@ -165,7 +200,8 @@ function AdminCourse({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              Course name<Input
+              Course name
+              <Input
                 placeholder="Course name"
                 name="course_name"
                 value={addingCourse?.course_name}
@@ -175,7 +211,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Course code<Input
+              Course code
+              <Input
                 placeholder="Course code"
                 name="course_code"
                 value={addingCourse?.course_code}
@@ -185,7 +222,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Course class code<Input
+              Course class code
+              <Input
                 placeholder="Course class code"
                 name="course_class_code"
                 value={addingCourse?.course_class_code}
@@ -195,7 +233,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Credits<Input
+              Credits
+              <Input
                 placeholder="Credits"
                 name="credits"
                 value={addingCourse?.credits}
@@ -205,7 +244,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Number of students<Input
+              Number of students
+              <Input
                 placeholder="Number of students"
                 name="number_of_students"
                 value={addingCourse?.number_of_students}
@@ -215,7 +255,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Time<Input
+              Time
+              <Input
                 placeholder="Time"
                 name="time"
                 value={addingCourse?.time}
@@ -225,7 +266,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Day of week(number)<Input
+              Day of week(number)
+              <Input
                 placeholder="Day of week(number)"
                 name="day"
                 value={addingCourse?.day}
@@ -235,7 +277,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Periods<Input
+              Periods
+              <Input
                 placeholder="Periods"
                 name="periods"
                 value={addingCourse?.periods}
@@ -245,7 +288,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Location<Input
+              Location
+              <Input
                 placeholder="Location"
                 name="location"
                 value={addingCourse?.location}
@@ -255,7 +299,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Group<Input
+              Group
+              <Input
                 placeholder="Group"
                 name="group"
                 value={addingCourse?.group}
@@ -265,7 +310,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Semester<Input
+              Semester
+              <Input
                 placeholder="Semester"
                 name="semester"
                 value={addingCourse?.semester}
@@ -292,9 +338,9 @@ function AdminCourse({ isAuthenticated }) {
               }}
               style={{ marginLeft: 12 }}
             />
-          <Input.Search
+            <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
@@ -302,93 +348,104 @@ function AdminCourse({ isAuthenticated }) {
                 setSearchedText(e.target.value);
               }}
             />
-          <Table
-            loading={loading}
-            columns={[
-              {
-                title: "Course ID",
-                dataIndex: "course_id",
-                filteredValue: [searchedText],
-                onFilter: (value, record) => {
-                  return (
-                    String(record.course_id).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.course_class_code).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.course_name).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.day).toLowerCase().includes(value.toLowerCase()) 
-                  );
-                }
-              },
-              {
-                title: "Course code",
-                dataIndex: "course_code",
-              },
-              {
-                title: "Course class code",
-                dataIndex: "course_class_code",
-              },
-              {
-                title: "Course name",
-                dataIndex: "course_name",
-              },
-              {
-                title: "Credits",
-                dataIndex: "credits",
-              },
-              {
-                title: "Number of students",
-                dataIndex: "number_of_students",
-              },
-              {
-                title: "Time",
-                dataIndex: "time",
-              },
-              {
-                title: "Day of week",
-                dataIndex: "day",
-              },
-              {
-                title: "Periods",
-                dataIndex: "periods",
-              },
-              {
-                title: "Location",
-                dataIndex: "location",
-              },
-              {
-                title: "Group",
-                dataIndex: "group",
-              },
-              {
-                title: "Semester",
-                dataIndex: "semester",
-              },
-              {
-                title: "Actions",
-                render: (record) => {
-                  return (
-                    <>
-                      <EditOutlined
-                        onClick={() => {
-                          onEditCourse(record);
-                        }}
-                      />
-                      <DeleteOutlined
-                        onClick={() => {
-                          onDeleteCourse(record);
-                        }}
-                        style={{ color: "red", marginLeft: 12 }}
-                      />
-                    </>
-                  );
+            <Table
+              loading={loading}
+              columns={[
+                {
+                  title: "Course ID",
+                  dataIndex: "course_id",
+                  filteredValue: [searchedText],
+                  onFilter: (value, record) => {
+                    return (
+                      String(record.course_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.course_class_code)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.course_name)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.day)
+                        .toLowerCase()
+                        .includes(value.toLowerCase())
+                    );
+                  },
                 },
-              },
-            ]}
-            dataSource={dataSource.map((record) => ({ ...record, key: record.course_id }))}
-            pagination={{
-              pageSize: 20,
-            }}
-          ></Table>
-          <Modal
+                {
+                  title: "Course code",
+                  dataIndex: "course_code",
+                },
+                {
+                  title: "Course class code",
+                  dataIndex: "course_class_code",
+                },
+                {
+                  title: "Course name",
+                  dataIndex: "course_name",
+                },
+                {
+                  title: "Credits",
+                  dataIndex: "credits",
+                },
+                {
+                  title: "Number of students",
+                  dataIndex: "number_of_students",
+                },
+                {
+                  title: "Time",
+                  dataIndex: "time",
+                },
+                {
+                  title: "Day of week",
+                  dataIndex: "day",
+                },
+                {
+                  title: "Periods",
+                  dataIndex: "periods",
+                },
+                {
+                  title: "Location",
+                  dataIndex: "location",
+                },
+                {
+                  title: "Group",
+                  dataIndex: "group",
+                },
+                {
+                  title: "Semester",
+                  dataIndex: "semester",
+                },
+                {
+                  title: "Actions",
+                  render: (record) => {
+                    return (
+                      <>
+                        <EditOutlined
+                          onClick={() => {
+                            onEditCourse(record);
+                          }}
+                        />
+                        <DeleteOutlined
+                          onClick={() => {
+                            onDeleteCourse(record);
+                          }}
+                          style={{ color: "red", marginLeft: 12 }}
+                        />
+                      </>
+                    );
+                  },
+                },
+              ]}
+              dataSource={dataSource.map((record) => ({
+                ...record,
+                key: record.course_id,
+              }))}
+              pagination={{
+                pageSize: 20,
+              }}
+            ></Table>
+            <Modal
               title="Edit Course"
               open={isEditing}
               okText="Save"
@@ -397,7 +454,8 @@ function AdminCourse({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              Course name<Input
+              Course name
+              <Input
                 placeholder="Course name"
                 name="course_name"
                 value={editingCourse?.course_name}
@@ -407,7 +465,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Course code<Input
+              Course code
+              <Input
                 placeholder="Course code"
                 name="course_code"
                 value={editingCourse?.course_code}
@@ -417,7 +476,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Course class code<Input
+              Course class code
+              <Input
                 placeholder="Course class code"
                 name="course_class_code"
                 value={editingCourse?.course_class_code}
@@ -427,7 +487,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Credits<Input
+              Credits
+              <Input
                 placeholder="Credits"
                 name="credits"
                 value={editingCourse?.credits}
@@ -437,7 +498,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Number of students<Input
+              Number of students
+              <Input
                 placeholder="Number of students"
                 name="number_of_students"
                 value={editingCourse?.number_of_students}
@@ -447,7 +509,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Time<Input
+              Time
+              <Input
                 placeholder="Time"
                 name="time"
                 value={editingCourse?.time}
@@ -457,7 +520,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Day of week<Input
+              Day of week
+              <Input
                 placeholder="Day of week(number)"
                 name="day"
                 value={editingCourse?.day}
@@ -467,7 +531,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Periods<Input
+              Periods
+              <Input
                 placeholder="Periods"
                 name="periods"
                 value={editingCourse?.periods}
@@ -477,7 +542,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Location<Input
+              Location
+              <Input
                 placeholder="Location"
                 name="location"
                 value={editingCourse?.location}
@@ -487,7 +553,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Group<Input
+              Group
+              <Input
                 placeholder="Group"
                 name="group"
                 value={editingCourse?.group}
@@ -497,7 +564,8 @@ function AdminCourse({ isAuthenticated }) {
                   });
                 }}
               />
-              Semester<Input
+              Semester
+              <Input
                 placeholder="Semester"
                 name="semester"
                 value={editingCourse?.semester}
@@ -508,9 +576,10 @@ function AdminCourse({ isAuthenticated }) {
                 }}
               />
             </Modal>
-        </Space>
+          </Space>
+        </Content>
       </div>
-      <BackTop/>
+      <BackTop />
       <AdminFooter />
     </div>
   );

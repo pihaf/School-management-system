@@ -1,12 +1,30 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Button,
+  Modal,
+  Alert,
+  BackTop,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
+
+const { Content } = Layout;
 
 function Students({ isAuthenticated }) {
   const navigate = useNavigate();
@@ -21,21 +39,22 @@ function Students({ isAuthenticated }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
+      alert("You need to login");
+      navigate("/admin/login");
     } else {
-        setLoading(true);
-        fetch("http://localhost:3000/api/admin/students", { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-            },
-        }).then(response => response.json())
-        .then(data => {
+      setLoading(true);
+      fetch("http://localhost:3000/api/admin/students", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
           setDataSource(data);
           setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching students:', error);
+        .catch((error) => {
+          console.error("Error fetching students:", error);
         });
     }
   }, []);
@@ -54,7 +73,6 @@ function Students({ isAuthenticated }) {
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   };
 
-
   const onAddingStudent = () => {
     setIsAdding(true);
     setAddingStudent({});
@@ -65,47 +83,53 @@ function Students({ isAuthenticated }) {
   };
   const onAddStudent = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
       const response = await axios.post(
-        'http://localhost:3000/api/admin/students',
-        addingStudent, { headers }
+        "http://localhost:3000/api/admin/students",
+        addingStudent,
+        { headers }
       );
-  
+
       const createdStudent = response.data.student;
       console.log(createdStudent);
       setDataSource((pre) => {
         return [...pre, createdStudent];
       });
       resetAdding();
-      addAlert('Student added successfully!', 'success');
+      addAlert("Student added successfully!", "success");
     } catch (error) {
-      addAlert('Error adding student: ' + String(error), 'error');
-      console.error('Error creating student:', error);
+      addAlert("Error adding student: " + String(error), "error");
+      console.error("Error creating student:", error);
       setIsAdding(false);
     }
   };
   const onDeleteStudent = (record) => {
     Modal.confirm({
-      title: 'Are you sure you want to delete this student record?',
-      okText: 'Yes',
-      okType: 'danger',
+      title: "Are you sure you want to delete this student record?",
+      okText: "Yes",
+      okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem('adminToken');
+        const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/students/${record.student_id}`, {headers})
+          .delete(
+            `http://localhost:3000/api/admin/students/${record.student_id}`,
+            { headers }
+          )
           .then((response) => {
             // Handle successful deletion
-            console.log('Record deleted:', response.message);
-  
+            console.log("Record deleted:", response.message);
+
             // Update the local state (dataSource) if needed
-            setDataSource((pre) => pre.filter((student) => student.student_id !== record.student_id));
-            addAlert('Student deleted successfully!', 'success');
+            setDataSource((pre) =>
+              pre.filter((student) => student.student_id !== record.student_id)
+            );
+            addAlert("Student deleted successfully!", "success");
           })
           .catch((error) => {
-            addAlert('Error deleting student: ' + String(error), 'error');
-            console.error('Error deleting student record:', error);
+            addAlert("Error deleting student: " + String(error), "error");
+            console.error("Error deleting student record:", error);
           });
       },
     });
@@ -121,9 +145,13 @@ function Students({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
-      const response = await axios.put(`http://localhost:3000/api/admin/students/${editingStudent.student_id}`, editingStudent, { headers });
+      const response = await axios.put(
+        `http://localhost:3000/api/admin/students/${editingStudent.student_id}`,
+        editingStudent,
+        { headers }
+      );
       const updatedStudent = response.data;
       console.log("Updated student: ");
       console.log(updatedStudent);
@@ -136,27 +164,34 @@ function Students({ isAuthenticated }) {
           }
         });
       });
-      addAlert('Student updated successfully!', 'success');
+      addAlert("Student updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating student: ' + String(error), 'error');
-      console.error('Error updating student record:', error);
+      addAlert("Error updating student: " + String(error), "error");
+      console.error("Error updating student record:", error);
       setIsEditing(false);
     }
   };
 
   return (
-      <div className="App">
-        <AdminHeader />
-        <div className="SideMenuAndPageContent">
-          <SideMenu></SideMenu>
-          
+    <div className="App">
+      <AdminHeader />
+      <div className="SideMenuAndPageContent">
+        <SideMenu></SideMenu>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
           <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Students</Typography.Title>
-            <Button onClick={() => {
-                            onAddingStudent();
-                          }}
-            >Add a new Student</Button>
+            <Typography.Title level={2}>Students</Typography.Title>
+            <Button
+              onClick={() => {
+                onAddingStudent();
+              }}
+            >
+              Add a new Student
+            </Button>
             <Modal
               title="Add Student"
               open={isAdding}
@@ -165,7 +200,8 @@ function Students({ isAuthenticated }) {
                 resetAdding();
               }}
             >
-              Student ID<Input
+              Student ID
+              <Input
                 placeholder="Student ID"
                 name="student_id"
                 value={addingStudent?.student_id}
@@ -175,7 +211,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Name<Input
+              Name
+              <Input
                 placeholder="Name"
                 name="name"
                 value={addingStudent?.name}
@@ -185,7 +222,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Email<Input
+              Email
+              <Input
                 placeholder="Email"
                 name="email"
                 value={addingStudent?.email}
@@ -195,7 +233,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Class<Input
+              Class
+              <Input
                 placeholder="Class"
                 name="student_class"
                 value={addingStudent?.student_class}
@@ -205,7 +244,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Gender<Input
+              Gender
+              <Input
                 placeholder="Gender"
                 name="gender"
                 value={addingStudent?.gender}
@@ -215,7 +255,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Date of birth<Input
+              Date of birth
+              <Input
                 placeholder="Date of birth"
                 name="date_of_birth"
                 value={addingStudent?.date_of_birth}
@@ -225,7 +266,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Place of birth<Input
+              Place of birth
+              <Input
                 placeholder="Place of birth"
                 name="place_of_birth"
                 value={addingStudent?.place_of_birth}
@@ -235,7 +277,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Citizen ID<Input
+              Citizen ID
+              <Input
                 placeholder="Citizen ID"
                 name="citizen_id"
                 value={addingStudent?.citizen_id}
@@ -245,7 +288,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Phone number<Input
+              Phone number
+              <Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={addingStudent?.phone_number}
@@ -255,7 +299,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Username<Input
+              Username
+              <Input
                 placeholder="Username"
                 name="username"
                 value={addingStudent?.username}
@@ -265,7 +310,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Password<Input.Password
+              Password
+              <Input.Password
                 placeholder="Password"
                 name="password"
                 value={addingStudent?.password}
@@ -294,7 +340,7 @@ function Students({ isAuthenticated }) {
             />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
@@ -318,12 +364,20 @@ function Students({ isAuthenticated }) {
                   filteredValue: [searchedText],
                   onFilter: (value, record) => {
                     return (
-                      String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.name).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_class).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.email).toLowerCase().includes(value.toLowerCase())
+                      String(record.student_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.name)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.student_class)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.email)
+                        .toLowerCase()
+                        .includes(value.toLowerCase())
                     );
-                  }
+                  },
                 },
                 {
                   title: "Name",
@@ -386,7 +440,10 @@ function Students({ isAuthenticated }) {
                   },
                 },
               ]}
-              dataSource={dataSource.map((record) => ({ ...record, key: record.student_id }))}
+              dataSource={dataSource.map((record) => ({
+                ...record,
+                key: record.student_id,
+              }))}
               pagination={{
                 pageSize: 20,
               }}
@@ -400,7 +457,8 @@ function Students({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              Student ID<Input
+              Student ID
+              <Input
                 placeholder="Student ID"
                 name="student_id"
                 value={editingStudent?.student_id}
@@ -410,7 +468,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Name<Input
+              Name
+              <Input
                 placeholder="Name"
                 name="name"
                 value={editingStudent?.name}
@@ -420,7 +479,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Gender<Input
+              Gender
+              <Input
                 placeholder="Gender"
                 name="gender"
                 value={editingStudent?.gender}
@@ -430,7 +490,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Date of birth<Input
+              Date of birth
+              <Input
                 placeholder="Date of birth"
                 name="date_of_birth"
                 value={editingStudent?.date_of_birth}
@@ -440,7 +501,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Class<Input
+              Class
+              <Input
                 placeholder="Class"
                 name="student_class"
                 value={editingStudent?.student_class}
@@ -450,7 +512,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Email<Input
+              Email
+              <Input
                 placeholder="Email"
                 name="email"
                 value={editingStudent?.email}
@@ -460,7 +523,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Place of birth<Input
+              Place of birth
+              <Input
                 placeholder="Place of birth"
                 name="place_of_birth"
                 value={editingStudent?.place_of_birth}
@@ -470,7 +534,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Citizen ID<Input
+              Citizen ID
+              <Input
                 placeholder="Citizen ID"
                 name="citizen_id"
                 value={editingStudent?.citizen_id}
@@ -480,7 +545,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Phone number<Input
+              Phone number
+              <Input
                 placeholder="Phone number"
                 name="phone_number"
                 value={editingStudent?.phone_number}
@@ -490,7 +556,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Username<Input
+              Username
+              <Input
                 placeholder="Username"
                 name="username"
                 value={editingStudent?.username}
@@ -500,7 +567,8 @@ function Students({ isAuthenticated }) {
                   });
                 }}
               />
-              Password<Input.Password
+              Password
+              <Input.Password
                 placeholder="Password"
                 name="password"
                 value={editingStudent?.password}
@@ -512,9 +580,10 @@ function Students({ isAuthenticated }) {
               />
             </Modal>
           </Space>
-        </div>
-        <BackTop />
-        <AdminFooter />
+        </Content>
+      </div>
+      <BackTop />
+      <AdminFooter />
     </div>
   );
 }

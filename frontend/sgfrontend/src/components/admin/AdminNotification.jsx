@@ -1,21 +1,64 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, Select, BackTop } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Button,
+  Modal,
+  Alert,
+  Select,
+  BackTop,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 
-const host = 'http://localhost:3000';
+const { Content } = Layout;
+
+const host = "http://localhost:3000";
 const routes = [
-  { value: host + '/api/admin/notifications/students', label: 'Send to All Students' , params: [] },
-  { value: host + '/api/admin/notifications/lecturers', label: 'Send to All Lecturers' , params: [] },
-  { value: host + '/api/admin/notifications/users', label: 'Send to All Users', params: []  },
-  { value: host + '/api/admin/notifications/:courseId', label: 'Send to Course Students', params: ['courseId']  },
-  { value: host + '/api/admin/notifications/lecturers/:lecturerId', label: 'Send to Specific Lecturer' , params: ['lecturerId'] },
-  { value: host + '/api/admin/notifications/students/:studentId', label: 'Send to Specific Student' , params: ['studentId'] },
+  {
+    value: host + "/api/admin/notifications/students",
+    label: "Send to All Students",
+    params: [],
+  },
+  {
+    value: host + "/api/admin/notifications/lecturers",
+    label: "Send to All Lecturers",
+    params: [],
+  },
+  {
+    value: host + "/api/admin/notifications/users",
+    label: "Send to All Users",
+    params: [],
+  },
+  {
+    value: host + "/api/admin/notifications/:courseId",
+    label: "Send to Course Students",
+    params: ["courseId"],
+  },
+  {
+    value: host + "/api/admin/notifications/lecturers/:lecturerId",
+    label: "Send to Specific Lecturer",
+    params: ["lecturerId"],
+  },
+  {
+    value: host + "/api/admin/notifications/students/:studentId",
+    label: "Send to Specific Student",
+    params: ["studentId"],
+  },
 ];
 
 function AdminNotification({ isAuthenticated }) {
@@ -26,34 +69,33 @@ function AdminNotification({ isAuthenticated }) {
   const [isAdding, setIsAdding] = useState(false);
   const [addingNotification, setAddingNotification] = useState({});
   const [alerts, setAlerts] = useState([]);
-  const [selectedRoute, setSelectedRoute] = useState('');
+  const [selectedRoute, setSelectedRoute] = useState("");
   const [routeParams, setRouteParams] = useState({});
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
+      alert("You need to login");
+      navigate("/admin/login");
     } else {
-        fetch(`http://localhost:3000/api/admin/notifications`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-            },
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                if (Array.isArray(data.adminNotifications)) {
-                    setDataSourceSentAdmin(data.adminNotifications);
-                  }
-              
-                  if (Array.isArray(data.lecturerNotifications)) {
-                    setDataSourceSentLecturer(data.lecturerNotifications);
-                    console.log(data.lecturerNotifications);
-                  }
-              
-            })
-            .catch((error) => {
-                console.error("Error fetching notifications:", error);
-            });
+      fetch(`http://localhost:3000/api/admin/notifications`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data.adminNotifications)) {
+            setDataSourceSentAdmin(data.adminNotifications);
+          }
+
+          if (Array.isArray(data.lecturerNotifications)) {
+            setDataSourceSentLecturer(data.lecturerNotifications);
+            console.log(data.lecturerNotifications);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching notifications:", error);
+        });
     }
   }, []);
 
@@ -81,7 +123,7 @@ function AdminNotification({ isAuthenticated }) {
   };
   const onAddNotification = () => {
     // Check if a route is selected
-    if (selectedRoute !== '') {
+    if (selectedRoute !== "") {
       // Make API call based on the selected route
       let route = selectedRoute;
       // Replace route params with actual values
@@ -89,32 +131,32 @@ function AdminNotification({ isAuthenticated }) {
         route = route.replace(`:${param}`, routeParams[param]);
       }
       fetch(route, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
-        body: JSON.stringify({...addingNotification, status: 'Sent'}),
+        body: JSON.stringify({ ...addingNotification, status: "Sent" }),
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log('Notification sent:', data);
+          console.log("Notification sent:", data);
 
-          setSelectedRoute('');
+          setSelectedRoute("");
           setRouteParams({});
           resetAdding();
-          addAlert('Notification sent successfully!', 'success');
+          addAlert("Notification sent successfully!", "success");
           // setTimeout(() => {
           //   window.location.reload();
           // }, 1500);
         })
         .catch((error) => {
-          addAlert('Error sending notification: ' + String(error), 'error');
-          console.error('Error sending notification:', error);
+          addAlert("Error sending notification: " + String(error), "error");
+          console.error("Error sending notification:", error);
         });
     } else {
       // Display an error message if no route is selected
-      alert('Please select a route to send the notification');
+      alert("Please select a route to send the notification");
     }
   };
 
@@ -130,19 +172,28 @@ function AdminNotification({ isAuthenticated }) {
       <AdminHeader />
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
-        
-        <Space size={25} direction="vertical">
-            <Typography.Title level={2}>Notifications sent by admins</Typography.Title>
-            <Button onClick={onAddingNotification}>Add a new notification</Button>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
+          <Space size={25} direction="vertical">
+            <Typography.Title level={2}>
+              Notifications sent by admins
+            </Typography.Title>
+            <Button onClick={onAddingNotification}>
+              Add a new notification
+            </Button>
             <Modal
               title="Add Notification"
               open={isAdding}
               onOk={onAddNotification}
               onCancel={() => {
                 resetAdding();
-              } }
+              }}
             >
-              Title<Input
+              Title
+              <Input
                 placeholder="Title"
                 name="title"
                 value={addingNotification?.title}
@@ -150,8 +201,10 @@ function AdminNotification({ isAuthenticated }) {
                   setAddingNotification((pre) => {
                     return { ...pre, title: e.target.value };
                   });
-                } } />
-              Details<Input.TextArea
+                }}
+              />
+              Details
+              <Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={addingNotification?.details}
@@ -159,12 +212,14 @@ function AdminNotification({ isAuthenticated }) {
                   setAddingNotification((pre) => {
                     return { ...pre, details: e.target.value };
                   });
-                } } />
-              <p>Select Route</p><Select
+                }}
+              />
+              <p>Select Route</p>
+              <Select
                 placeholder="Select Route"
                 value={selectedRoute}
                 onChange={(value) => setSelectedRoute(value)}
-                style={{ width: '100%', marginTop: '10px' }}
+                style={{ width: "100%", marginTop: "10px" }}
               >
                 {routes.map((route) => (
                   <Select.Option key={route.value} value={route.value}>
@@ -172,16 +227,18 @@ function AdminNotification({ isAuthenticated }) {
                   </Select.Option>
                 ))}
               </Select>
-
-              {selectedRoute && routes.find((route) => route.value === selectedRoute)?.params.map((param) => (
-                <Input
-                  key={param}
-                  placeholder={param}
-                  value={routeParams[param] || ''}
-                  onChange={(e) => handleParamChange(param, e.target.value)}
-                  style={{ marginTop: '10px' }}
-                />
-              ))}
+              {selectedRoute &&
+                routes
+                  .find((route) => route.value === selectedRoute)
+                  ?.params.map((param) => (
+                    <Input
+                      key={param}
+                      placeholder={param}
+                      value={routeParams[param] || ""}
+                      onChange={(e) => handleParamChange(param, e.target.value)}
+                      style={{ marginTop: "10px" }}
+                    />
+                  ))}
             </Modal>
             {alerts.map((alert) => (
               <Alert
@@ -190,22 +247,25 @@ function AdminNotification({ isAuthenticated }) {
                 type={alert.type}
                 showIcon
                 closable
-                afterClose={() => removeAlert(alert.id)} />
+                afterClose={() => removeAlert(alert.id)}
+              />
             ))}
             <ReloadOutlined
               onClick={() => {
                 window.location.reload();
-              } }
-              style={{ marginLeft: 12 }} />
+              }}
+              style={{ marginLeft: 12 }}
+            />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
-              } }
+              }}
               onChange={(e) => {
                 setSearchedText(e.target.value);
-              } } />
+              }}
+            />
             {dataSourceSentAdmin.length === 0 ? (
               <Typography.Text>No notifications found.</Typography.Text>
             ) : (
@@ -217,13 +277,23 @@ function AdminNotification({ isAuthenticated }) {
                     filteredValue: [searchedText],
                     onFilter: (value, record) => {
                       return (
-                        String(record.notification_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.admin_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.title).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.created_at).toLowerCase().includes(value.toLowerCase())
+                        String(record.notification_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.admin_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.title)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.details)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.created_at)
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
                       );
-                    }
+                    },
                   },
                   {
                     title: "Admin ID",
@@ -283,21 +353,25 @@ function AdminNotification({ isAuthenticated }) {
                 }}
               ></Table>
             )}
-            <Typography.Title level={2}>Notifications sent by lecturers</Typography.Title>
+            <Typography.Title level={2}>
+              Notifications sent by lecturers
+            </Typography.Title>
             <ReloadOutlined
               onClick={() => {
                 window.location.reload();
-              } }
-              style={{ marginLeft: 12 }} />
+              }}
+              style={{ marginLeft: 12 }}
+            />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
-              } }
+              }}
               onChange={(e) => {
                 setSearchedText(e.target.value);
-              } } />
+              }}
+            />
             {dataSourceSentLecturer.length === 0 ? (
               <Typography.Text>No notifications found.</Typography.Text>
             ) : (
@@ -309,15 +383,29 @@ function AdminNotification({ isAuthenticated }) {
                     filteredValue: [searchedText],
                     onFilter: (value, record) => {
                       return (
-                        String(record.notification_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.course_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.lecturer_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.title).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.created_at).toLowerCase().includes(value.toLowerCase())
+                        String(record.notification_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.student_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.course_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.lecturer_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.title)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.details)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.created_at)
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
                       );
-                    }
+                    },
                   },
                   {
                     title: "Course ID",
@@ -325,11 +413,11 @@ function AdminNotification({ isAuthenticated }) {
                   },
                   {
                     title: "Course class code",
-                    dataIndex: ["Course", "course_class_code"]
+                    dataIndex: ["Course", "course_class_code"],
                   },
                   {
                     title: "Course name",
-                    dataIndex: ["Course", "course_name"]
+                    dataIndex: ["Course", "course_name"],
                   },
                   {
                     title: "Student ID",
@@ -369,12 +457,12 @@ function AdminNotification({ isAuthenticated }) {
                 }}
               ></Table>
             )}
-            </Space>
+          </Space>
+        </Content>
       </div>
       <BackTop />
       <AdminFooter />
-  </div>
-);
+    </div>
+  );
 }
 export default AdminNotification;
-

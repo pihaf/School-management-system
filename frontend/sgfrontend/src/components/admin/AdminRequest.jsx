@@ -1,13 +1,30 @@
-import { Avatar, Rate, Space, Table, Typography, Input, Button, Modal, Alert, BackTop  } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Rate,
+  Space,
+  Table,
+  Typography,
+  Input,
+  Button,
+  Modal,
+  Alert,
+  BackTop,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../css/AdminHome.css';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../../css/AdminHome.css";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
 import SideMenu from "./SideMenu";
 
+const { Content } = Layout;
 function AdminRequest({ isAuthenticated }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -19,25 +36,25 @@ function AdminRequest({ isAuthenticated }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-        alert('You need to login');
-        navigate('/admin/login');
+      alert("You need to login");
+      navigate("/admin/login");
     } else {
-        setLoading(true);
-        fetch("http://localhost:3000/api/admin/requests", { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-            },
-        }).then(response => response.json())
-        .then(data => {
+      setLoading(true);
+      fetch("http://localhost:3000/api/admin/requests", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
           setDataSource(data);
           setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching requests:', error);
+        .catch((error) => {
+          console.error("Error fetching requests:", error);
         });
     }
   }, []);
-
 
   const addAlert = (message, type) => {
     const newAlert = {
@@ -55,25 +72,30 @@ function AdminRequest({ isAuthenticated }) {
 
   const onDeleteRequest = (record) => {
     Modal.confirm({
-      title: 'Are you sure you want to delete this request record?',
-      okText: 'Yes',
-      okType: 'danger',
+      title: "Are you sure you want to delete this request record?",
+      okText: "Yes",
+      okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem('adminToken');
+        const adminToken = localStorage.getItem("adminToken");
         const headers = { Authorization: `Bearer ${adminToken}` };
         axios
-          .delete(`http://localhost:3000/api/admin/requests/${record.request_id}`, {headers})
+          .delete(
+            `http://localhost:3000/api/admin/requests/${record.request_id}`,
+            { headers }
+          )
           .then((response) => {
             // Handle successful deletion
-            console.log('Record deleted:', response.message);
-  
+            console.log("Record deleted:", response.message);
+
             // Update the local state (dataSource) if needed
-            setDataSource((pre) => pre.filter((request) => request.request_id !== record.request_id));
-            addAlert('Request deleted successfully!', 'success');
+            setDataSource((pre) =>
+              pre.filter((request) => request.request_id !== record.request_id)
+            );
+            addAlert("Request deleted successfully!", "success");
           })
           .catch((error) => {
-            addAlert('Error deleting request: ' + String(error), 'error');
-            console.error('Error deleting request record:', error);
+            addAlert("Error deleting request: " + String(error), "error");
+            console.error("Error deleting request record:", error);
           });
       },
     });
@@ -89,10 +111,14 @@ function AdminRequest({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken');
+      const adminToken = localStorage.getItem("adminToken");
       const headers = { Authorization: `Bearer ${adminToken}` };
-      editingRequest.updated_at = new Date()
-      const response = await axios.put(`http://localhost:3000/api/admin/requests/${editingRequest.request_id}`, editingRequest, { headers });
+      editingRequest.updated_at = new Date();
+      const response = await axios.put(
+        `http://localhost:3000/api/admin/requests/${editingRequest.request_id}`,
+        editingRequest,
+        { headers }
+      );
       const updatedRequest = response.data;
       console.log("Updated request: ");
       console.log(updatedRequest);
@@ -105,23 +131,27 @@ function AdminRequest({ isAuthenticated }) {
           }
         });
       });
-      addAlert('Request updated successfully!', 'success');
+      addAlert("Request updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating request: ' + String(error), 'error');
-      console.error('Error updating request record:', error);
+      addAlert("Error updating request: " + String(error), "error");
+      console.error("Error updating request record:", error);
       setIsEditing(false);
     }
   };
 
   return (
-      <div className="App">
-        <AdminHeader />
-        <div className="SideMenuAndPageContent">
-          <SideMenu></SideMenu>
-          
+    <div className="App">
+      <AdminHeader />
+      <div className="SideMenuAndPageContent">
+        <SideMenu></SideMenu>
+        <Content
+          style={{
+            margin: "0px 28px 0px 24px",
+          }}
+        >
           <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Requests</Typography.Title>
+            <Typography.Title level={2}>Requests</Typography.Title>
             {alerts.map((alert) => (
               <Alert
                 key={alert.id}
@@ -140,7 +170,7 @@ function AdminRequest({ isAuthenticated }) {
             />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
@@ -157,12 +187,20 @@ function AdminRequest({ isAuthenticated }) {
                   filteredValue: [searchedText],
                   onFilter: (value, record) => {
                     return (
-                      String(record.request_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.type).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.status).toLowerCase().includes(value.toLowerCase())
+                      String(record.request_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.student_id)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.type)
+                        .toLowerCase()
+                        .includes(value.toLowerCase()) ||
+                      String(record.status)
+                        .toLowerCase()
+                        .includes(value.toLowerCase())
                     );
-                  }
+                  },
                 },
                 {
                   title: "Student ID",
@@ -209,7 +247,10 @@ function AdminRequest({ isAuthenticated }) {
                   },
                 },
               ]}
-              dataSource={dataSource.map((record) => ({ ...record, key: record.request_id + record.student_id }))}
+              dataSource={dataSource.map((record) => ({
+                ...record,
+                key: record.request_id + record.student_id,
+              }))}
               pagination={{
                 pageSize: 10,
               }}
@@ -223,7 +264,8 @@ function AdminRequest({ isAuthenticated }) {
               }}
               onOk={onSaveEdit}
             >
-              Type<Input
+              Type
+              <Input
                 placeholder="Type"
                 name="type"
                 value={editingRequest?.type}
@@ -233,7 +275,8 @@ function AdminRequest({ isAuthenticated }) {
                   });
                 }}
               />
-              Details<Input.TextArea
+              Details
+              <Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={editingRequest?.details}
@@ -243,7 +286,8 @@ function AdminRequest({ isAuthenticated }) {
                   });
                 }}
               />
-              <p>Status</p><Input
+              <p>Status</p>
+              <Input
                 placeholder="Status"
                 name="status"
                 value={editingRequest?.status}
@@ -255,9 +299,10 @@ function AdminRequest({ isAuthenticated }) {
               />
             </Modal>
           </Space>
-        </div>
-        <BackTop />
-        <AdminFooter />
+        </Content>
+      </div>
+      <BackTop />
+      <AdminFooter />
     </div>
   );
 }
