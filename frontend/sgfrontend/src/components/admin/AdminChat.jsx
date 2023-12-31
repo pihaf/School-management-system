@@ -18,6 +18,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
   const [socketId, setSocketId] = useState();
   const [room, setRoom] = useState('');
   const [userRooms, setUserRooms] = useState([]);
+  const [roomSelected, setRoomSelected] = useState(false);
 
   const socketRef = useRef();
   const messagesEnd = useRef();
@@ -48,6 +49,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
     });
 
     return () => {
+      socketRef.current.emit("disconnect-event", {});
       socketRef.current.disconnect();
     };
   }, []);
@@ -92,7 +94,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
             {m.socketId === socketId && (
               <Avatar size={24} icon={<UserOutlined />} className="admin-avatar" />
             )}
-            {m.socketId === socketId ? 'Admin' : 'User'}
+            {m.socketId === socketId ? 'Admin' : `User ${m.room}` } 
           </div>
           {m.message}
         </div>
@@ -112,6 +114,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
     setRoom(selectedRoom);
     setMess([]); // Clear the messages when a new room is selected
     socketRef.current.emit('join_room', selectedRoom);
+    setRoomSelected(true);
   };
 
   return (
@@ -137,6 +140,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
                 />
               </div>
             {/* <Space size={20} direction="horizontal"> */}
+            {roomSelected && (
               <div className="box-chat">
                 <div className="box-chat_message">
                 {renderMess}
@@ -155,8 +159,9 @@ function AdminChat({ isAuthenticated, adminToken }) {
                       Send
                     </button>
                 </div>
-              </div>
-        </div>
+              </div>)}
+
+            </div>
         <AdminFooter />
       </div>
   );

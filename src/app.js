@@ -74,6 +74,7 @@ socketIo.on("connection", (socket) => {
     console.log("Admin socket:");
     console.log(data);
     adminSocket.push(data);
+    socketIo.emit("serverSendAdminSockets", adminSocket);
 
     userRooms.forEach((room) => {
       socket.join(room);
@@ -106,7 +107,7 @@ socketIo.on("connection", (socket) => {
         socketIo.emit("serverSendUserRooms", userRooms);
       }
 
-    // Remove admin socket from user rooms
+    // Remove socket from user rooms
     userRooms.forEach((room) => {
       socket.leave(room);
       if (data.model !== null){
@@ -115,6 +116,14 @@ socketIo.on("connection", (socket) => {
         console.log("Admin left room: " + room);
       }
     });
+    console.log("adminSocket arr:",adminSocket);
+    const adminSocketId = adminSocket.indexOf(socket.id);
+    if (adminSocketId > -1) {
+      adminSocket.splice(adminSocketId, 1);
+    }
+    console.log("adminSocket arr after admin left:", adminSocket);
+    socketIo.emit("serverSendAdminSockets", adminSocket);
+
     // const socketId = socket.id;
 
     // // Remove admin socket from user rooms

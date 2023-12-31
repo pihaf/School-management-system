@@ -12,6 +12,7 @@ function Chat({ isAuthenticated, model, id, token }) {
   const [message, setMessage] = useState('');
   const [socketId, setSocketId] = useState();
   const [room, setRoom] = useState('');
+  const [adminOnline, setAdminOnline] = useState(0);
 
   const socketRef = useRef();
   const messagesEnd = useRef();
@@ -32,7 +33,11 @@ function Chat({ isAuthenticated, model, id, token }) {
       console.log(dataGot.data)
       setMess(oldMsgs => [...oldMsgs, dataGot.data])
       scrollToBottom()
-    })
+    });
+
+    socketRef.current.on('serverSendAdminSockets', (adminSocketArr) => {
+      setAdminOnline(adminSocketArr.length);
+    });
 
     return () => {
       socketRef.current.emit("disconnect-event", { id, model });
@@ -89,7 +94,7 @@ function Chat({ isAuthenticated, model, id, token }) {
             {m.socketId === socketId && (
               <Avatar size={24} icon={<UserOutlined />} className="admin-avatar" />
             )}
-            {m.socketId === socketId ? 'User' : 'Admin'}
+            {m.socketId === socketId ? 'You' : 'Admin'}
           </div>
           {m.message}
       </div>
@@ -106,27 +111,26 @@ function Chat({ isAuthenticated, model, id, token }) {
   }
 
   return (
-    <div className="box-chat">
+    <><Typography.Title level={4}>Online admins: {adminOnline}</Typography.Title><div className="box-chat">
       <div className="box-chat_message">
-      {renderMess}
-      <div style={{ float:"left", clear: "both" }}
-             ref={messagesEnd}>
+        {renderMess}
+        <div style={{ float: "left", clear: "both" }}
+          ref={messagesEnd}>
         </div>
       </div>
 
       <div className="send-box">
-          <textarea 
-            value={message}  
-            onKeyDown={onEnterPress}
-            onChange={handleChange} 
-            placeholder="Nhập tin nhắn ..." 
-          />
-          <button onClick={sendMessage}>
-            Send
-          </button>
+        <textarea
+          value={message}
+          onKeyDown={onEnterPress}
+          onChange={handleChange}
+          placeholder="Nhập tin nhắn ..." />
+        <button onClick={sendMessage}>
+          Send
+        </button>
       </div>
 
-    </div>
+    </div></>
   );
 }
 
