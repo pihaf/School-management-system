@@ -174,14 +174,17 @@ function AdminNotification({ isAuthenticated }) {
         <SideMenu></SideMenu>
         <Content
           style={{
-            margin: "0px 28px 0px 24px",
+            margin: "0px 28px 24px 24px",
           }}
         >
           <Space size={25} direction="vertical">
             <Typography.Title level={2}>
               Notifications sent by admins
             </Typography.Title>
-            <Button onClick={onAddingNotification}>
+            <Button
+              onClick={onAddingNotification}
+              style={{ width: "200px", height: "40px" }}
+            >
               Add a new notification
             </Button>
             <Modal

@@ -216,7 +216,7 @@ function AdminGrade({ isAuthenticated }) {
         <SideMenu></SideMenu>
         <Content
           style={{
-            margin: "0px 28px 0px 24px",
+            margin: "0px 28px 24px 24px",
           }}
         >
           <Space size={20} direction="vertical">
@@ -225,6 +225,7 @@ function AdminGrade({ isAuthenticated }) {
               onClick={() => {
                 onAddingGrade();
               }}
+              style={{ width: "170px", height: "40px" }}
             >
               Add a new Grade
             </Button>

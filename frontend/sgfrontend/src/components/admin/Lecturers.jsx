@@ -182,7 +182,7 @@ function Lecturers({ isAuthenticated }) {
         <SideMenu></SideMenu>
         <Content
           style={{
-            margin: "0px 28px 0px 24px",
+            margin: "0px 28px 24px 24px",
           }}
         >
           <Space size={20} direction="vertical">
@@ -191,6 +191,7 @@ function Lecturers({ isAuthenticated }) {
               onClick={() => {
                 onAddingLecturer();
               }}
+              style={{ width: "180px", height: "40px" }}
             >
               Add a new Lecturer
             </Button>

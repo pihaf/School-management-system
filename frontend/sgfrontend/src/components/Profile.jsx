@@ -1,53 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Space, Modal, Input, Alert, Typography, Button } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
-import axios from 'axios';
+import {
+  Table,
+  Space,
+  Modal,
+  Input,
+  Alert,
+  Typography,
+  Button,
+  Layout,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import axios from "axios";
 
+const { Content } = Layout;
 function Profile({ isAuthenticated, model, id }) {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editingProfile, setEditingProfile] = useState(null);
   const [alerts, setAlerts] = useState([]);
-  const [isFetchingProfile, setIsFetchingProfile] = useState(true); 
+  const [isFetchingProfile, setIsFetchingProfile] = useState(true);
 
-  useEffect(() =>
-  {
-    if (!isAuthenticated)
-    {
+  useEffect(() => {
+    if (!isAuthenticated) {
       alert("You need to login");
       navigate("/login");
-    } else
-    {
-      const fetchProfileData = async () =>
-      {
-        try
-        {
+    } else {
+      const fetchProfileData = async () => {
+        try {
           const response = await fetch(
             `http://localhost:3000/api/${model}s/profile`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem(
-                  "token"
-                )}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           );
 
-          if (response.ok)
-          {
+          if (response.ok) {
             const data = await response.json();
             setProfileData(data);
-          } else
-          {
+          } else {
             navigate("/login");
           }
-        } catch (error)
-        {
+        } catch (error) {
           console.error(error);
         } finally {
-          setIsFetchingProfile(false); 
+          setIsFetchingProfile(false);
         }
       };
 
@@ -55,8 +59,7 @@ function Profile({ isAuthenticated, model, id }) {
     }
   }, [isAuthenticated, model, navigate]);
 
-  if (isFetchingProfile)
-  {
+  if (isFetchingProfile) {
     return <div>Loading...</div>; // Return a loading state while fetching the profile data
   }
 
@@ -87,23 +90,27 @@ function Profile({ isAuthenticated, model, id }) {
     try {
       const updatedData = {
         ...profileData,
-        ...editingProfile
+        ...editingProfile,
       };
       console.log("Current profile: ", updatedData);
-      const response = await axios.put(`http://localhost:3000/api/${model}s/profile`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.put(
+        `http://localhost:3000/api/${model}s/profile`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const updatedProfile = response.data;
       console.log("Updated profile: ");
       console.log(updatedProfile);
       setProfileData(updatedProfile);
-      addAlert('Updated successfully!', 'success');
+      addAlert("Updated successfully!", "success");
       resetEditing();
     } catch (error) {
-      addAlert('Error updating profile: ' + String(error), 'error');
-      console.error('Error updating profile:', error);
+      addAlert("Error updating profile: " + String(error), "error");
+      console.error("Error updating profile:", error);
       setIsEditing(false);
     }
   };
@@ -121,58 +128,81 @@ function Profile({ isAuthenticated, model, id }) {
 
   const data =
     model === "lecturer"
-    ? [
-        { key: "1", field: "Name", value: profileData.name},
-        { key: "2", field: "Email", value: profileData.email },
-        { key: "3", field: "Department", value: profileData.department },
-        { key: "4", field: "Subject/Lab", value: profileData["subject/lab"] },
-        { key: "5", field: "Job Title", value: profileData.job_title },
-        { key: "6", field: "Phone Number", value: profileData.phone_number },
-        { key: "7", field: "Profile Image", value: profileData.profile_image },
-        { key: "8", field: "Username", value: profileData.username },
-        { key: "9", field: "Password", value: profileData.password },
-
-      ]
-    : [
-        { key: "1", field: "Student ID", value: profileData.student_id },
-        { key: "2", field: "Class", value: profileData.student_class },
-        { key: "3", field: "Name", value: profileData.name },
-        {
-          key: "4",
-          field: "Date of Birth",
-          value: new Date(profileData.date_of_birth).toLocaleDateString()
-        },
-        { key: "5", field: "Gender", value: profileData.gender },
-        { key: "6", field: "Email", value: profileData.email },
-        { key: "7", field: "Phone Number", value: profileData.phone_number },
-        { key: "8", field: "Place of birth", value: profileData.place_of_birth },
-        { key: "9", field: "Citizen ID", value: profileData.citizen_id },
-        { key: "10", field: "Profile Image", value: profileData.profile_image },
-        { key: "11", field: "Username", value: profileData.username },
-        { key: "12", field: "Password", value: profileData.password },
-      ];
+      ? [
+          { key: "1", field: "Name", value: profileData.name },
+          { key: "2", field: "Email", value: profileData.email },
+          { key: "3", field: "Department", value: profileData.department },
+          { key: "4", field: "Subject/Lab", value: profileData["subject/lab"] },
+          { key: "5", field: "Job Title", value: profileData.job_title },
+          { key: "6", field: "Phone Number", value: profileData.phone_number },
+          {
+            key: "7",
+            field: "Profile Image",
+            value: profileData.profile_image,
+          },
+          { key: "8", field: "Username", value: profileData.username },
+          { key: "9", field: "Password", value: profileData.password },
+        ]
+      : [
+          { key: "1", field: "Student ID", value: profileData.student_id },
+          { key: "2", field: "Class", value: profileData.student_class },
+          { key: "3", field: "Name", value: profileData.name },
+          {
+            key: "4",
+            field: "Date of Birth",
+            value: new Date(profileData.date_of_birth).toLocaleDateString(),
+          },
+          { key: "5", field: "Gender", value: profileData.gender },
+          { key: "6", field: "Email", value: profileData.email },
+          { key: "7", field: "Phone Number", value: profileData.phone_number },
+          {
+            key: "8",
+            field: "Place of birth",
+            value: profileData.place_of_birth,
+          },
+          { key: "9", field: "Citizen ID", value: profileData.citizen_id },
+          {
+            key: "10",
+            field: "Profile Image",
+            value: profileData.profile_image,
+          },
+          { key: "11", field: "Username", value: profileData.username },
+          { key: "12", field: "Password", value: profileData.password },
+        ];
 
   return (
-    <div style={ { justifyContent: 'center', alignItems: 'center', height: '100vh' } }>
-      <Typography.Title level={4}>Profile</Typography.Title>
-      <Button onClick={() => {onEditProfile();}}>Update profile</Button>
+    //div style={ { justifyContent: 'center', alignItems: 'center' } }
+    <Content
+      style={{
+        margin: "0px 28px 0px 24px",
+      }}
+    >
+      <Typography.Title level={2}>Profile</Typography.Title>
+      <Button
+        onClick={() => {
+          onEditProfile();
+        }}
+      >
+        Update profile
+      </Button>
       <ReloadOutlined
-              onClick={() => {
-                window.location.reload();
-              } }
-              style={{ marginLeft: 12 }} />
-        {alerts.map((alert) => (
-            <Alert
-              key={alert.id}
-              message={alert.message}
-              type={alert.type}
-              showIcon
-              closable
-              afterClose={() => removeAlert(alert.id)}
-            />
-          ))}
+        onClick={() => {
+          window.location.reload();
+        }}
+        style={{ marginLeft: 12 }}
+      />
+      {alerts.map((alert) => (
+        <Alert
+          key={alert.id}
+          message={alert.message}
+          type={alert.type}
+          showIcon
+          closable
+          afterClose={() => removeAlert(alert.id)}
+        />
+      ))}
       <Space>
-        <Table columns={ columns } dataSource={ data } pagination={ false } />
+        <Table columns={columns} dataSource={data} pagination={false} />
         <Modal
               title="Edit Profile"
               open={isEditing}
@@ -415,7 +445,7 @@ function Profile({ isAuthenticated, model, id }) {
             ) : null}
           </Modal>
       </Space>
-    </div>
+    </Content>
   );
   //   return (
   //     <div>
