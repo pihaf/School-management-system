@@ -189,7 +189,7 @@ sequelize.authenticate()
 
     // Start the server
     server.listen(port, () => {
-      console.log(`Example app listening at http://localhost:${port}`);
+      console.log(`Example app listening at http://10.244.3.221:${port} or http://fall2324w20g5.int3306.freeddns.org`);
     });
   })
   .catch((error) => {

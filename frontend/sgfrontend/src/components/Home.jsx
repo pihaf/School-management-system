@@ -8,7 +8,8 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      fetch('http://localhost:3000/api/news', {
+      //console.log(host)
+      fetch("http://localhost:3000/api/news", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -17,7 +17,7 @@ function Logout({ setToken, setModel, setId, setProfileHeader }) {
     setId(null);
     setProfileHeader(null);
     // Redirect to the login page
-    navigate('/login');
+    navigate('/home');
   }, [setToken, setModel, navigate]);
 
   return null;
