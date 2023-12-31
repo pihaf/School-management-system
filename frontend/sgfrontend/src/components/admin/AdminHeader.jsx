@@ -25,13 +25,15 @@ function AdminHeader() {
         width={40}
         src="https://cdn-icons-png.flaticon.com/512/126/126472.png"
       ></Image>
-      <Typography.Title>System</Typography.Title>
-      <Space>
+      <Typography.Title style={{ marginBottom: "0.9em" }}>
+        System
+      </Typography.Title>
+      <Space style={{ marginRight: "20px" }}>
         <Badge>
-          <LogoutOutlined 
+          <LogoutOutlined
             style={{ fontSize: 24 }}
             onClick={() => {
-              navigate('/admin/logout');
+              navigate("/admin/logout");
             }}
           />
         </Badge>
