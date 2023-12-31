@@ -89,7 +89,7 @@ function Chat({ isAuthenticated, model, id, token }) {
             {m.socketId === socketId && (
               <Avatar size={24} icon={<UserOutlined />} className="admin-avatar" />
             )}
-            {m.socketId === socketId ? 'Admin' : 'User'}
+            {m.socketId === socketId ? 'User' : 'Admin'}
           </div>
           {m.message}
       </div>

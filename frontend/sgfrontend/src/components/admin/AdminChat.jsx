@@ -30,7 +30,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
     })
 
     socketRef.current.on('sendDataServer', (dataGot) => {
-      // console.log("From sendDataServer: ");
+      console.log("From sendDataServer: ");
       console.log(dataGot.data)
       setMess(oldMsgs => [...oldMsgs, dataGot.data]);
       console.log("setMess", mess);
@@ -111,6 +111,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
   const handleRoomSelection = (selectedRoom) => {
     setRoom(selectedRoom);
     setMess([]); // Clear the messages when a new room is selected
+    socketRef.current.emit('join_room', selectedRoom);
   };
 
   return (
