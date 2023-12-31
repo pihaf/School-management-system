@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, BackTop } from "antd";
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import "../css/UserCourse.css";
 import axios from "axios";
@@ -485,7 +485,7 @@ function Notification({ isAuthenticated, model, id }) {
               )}
             </Space></>
       )}
-      <BackTop />
+      <FloatButton.BackTop />
     </Content>
   );
 }

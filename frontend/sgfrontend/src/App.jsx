@@ -6,6 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Floatbuttons from "./components/Floatbuttons.jsx";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar.jsx";
 import Header from "./components/Header";
@@ -20,6 +21,7 @@ import News from "./components/News.jsx";
 import NewsContent from "./components/NewsContent.jsx";
 import Notification from "./components/Notification";
 import Profile from "./components/Profile";
+import Questions from "./components/Questions.jsx";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import NoPage from "./components/NoPage.jsx";
@@ -47,7 +49,7 @@ function App() {
   );
   const [model, setModel] = useState(localStorage.getItem("model"));
   const [id, setId] = useState(localStorage.getItem("id"));
-  const [profileHeader, setProfileHeader] = useState(null);
+  const [profileHeader, setProfileHeader] = useState(JSON.parse(localStorage.getItem("profileHeader")));
 
   return (
     <Router>
@@ -56,75 +58,59 @@ function App() {
             exact
             path="/home"
             element={
-              <div className="App">
-                <Header model={model} id={id} profileHeader={profileHeader}/>
+              <><div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader} />
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
                   <Home />
                 </div>
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             exact
             path="/"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar/>
                   <Home/>
                 </div>
                 <Footer />
-              </div>
-
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/login"
             element={
-              <div className="App">
-                <Header model={model} id={id} profileHeader={profileHeader}/>
-                <div className="SideMenuAndPageContent">
-                  <Navbar model={model} />{" "}
-                  <Login setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
-                </div>
-
-                <Footer />
-              </div>
+              <Login setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
             }
           />
           <Route
             path="/logout"
             element={
-              <div className="App">
-                <Header model={model} id={id} profileHeader={profileHeader}/>
-                <div className="SideMenuAndPageContent">
-                  <Navbar model={model} />
-                  <Logout setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
-                </div>
-                <Footer />
-              </div>
+              <Logout setToken={setToken} setModel={setModel} setId={setId} setProfileHeader={setProfileHeader}/>
             }
           />
           <Route
             path="/timetable"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
                   <Timetable isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/courses"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
@@ -132,13 +118,13 @@ function App() {
                 </div>
 
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/all/courses"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
@@ -146,13 +132,13 @@ function App() {
                 </div>
 
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/courses/:courseId"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
@@ -160,39 +146,39 @@ function App() {
                 </div>
 
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/grades/:courseId"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
                   <Grade isAuthenticated={!!token} model={model} id={id}/>
                 </div>
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/requests"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
                   <Request isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/chat"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
@@ -205,39 +191,39 @@ function App() {
                 </div>
 
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/news/:newId"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
                   <NewsContent/>
                 </div>
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/news"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
                   <News isAuthenticated={!!token} model={model} id={id} />
                 </div>
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/notifications"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
@@ -245,13 +231,13 @@ function App() {
                 </div>
 
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
             }
           />
           <Route
             path="/profile"
             element={
-              <div className="App">
+              <><div className="App">
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
@@ -259,7 +245,21 @@ function App() {
                 </div>
 
                 <Footer />
-              </div>
+              </div><Floatbuttons/></>
+            }
+          />
+          <Route
+            path="/questions"
+            element={
+              <><div className="App">
+                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <div className="SideMenuAndPageContent">
+                  <Navbar model={model} />
+                  <Questions />
+                </div>
+
+                <Footer />
+              </div><Floatbuttons/></>
             }
           />
         <Route path="*" element={<NoPage />} />

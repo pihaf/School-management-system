@@ -49,6 +49,21 @@ function Login({ setToken, setModel, setId, setProfileHeader }) {
           if (response.ok) {
             const data = await response.json();
             console.log(data);
+            if (model === 'student') {
+              const { name, student_id } = data;
+              const newData = {
+                name,
+                student_id
+              };
+              localStorage.setItem("profileHeader", JSON.stringify(newData));
+            } else if (model === 'lecturer') {
+                const { name, email } = data;
+                const newData = {
+                  name,
+                  email
+                };
+                localStorage.setItem("profileHeader", JSON.stringify(newData));
+              }
             setProfileHeader(data);
           } else {
             navigate("/login");

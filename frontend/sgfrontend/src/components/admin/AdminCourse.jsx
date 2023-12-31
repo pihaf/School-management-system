@@ -8,7 +8,7 @@ import {
   Button,
   Modal,
   Alert,
-  BackTop,
+  FloatButton,
   Layout,
 } from "antd";
 import {
@@ -579,7 +579,7 @@ function AdminCourse({ isAuthenticated }) {
           </Space>
         </Content>
       </div>
-      <BackTop />
+      <FloatButton.BackTop />
       <AdminFooter />
     </div>
   );

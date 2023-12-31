@@ -9,7 +9,7 @@ import {
   Modal,
   Alert,
   Select,
-  BackTop,
+  FloatButton,
   Layout,
 } from "antd";
 import {
@@ -460,7 +460,7 @@ function AdminNotification({ isAuthenticated }) {
           </Space>
         </Content>
       </div>
-      <BackTop />
+      <FloatButton.BackTop />
       <AdminFooter />
     </div>
   );

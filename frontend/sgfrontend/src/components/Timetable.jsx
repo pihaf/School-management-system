@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {BackTop} from 'antd';
+import {FloatButton} from 'antd';
 // import { Dayjs } from 'dayjs';
 // import { BadgeProps, CalendarProps } from 'antd';
 import { Calendar, Badge } from 'antd';
@@ -52,7 +52,7 @@ function Timetable({ isAuthenticated, model, id }) {
     <><div>
       <h1>Timetable</h1>
       <Calendar />
-    </div><BackTop /></>
+    </div><FloatButton.BackTop /></>
   );
 }
 

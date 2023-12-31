@@ -9,6 +9,7 @@ function Logout({ setToken, setModel, setId, setProfileHeader }) {
     localStorage.removeItem('token');
     localStorage.removeItem('model');
     localStorage.removeItem('id');
+    localStorage.removeItem('profileHeader');
 
     // Update the token state in the App component
     setToken(null);

@@ -8,7 +8,7 @@ import {
   Alert,
   Input,
   Button,
-  BackTop,
+  FloatButton,
   Layout,
 } from "antd";
 import { EditOutlined, ReloadOutlined } from "@ant-design/icons";
@@ -226,7 +226,7 @@ function AdminProfile({ isAuthenticated }) {
           </Space>
         </Content>
       </div>
-      <BackTop />
+      <FloatButton.BackTop />
       <AdminFooter />
     </div>
   );

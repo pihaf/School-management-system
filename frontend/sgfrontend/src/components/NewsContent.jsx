@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import { Typography, Layout, Button, Image, BackTop} from "antd";
+import { Typography, Layout, Button, Image, FloatButton} from "antd";
 
 import "../css/UserCourse.css";
 const { Content } = Layout;
@@ -52,7 +52,7 @@ function NewsContent() {
         <Image src={image} alt="News Image" width={1000}/>
         <Typography.Paragraph>{content}</Typography.Paragraph>
       </div>
-      <BackTop />
+      <FloatButton.BackTop />
     </Content>
   );
 }

@@ -319,6 +319,7 @@ function Profile({ isAuthenticated, model, id }) {
                 <>
                 {/* Render inputs for lecturer */}
                   Name<Input
+                  disabled
                   placeholder="Name"
                   name="name"
                   value={editingProfile?.name}
@@ -359,6 +360,7 @@ function Profile({ isAuthenticated, model, id }) {
                   }}
                 />
                 Email<Input
+                  disabled
                   placeholder="Email"
                   name="email"
                   value={editingProfile?.email}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, BackTop } from "antd";
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton } from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import "../css/UserCourse.css";
@@ -226,7 +226,7 @@ function Request({ isAuthenticated, model, id }) {
           ></Table>
         )}
       </Space>
-      <BackTop />
+      <FloatButton.BackTop />
     </Content>
   );
 }
