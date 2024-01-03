@@ -21,50 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Http logger
 app.use(morgan("combined")); // Morgan middleware
 
-/*app.use('/', express.static('../frontend/sgfrontend/dist'));
-app.use('/home', express.static('../frontend/sgfrontend/dist'));
-app.use('/login', express.static('../frontend/sgfrontend/dist'));
-app.use('/logout', express.static('../frontend/sgfrontend/dist'));
-app.use('/timetable', express.static('../frontend/sgfrontend/dist'));
-app.use('/courses', express.static('../frontend/sgfrontend/dist'));
-app.use('/all/courses', express.static('../frontend/sgfrontend/dist'));
-app.use('/courses/:courseId', express.static('../frontend/sgfrontend/dist'));
-app.use('/grades/:courseId', express.static('../frontend/sgfrontend/dist'));
-app.use('/requests', express.static('../frontend/sgfrontend/dist'));
-app.use('/chat', express.static('../frontend/sgfrontend/dist'));
-app.use('/news/:newId', express.static('../frontend/sgfrontend/dist'));
-app.use('/news', express.static('../frontend/sgfrontend/dist'));
-app.use('/notifications', express.static('../frontend/sgfrontend/dist'));
-app.use('/profile', express.static('../frontend/sgfrontend/dist'));
-app.use('/questions', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/home', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/login', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/logout', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/dashboard', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/students', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/lecturers', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/courses', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/news', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/requests', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/notifications', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/chat', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/grades', express.static('../frontend/sgfrontend/dist'));
-app.use('/admin/profile', express.static('../frontend/sgfrontend/dist'));*/
-
-// Template engine
-app.engine(
-	"hbs",
-	engine({
-		extname: ".hbs",
-		defaultLayout: "main",
-		layoutsDir: path.join(__dirname, "/views/layouts"),
-	})
-);
-app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "/views"));
-// console.log("PATH: ", path.join(__dirname, "/views"));
-
 app.use(cors());
 
 const socketIo = require("socket.io")(server, {
@@ -182,20 +138,21 @@ socketIo.on("connection", (socket) => {
 });
 
 // Importing routers
-const routes = require("./routers/");
-const homeRouter = require('./routers/homeRouter');
+//const routes = require("./routers/");
+//const homeRouter = require('./routers/homeRouter');
 const requestRouter = require('./routers/requestRouter');
 const newsRouter = require('./routers/newsRouter');
 const notificationRouter = require('./routers/notificationRouter');
 const gradeRouter = require('./routers/gradeRouter');
 const courseRouter = require('./routers/courseRouter');
+const timetableRouter = require('./routers/timetableRouter');
 const studentRouter = require('./routers/studentRouter');
 const lecturerRouter = require('./routers/lecturerRouter');
 const adminRouter = require('./routers/adminRouter');
 const loginlogout = require('./routers/loginlogout');
 
 // Configure routes
-app.use('/', homeRouter);
+// app.use('/', homeRouter);
 app.use('/', notificationRouter);
 app.use('/', requestRouter);
 app.use('/', newsRouter);
@@ -204,10 +161,22 @@ app.use('/', courseRouter);
 app.use('/', studentRouter);
 app.use('/', lecturerRouter);
 app.use('/', adminRouter);
+app.use('/', timetableRouter);
 app.use('/', loginlogout);
 
 // routes inits 
-routes(app);
+//routes(app);
+
+// Serving static files
+// const staticPath = path.join(__dirname, '../frontend/sgfrontend/dist');
+// app.use(express.static(staticPath));
+
+// // Handle all routes and serve the index.html file
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(staticPath, 'index.html'));
+// });
+
+//console.log("PATH: ", staticPath);
 
 sequelize.authenticate()
   .then(() => {
@@ -220,7 +189,7 @@ sequelize.authenticate()
 
     // Start the server
     server.listen(port, () => {
-      console.log(`Example app listening at http://10.244.3.221:${port} or http://fall2324w20g5.int3306.freeddns.org`);
+      console.log(`App listening at http://10.244.3.221:${port} or http://fall2324w20g5.int3306.freeddns.org`);
     });
   })
   .catch((error) => {

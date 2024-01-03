@@ -13,6 +13,7 @@ import {
 import { Menu } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../../css/SideMenu.css";
 
 function SideMenu() {
     const location = useLocation();
