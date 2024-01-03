@@ -27,7 +27,7 @@ import SideMenu from "./SideMenu";
 import host from "../../../config";
 const { Content } = Layout;
 
-function AdminNews({ isAuthenticated }) {
+function AdminNews({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -84,8 +84,7 @@ function AdminNews({ isAuthenticated }) {
   };
   const onAddNews = async () => {
     try {
-      const adminToken = localStorage.getItem("adminToken");
-      const headers = { Authorization: `Bearer ${adminToken}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
       addingNews.created_at = new Date();
       const response = await axios.post(
           `${host}/api/admin/news`,
@@ -112,8 +111,7 @@ function AdminNews({ isAuthenticated }) {
       okText: "Yes",
       okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem("adminToken");
-        const headers = { Authorization: `Bearer ${adminToken}` };
+        const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
         axios
           .delete(`${host}/api/admin/news/${record.new_id}`, {
             headers,
@@ -146,8 +144,7 @@ function AdminNews({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem("adminToken");
-      const headers = { Authorization: `Bearer ${adminToken}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
       editingNews.updated_at = new Date();
       const response = await axios.put(
         `${host}/api/admin/news/${editingNews.new_id}`,

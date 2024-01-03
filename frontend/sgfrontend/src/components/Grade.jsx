@@ -7,7 +7,7 @@ import "../css/UserCourse.css";
 import axios from "axios";
 const { Content } = Layout;
 
-function Grade({ isAuthenticated, model, id}) {
+function Grade({ isAuthenticated, model, id, token}) {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [searchedText, setSearchedText] = useState("");
@@ -80,7 +80,7 @@ function Grade({ isAuthenticated, model, id}) {
   };
   const onAddGrade = async () => {
     try {
-      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const response = await axios.post(
         `${host}/api/grades`,
         { ...addingGrade, course_id: courseId }, { headers }
@@ -120,7 +120,7 @@ function Grade({ isAuthenticated, model, id}) {
       okText: 'Yes',
       okType: 'danger',
       onOk: () => {
-        const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+        const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
         axios
           .delete(`${host}/api/grades/${record.grade_id}`, {headers})
           .then((response) => {
@@ -147,7 +147,7 @@ function Grade({ isAuthenticated, model, id}) {
 
   const onSaveEdit = async () => {
     try {
-      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const response = await axios.put(`${host}/api/grades/${editingGrade.grade_id}`, { ...editingGrade, course_id: courseId }, { headers });
       const updatedGrade = response.data;
       console.log("Updated grade: ");

@@ -5,7 +5,7 @@ import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
-function NewsContent() {
+function NewsContent({token}) {
   const navigate = useNavigate();
   const { newId } = useParams();
   const [dataSource, setDataSource] = useState();

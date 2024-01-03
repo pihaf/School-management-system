@@ -34,7 +34,7 @@ ChartJS.register(
 import host from "../../../config";
 const { Content } = Layout;
 
-function Dashboard({ isAuthenticated }) {
+function Dashboard({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();
   const [students, setStudents] = useState(0);
   const [lecturers, setLecturers] = useState(0);

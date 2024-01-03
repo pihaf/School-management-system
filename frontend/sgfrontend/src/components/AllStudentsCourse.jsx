@@ -6,7 +6,7 @@ import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
-function AllStudentsCourse({ isAuthenticated, model, id }) {
+function AllStudentsCourse({ isAuthenticated, model, id, token}) {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ function AllStudentsCourse({ isAuthenticated, model, id }) {
         setLoading(true);
         fetch(`${host}/api/students/${id}/${courseId}`, { 
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         }).then(response => response.json())
         .then(data => {

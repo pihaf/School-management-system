@@ -7,7 +7,7 @@ import { Calendar, Badge } from 'antd';
 import dayjs from "dayjs";
 import host from "../../config";
 
-function Timetable({ isAuthenticated, model, id }) {
+function Timetable({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
   const [timetableData, setTimetableData] = useState([]);
 
@@ -18,7 +18,7 @@ function Timetable({ isAuthenticated, model, id }) {
     } else {
       fetch(`${host}/api/timetable/${model}s/${id}`, { 
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }).then(response => response.json())
       .then(data => {

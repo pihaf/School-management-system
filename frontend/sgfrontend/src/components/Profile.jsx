@@ -19,7 +19,7 @@ import axios from "axios";
 import host from "../../config";
 
 const { Content } = Layout;
-function Profile({ isAuthenticated, model, id }) {
+function Profile({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({});
   const [isEditing, setIsEditing] = useState(false);

@@ -26,7 +26,7 @@ import SideMenu from "./SideMenu";
 import host from "../../../config";
 const { Content } = Layout;
 
-function AdminRequest({ isAuthenticated }) {
+function AdminRequest({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -77,8 +77,7 @@ function AdminRequest({ isAuthenticated }) {
       okText: "Yes",
       okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem("adminToken");
-        const headers = { Authorization: `Bearer ${adminToken}` };
+        const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
         axios
           .delete(
             `${host}/api/admin/requests/${record.request_id}`,
@@ -112,8 +111,7 @@ function AdminRequest({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem("adminToken");
-      const headers = { Authorization: `Bearer ${adminToken}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
       editingRequest.updated_at = new Date();
       const response = await axios.put(
         `${host}/api/admin/requests/${editingRequest.request_id}`,

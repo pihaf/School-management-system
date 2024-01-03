@@ -65,7 +65,7 @@ function Login({ setToken, setModel, setId, setProfileHeader }) {
                 };
                 localStorage.setItem("profileHeader", JSON.stringify(newData));
               }
-            setProfileHeader(data);
+              setProfileHeader(data);
           } else {
             navigate("/login");
           }

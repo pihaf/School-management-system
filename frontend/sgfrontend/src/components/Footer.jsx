@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Input } from "antd";
+import { FacebookFilled, InstagramOutlined, TwitterOutlined, YoutubeFilled} from "@ant-design/icons";
 import "../css/Footer.css";
 
 function Footer() {
@@ -14,9 +15,9 @@ function Footer() {
     //   </Typography.Link>
     // </div>
     <>
-      <footer class="section-p1">
-        <div class="col">
-          {/* <img class="logo" src="./resource/logo-transparent.png" alt="logo"> */}
+      <footer className="section-p1">
+        <div className="col">
+          {/* <img className="logo" src="./resource/logo-transparent.png" alt="logo"> */}
           <h4>Contact</h4>
           <p>
             <strong>Address:</strong> 144 Xuân Thủy, Dịch Vọng Hậu, Cầu Giấy, Hà
@@ -28,53 +29,54 @@ function Footer() {
           <p>
             <strong>Hours:</strong> Mon-Fri / 8:00AM - 17h30PM
           </p>
-          <div class="follow">
+          <div className="follow">
             <h4>Follow us</h4>
-            <div class="icon">
-              <i class="fab fa-facebook-f"></i>
-              <i class="fab fa-twitter"></i>
-              <i class="fab fa-instagram"></i>
-              <i class="fab fa-pinterest-p"></i>
-              <i class="fab fa-youtube"></i>
+            <div className="icon">
+              {/* <i className="fab fa-facebook-f"></i>
+              <i className="fab fa-twitter"></i>
+              <i className="fab fa-instagram"></i>
+              <i className="fab fa-pinterest-p"></i>
+              <i className="fab fa-youtube"></i> */}
+            <FacebookFilled style={{ fontSize: '24px', marginRight: '10px' }} />
+            <InstagramOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
+            <TwitterOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
+            <YoutubeFilled style={{ fontSize: '24px', marginRight: '10px' }} />
             </div>
           </div>
         </div>
 
-        <div class="col">
+        <div className="col">
           <h4>About</h4>
           <a href="/about">About Us</a>
-          <a href="#">Delivery Information</a>
+          <a href="#">Information</a>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms & Conditions</a>
           <a href="/contact">Contact Us</a>
         </div>
-        <div class="col">
+        <div className="col">
           <h4>About</h4>
           <a href="/about">About Us</a>
-          <a href="#">Delivery Information</a>
+          <a href="#"> Information</a>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms & Conditions</a>
           <a href="/contact">Contact Us</a>
         </div>
-        <div class="col">
+        <div className="col">
           <h4>About</h4>
           <a href="/about">About Us</a>
-          <a href="#">Delivery Information</a>
+          <a href="#"> Information</a>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms & Conditions</a>
           <a href="/contact">Contact Us</a>
         </div>
-        <div class="col">
+        <div className="col">
           <h4>My Account</h4>
           <a href="/login">Sign In</a>
-          <a href="/cart">View Cart</a>
-          <a href="#">My Wishlist</a>
-          <a href="#">Track My Oder</a>
           <a href="#">Help</a>
         </div>
 
-        <div class="copyright">
-          <p>© 2023 Walkrags, Inc - All Rights Reserved</p>
+        <div className="copyright">
+          <p>© 2024 UETSupport, Inc - All Rights Reserved</p>
         </div>
       </footer>
     </>

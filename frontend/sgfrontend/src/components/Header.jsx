@@ -63,7 +63,6 @@ function Header({ model, id, profileHeader }) {
                 alignItems: "center",
               }}
             >
-              <div>
                 <Avatar icon={<UserOutlined />} size={40} />
                 <div
                   className="user-name-id"
@@ -91,7 +90,6 @@ function Header({ model, id, profileHeader }) {
                   }}
                 />
               </Badge>
-            </div>
           </Space>
         ) : (
           <Space style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -122,6 +120,14 @@ function Header({ model, id, profileHeader }) {
                 </Typography.Text>
               </div>
             </div>
+            <Badge count={0} showZero>
+                <MailOutlined
+                  style={{ fontSize: 24 }}
+                  onClick={() => {
+                    setNotificationsOpen(true);
+                  }}
+                />
+              </Badge>
           </Space>
         )}
       </Space>

@@ -29,7 +29,7 @@ function AdminLogin({ setAdminToken }) {
 
       // Update the token state
       setAdminToken(token);
-
+      console.log("admin token:", token);
       // Redirect to the home page or any desired page
       navigate('/admin');
     } else {

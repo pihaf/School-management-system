@@ -43,13 +43,11 @@ import "./css/AdminHome.css";
 import AllStudentsCourse from "./components/AllStudentsCourse.jsx";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const [adminToken, setAdminToken] = useState(
-    localStorage.getItem("adminToken")
-  );
-  const [model, setModel] = useState(localStorage.getItem("model"));
-  const [id, setId] = useState(localStorage.getItem("id"));
-  const [profileHeader, setProfileHeader] = useState(JSON.parse(localStorage.getItem("profileHeader")));
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [adminToken, setAdminToken] = useState(localStorage.getItem('adminToken'));
+  const [model, setModel] = useState(localStorage.getItem('model'));
+  const [id, setId] = useState(localStorage.getItem('id'));
+  const [profileHeader, setProfileHeader] = useState(JSON.parse(localStorage.getItem('profileHeader')));
 
   return (
     <Router>
@@ -101,7 +99,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Timetable isAuthenticated={!!token} model={model} id={id} />
+                  <Timetable isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
                 <Footer />
               </div><Floatbuttons/></>
@@ -114,7 +112,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Course isAuthenticated={!!token} model={model} id={id} />
+                  <Course isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
 
                 <Footer />
@@ -128,7 +126,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <AllCourses isAuthenticated={!!token} model={model} id={id} />
+                  <AllCourses isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
 
                 <Footer />
@@ -142,7 +140,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <AllStudentsCourse isAuthenticated={!!token} model={model} id={id} />
+                  <AllStudentsCourse isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
 
                 <Footer />
@@ -156,7 +154,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Grade isAuthenticated={!!token} model={model} id={id}/>
+                  <Grade isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
                 <Footer />
               </div><Floatbuttons/></>
@@ -169,7 +167,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Request isAuthenticated={!!token} model={model} id={id} />
+                  <Request isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
                 <Footer />
               </div><Floatbuttons/></>
@@ -201,7 +199,7 @@ function App() {
                 <Header model={model} id={id} profileHeader={profileHeader}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <NewsContent/>
+                  <NewsContent token={token}/>
                 </div>
                 <Footer />
               </div><Floatbuttons/></>
@@ -211,10 +209,10 @@ function App() {
             path="/news"
             element={
               <><div className="App">
-                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <Header model={model} id={id} profileHeader={profileHeader} />
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <News isAuthenticated={!!token} model={model} id={id} />
+                  <News isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
                 <Footer />
               </div><Floatbuttons/></>
@@ -224,10 +222,10 @@ function App() {
             path="/notifications"
             element={
               <><div className="App">
-                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <Header model={model} id={id} profileHeader={profileHeader} token={token}/>
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Notification isAuthenticated={!!token} model={model} id={id} />
+                  <Notification isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
 
                 <Footer />
@@ -238,10 +236,10 @@ function App() {
             path="/profile"
             element={
               <><div className="App">
-                <Header model={model} id={id} profileHeader={profileHeader}/>
+                <Header model={model} id={id} profileHeader={profileHeader} />
                 <div className="SideMenuAndPageContent">
                   <Navbar model={model} />
-                  <Profile isAuthenticated={!!token} model={model} id={id} />
+                  <Profile isAuthenticated={!!token} model={model} id={id} token={token}/>
                 </div>
 
                 <Footer />
@@ -299,6 +297,7 @@ function App() {
           element={
             <Dashboard
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -308,6 +307,7 @@ function App() {
           element={
             <Students
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -317,6 +317,7 @@ function App() {
           element={
             <Lecturers
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -326,6 +327,7 @@ function App() {
           element={
             <AdminCourse
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -335,6 +337,7 @@ function App() {
           element={
             <AdminNews
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -344,6 +347,7 @@ function App() {
           element={
             <AdminRequest
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -353,6 +357,7 @@ function App() {
           element={
             <AdminNotification
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -372,6 +377,7 @@ function App() {
           element={
             <AdminGrade
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }
@@ -381,6 +387,7 @@ function App() {
           element={
             <AdminProfile
               isAuthenticated={!!adminToken}
+              adminToken={adminToken}
               className="SideMenuAndPageContent PageContent"
             />
           }

@@ -26,7 +26,7 @@ import SideMenu from "./SideMenu";
 import host from "../../../config";
 const { Content } = Layout;
 
-function AdminCourse({ isAuthenticated }) {
+function AdminCourse({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -83,8 +83,7 @@ function AdminCourse({ isAuthenticated }) {
   };
   const onAddCourse = async () => {
     try {
-      const adminToken = localStorage.getItem("adminToken");
-      const headers = { Authorization: `Bearer ${adminToken}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
       const response = await axios.post(
         `${host}/api/admin/courses`,
         addingCourse,
@@ -110,8 +109,7 @@ function AdminCourse({ isAuthenticated }) {
       okText: "Yes",
       okType: "danger",
       onOk: () => {
-        const adminToken = localStorage.getItem("adminToken");
-        const headers = { Authorization: `Bearer ${adminToken}` };
+        const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
         axios
           .delete(
             `${host}/api/admin/courses/${record.course_id}`,
@@ -145,8 +143,7 @@ function AdminCourse({ isAuthenticated }) {
 
   const onSaveEdit = async () => {
     try {
-      const adminToken = localStorage.getItem("adminToken");
-      const headers = { Authorization: `Bearer ${adminToken}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
       const response = await axios.put(
         `${host}/api/admin/courses/${editingCourse.course_id}`,
         editingCourse,

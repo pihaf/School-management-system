@@ -5,7 +5,7 @@ import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
-function News({ isAuthenticated, model, id }) {
+function News({ isAuthenticated, model, id, token}) {
   const navigate = useNavigate();
   const [dataSource, setDataSource] = useState();
   const [searchedText, setSearchedText] = useState("");

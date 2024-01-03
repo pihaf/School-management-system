@@ -10,7 +10,7 @@ const { Content } = Layout;
 const types = ["Cấp giấy chứng nhận hoạt động cho thành viên/cộng tác viên", "In bảng điểm tích lũy", "Cấp giấy chứng nhận sinh viên", 
 "Vấn đề tài khoản"];
 
-function Request({ isAuthenticated, model, id }) {
+function Request({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
   const [searchedText, setSearchedText] = useState("");
   const [requests, setRequests] = useState([]);
@@ -31,7 +31,7 @@ function Request({ isAuthenticated, model, id }) {
         try {
           const response = await fetch(`${host}/api/requests/students/${id}`, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
 
@@ -76,7 +76,7 @@ function Request({ isAuthenticated, model, id }) {
   const onAddRequest = async () => {
     try {
       console.log({...addingRequest, student_id: id, status: "Pending", created_at: new Date()});
-      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const response = await axios.post(
         `${host}/api/requests`,
         {...addingRequest, student_id: id, type: selectedType, status: "Pending", created_at: new Date()}, { headers }

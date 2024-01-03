@@ -22,7 +22,7 @@ import SideMenu from "./SideMenu";
 import host from "../../../config";
 const { Content } = Layout;
 
-function AdminProfile({ isAuthenticated }) {
+function AdminProfile({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState({});

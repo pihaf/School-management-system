@@ -7,7 +7,7 @@ import axios from "axios";
 import host from "../../config";
 const { Content } = Layout;
 
-function Notification({ isAuthenticated, model, id }) {
+function Notification({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
   const [searchedText, setSearchedText] = useState("");
   const [dataSourceReceive, setDataSourceReceive] = useState([]);
@@ -109,7 +109,7 @@ function Notification({ isAuthenticated, model, id }) {
   const onAddNotification = async () => {
     try {
       console.log("addingNotification: ", addingNotification);
-      const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const response = await axios.post(
         `${host}/api/notifications/lecturers/course/${addingNotification.course_id}`,
         {...addingNotification, status: 'Sent', created_at: new Date()}, { headers }

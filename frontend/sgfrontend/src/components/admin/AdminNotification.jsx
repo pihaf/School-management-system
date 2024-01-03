@@ -60,7 +60,7 @@ const routes = [
   },
 ];
 
-function AdminNotification({ isAuthenticated }) {
+function AdminNotification({ isAuthenticated, adminToken }) {
   const navigate = useNavigate();
   const [dataSourceSentAdmin, setDataSourceSentAdmin] = useState([]);
   const [dataSourceSentLecturer, setDataSourceSentLecturer] = useState([]);
