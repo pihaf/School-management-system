@@ -15,6 +15,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   ReloadOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -356,7 +357,7 @@ function Students({ isAuthenticated }) {
                   title: "Photo",
                   dataIndex: "profile_image",
                   render: (link) => {
-                    return <Avatar src={link} />;
+                    return <Avatar src={link} icon={<UserOutlined/>}/>;
                   },
                 },
                 {

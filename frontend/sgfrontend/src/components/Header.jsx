@@ -75,14 +75,14 @@ function Header({ model, id, profileHeader}) {
                   }}
                 />
               </Badge>
-              <Badge>
+              {/* <Badge>
                 <LogoutOutlined
                   style={{ fontSize: 24 }}
                   onClick={() => {
                     navigate("/logout");
                   }}
                 />
-              </Badge>
+              </Badge> */}
             </Space>
             <Drawer
               title="Notifications"

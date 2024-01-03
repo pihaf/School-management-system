@@ -111,7 +111,11 @@ function Chat({ isAuthenticated, model, id, token }) {
   }
 
   return (
-    <><Typography.Title level={4}>Online admins: {adminOnline}</Typography.Title><div className="box-chat">
+    <><div className="container">
+    <Typography.Title level={5}>Wait and an admin will message you</Typography.Title>
+    <Typography.Title level={4}>Online admins:</Typography.Title>
+  </div>
+    <div className="box-chat">
       <div className="box-chat_message">
         {renderMess}
         <div style={{ float: "left", clear: "both" }}

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton } from "antd";
+import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton , Select} from "antd";
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
 import axios from 'axios';
 import host from '../../config';
 import "../css/UserCourse.css";
 const { Content } = Layout;
+
+const types = ["Cấp giấy chứng nhận hoạt động cho thành viên/cộng tác viên", "In bảng điểm tích lũy", "Cấp giấy chứng nhận sinh viên", 
+"Vấn đề tài khoản"];
 
 function Request({ isAuthenticated, model, id }) {
   const navigate = useNavigate();
@@ -14,6 +17,7 @@ function Request({ isAuthenticated, model, id }) {
   const [isAdding, setIsAdding] = useState(false);
   const [addingRequest, setAddingRequest] = useState(null);
   const [alerts, setAlerts] = useState([]);
+  const [selectedType, setSelectedType] = useState('');
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -75,7 +79,7 @@ function Request({ isAuthenticated, model, id }) {
       const headers = { Authorization: `Bearer ${localStorage.getItem('token')}` };
       const response = await axios.post(
         `${host}/api/requests`,
-        {...addingRequest, student_id: id, status: "Pending", created_at: new Date()}, { headers }
+        {...addingRequest, student_id: id, type: selectedType, status: "Pending", created_at: new Date()}, { headers }
       );
         
       const createdRequest = response.data;
@@ -112,7 +116,7 @@ function Request({ isAuthenticated, model, id }) {
                 resetAdding();
               }}
             >
-              Type<Input
+              {/* Type<Input
                 placeholder="Type"
                 name="type"
                 value={addingRequest?.type}
@@ -121,7 +125,20 @@ function Request({ isAuthenticated, model, id }) {
                     return { ...pre, type: e.target.value };
                   });
                 }}
-              />
+              /> */}
+              <p>Select Type</p>
+              <Select
+                placeholder="Select Type"
+                value={selectedType}
+                onChange={(value) => setSelectedType(value)}
+                style={{ width: "100%", marginTop: "10px" }}
+              >
+                {types.map((type) => (
+                  <Select.Option key={type} value={type}>
+                    {type}
+                  </Select.Option>
+                ))}
+              </Select>
               Details<Input.TextArea
                 placeholder="Details"
                 name="details"

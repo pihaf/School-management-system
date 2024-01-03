@@ -37,6 +37,7 @@ socketIo.on("connection", (socket) => {
 
   socket.emit("getId", socket.id);
   socket.emit("serverSendUserRooms", userRooms);
+  socketIo.emit("serverSendAdminSockets", adminSocket);
 
   socket.on("sendDataClient", (data) => { 
     console.log("From sendDataClient:");
@@ -48,6 +49,10 @@ socketIo.on("connection", (socket) => {
 
   socket.on("join_room", room => {
     socket.join(room);
+  });
+
+  socket.on("leave_room", room => {
+    socket.leave(room);
   });
 
   socket.on("sendUserRoomToServer", (data) => {
@@ -78,7 +83,24 @@ socketIo.on("connection", (socket) => {
     socket.to(room).emit("stopTyping", "Someone stopped typing");
   });
 
+  // function emptyRoom(roomName) {
+  //   // Find the room in the userRooms array
+  //   const room = userRooms.find((r) => r.name === roomName);
+  
+  //   // If the room exists, remove all sockets from it
+  //   if (room) {
+  //     room.sockets.forEach((socket) => {
+  //       const index = socket.rooms[roomName];
+  //       if (index !== -1) {
+  //         socket.rooms.splice(index, 1);
+  //       }
+  //     });
+  //     room.sockets = [];
+  //   }
+  // }
+
   socket.on("disconnect-event", (data) => {
+      // emptyRoom(temp);
       if (data.model !== null){
         console.log("Data when disconnect:", data);
         // Remove user room from the array

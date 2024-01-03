@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import socketIOClient from "socket.io-client";
-import { Avatar, Rate, Space, Typography, Button, List } from "antd";
+import { Avatar, Rate, Space, Typography, Button, List, Badge } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
@@ -26,7 +26,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
     socketRef.current = socketIOClient.connect(host)
   
     socketRef.current.on('getId', data => {
-      setSocketId(data)
+      setSocketId(data);
     })
 
     socketRef.current.on('sendDataServer', (dataGot) => {
@@ -110,6 +110,7 @@ function AdminChat({ isAuthenticated, adminToken }) {
   }
 
   const handleRoomSelection = (selectedRoom) => {
+    //socketRef.current.emit('leave_room', room);
     setRoom(selectedRoom);
     setMess([]); // Clear the messages when a new room is selected
     socketRef.current.emit('join_room', selectedRoom);
@@ -122,11 +123,14 @@ function AdminChat({ isAuthenticated, adminToken }) {
         <div className="SideMenuAndPageContent">
           <SideMenu></SideMenu>
               <div className="user-rooms">
-                <Typography.Title level={4}>Online users</Typography.Title>
+                <Typography.Title level={4}>Online users {userRooms.length}</Typography.Title>
                 <List
                   dataSource={Array.from(new Set(userRooms))}
                   renderItem={(room, index) => (
                     <List.Item key={`${room}_${index}`}>
+                        <Badge dot>
+                            <Avatar shape="square" icon={<UserOutlined />} />
+                        </Badge>
                       {room}
                       <Button
                         style={{ backgroundColor: 'yellow' }}
