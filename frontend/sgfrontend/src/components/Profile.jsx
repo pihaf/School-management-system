@@ -34,14 +34,11 @@ function Profile({ isAuthenticated, model, id }) {
     } else {
       const fetchProfileData = async () => {
         try {
-          const response = await fetch(
-            `${host}/api/${model}s/profile`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
+          const response = await fetch(`${host}/api/${model}s/profile`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
 
           if (response.ok) {
             const data = await response.json();
@@ -175,7 +172,10 @@ function Profile({ isAuthenticated, model, id }) {
     //div style={ { justifyContent: 'center', alignItems: 'center' } }
     <Content
       style={{
-        margin: "0px 28px 0px 24px",
+        margin: "0px 35px 0px 0px",
+        border: "1px solid rgba(0, 0, 0, 0.15)",
+        borderRadius: "10px 10px",
+        paddingLeft: "30px",
       }}
     >
       <Typography.Title level={2}>Profile</Typography.Title>
@@ -205,246 +205,266 @@ function Profile({ isAuthenticated, model, id }) {
       <Space>
         <Table columns={columns} dataSource={data} pagination={false} />
         <Modal
-              title="Edit Profile"
-              open={isEditing}
-              okText="Save"
-              onCancel={() => {
-                resetEditing();
-              }}
-              onOk={onSaveEdit}
-            >
-              {model === 'student' ? (
-                <>
-                  Student ID<Input
-                    disabled
-                    placeholder="Student ID"
-                    name="student_id"
-                    value={editingProfile?.student_id}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, student_id: e.target.value };
-                      });
-                    }}
-                  />
-                
-                  Name<Input
-                    disabled
-                    placeholder="Name"
-                    name="name"
-                    value={editingProfile?.name}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, name: e.target.value };
-                      });
-                    }}
-                  />
-                  Gender<Input
-                    disabled
-                    placeholder="Gender"
-                    name="gender"
-                    value={editingProfile?.gender}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, gender: e.target.value };
-                      });
-                    }}
-                  />
-                  Date of birth<Input
-                    disabled
-                    placeholder="Date of birth"
-                    name="date_of_birth"
-                    value={editingProfile?.date_of_birth}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, date_of_birth: e.target.value };
-                      });
-                    }}
-                  />
-                  Class<Input
-                    disabled
-                    placeholder="Class"
-                    name="student_class"
-                    value={editingProfile?.student_class}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, student_class: e.target.value };
-                      });
-                    }}
-                  />
-                  Email<Input
-                    disabled
-                    placeholder="Email"
-                    name="email"
-                    value={editingProfile?.email}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, email: e.target.value };
-                      });
-                    }}
-                  />
-                  Place of birth<Input
-                    disabled
-                    placeholder="Place of birth"
-                    name="place_of_birth"
-                    value={editingProfile?.place_of_birth}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, place_of_birth: e.target.value };
-                      });
-                    }}
-                  />
-                  Citizen ID<Input
-                    disabled
-                    placeholder="Citizen ID"
-                    name="citizen_id"
-                    value={editingProfile?.citizen_id}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, citizen_id: e.target.value };
-                      });
-                    }}
-                  />
-                  Phone number<Input
-                    placeholder="Phone number"
-                    name="phone_number"
-                    value={editingProfile?.phone_number}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, phone_number: e.target.value };
-                      });
-                    }}
-                  />
-                  Username<Input
-                    disabled
-                    placeholder="Username"
-                    name="username"
-                    value={editingProfile?.username}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, username: e.target.value };
-                      });
-                    }}
-                  />
-                  Password<Input.Password
-                    placeholder="Password"
-                    name="password"
-                    value={editingProfile?.password}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, password: e.target.value };
-                      });
-                    }}
-                  />
-                  Image<Input
-                    placeholder="Image"
-                    name="image"
-                    value={editingProfile?.profile_image}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, profile_image: e.target.value };
-                      });
-                    }}
-                  />
-              </>
-              ) : model === 'lecturer' ? (
-                <>
-                {/* Render inputs for lecturer */}
-                  Name<Input
-                  disabled
-                  placeholder="Name"
-                  name="name"
-                  value={editingProfile?.name}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, name: e.target.value };
-                    });
-                  }}
-                />
-                Department<Input
-                  placeholder="Department"
-                  name="department"
-                  value={editingProfile?.department}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, department: e.target.value };
-                    });
-                  }}
-                />
-                Subject/Lab<Input
-                  placeholder="Subject/Lab"
-                  name="subject/lab"
-                  value={editingProfile?.['subject/lab']}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, 'subject/lab': e.target.value };
-                    });
-                  }}
-                />
-                Job title<Input
-                  placeholder="Job title"
-                  name="job_title"
-                  value={editingProfile?.job_title}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, job_title: e.target.value };
-                    });
-                  }}
-                />
-                Email<Input
-                  disabled
-                  placeholder="Email"
-                  name="email"
-                  value={editingProfile?.email}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, email: e.target.value };
-                    });
-                  }}
-                />
-                Phone number<Input
-                  placeholder="Phone number"
-                  name="phone_number"
-                  value={editingProfile?.phone_number}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, phone_number: e.target.value };
-                    });
-                  }}
-                />
-                Username<Input
-                  disabled
-                  placeholder="Username"
-                  name="username"
-                  value={editingProfile?.username}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, username: e.target.value };
-                    });
-                  }}
-                />
-                Password<Input.Password
-                  placeholder="Password"
-                  name="password"
-                  value={editingProfile?.password}
-                  onChange={(e) => {
-                    setEditingProfile((pre) => {
-                      return { ...pre, password: e.target.value };
-                    });
-                  }}
-                />
-                Image<Input
-                    placeholder="Image"
-                    name="image"
-                    value={editingProfile?.profile_image}
-                    onChange={(e) => {
-                      setEditingProfile((pre) => {
-                        return { ...pre, profile_image: e.target.value };
-                      });
-                    }}
-                  />
-              </>
-            ) : null}
-          </Modal>
+          title="Edit Profile"
+          open={isEditing}
+          okText="Save"
+          onCancel={() => {
+            resetEditing();
+          }}
+          onOk={onSaveEdit}
+        >
+          {model === "student" ? (
+            <>
+              Student ID
+              <Input
+                disabled
+                placeholder="Student ID"
+                name="student_id"
+                value={editingProfile?.student_id}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, student_id: e.target.value };
+                  });
+                }}
+              />
+              Name
+              <Input
+                disabled
+                placeholder="Name"
+                name="name"
+                value={editingProfile?.name}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, name: e.target.value };
+                  });
+                }}
+              />
+              Gender
+              <Input
+                disabled
+                placeholder="Gender"
+                name="gender"
+                value={editingProfile?.gender}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, gender: e.target.value };
+                  });
+                }}
+              />
+              Date of birth
+              <Input
+                disabled
+                placeholder="Date of birth"
+                name="date_of_birth"
+                value={editingProfile?.date_of_birth}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, date_of_birth: e.target.value };
+                  });
+                }}
+              />
+              Class
+              <Input
+                disabled
+                placeholder="Class"
+                name="student_class"
+                value={editingProfile?.student_class}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, student_class: e.target.value };
+                  });
+                }}
+              />
+              Email
+              <Input
+                disabled
+                placeholder="Email"
+                name="email"
+                value={editingProfile?.email}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, email: e.target.value };
+                  });
+                }}
+              />
+              Place of birth
+              <Input
+                disabled
+                placeholder="Place of birth"
+                name="place_of_birth"
+                value={editingProfile?.place_of_birth}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, place_of_birth: e.target.value };
+                  });
+                }}
+              />
+              Citizen ID
+              <Input
+                disabled
+                placeholder="Citizen ID"
+                name="citizen_id"
+                value={editingProfile?.citizen_id}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, citizen_id: e.target.value };
+                  });
+                }}
+              />
+              Phone number
+              <Input
+                placeholder="Phone number"
+                name="phone_number"
+                value={editingProfile?.phone_number}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, phone_number: e.target.value };
+                  });
+                }}
+              />
+              Username
+              <Input
+                disabled
+                placeholder="Username"
+                name="username"
+                value={editingProfile?.username}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, username: e.target.value };
+                  });
+                }}
+              />
+              Password
+              <Input.Password
+                placeholder="Password"
+                name="password"
+                value={editingProfile?.password}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, password: e.target.value };
+                  });
+                }}
+              />
+              Image
+              <Input
+                placeholder="Image"
+                name="image"
+                value={editingProfile?.profile_image}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, profile_image: e.target.value };
+                  });
+                }}
+              />
+            </>
+          ) : model === "lecturer" ? (
+            <>
+              {/* Render inputs for lecturer */}
+              Name
+              <Input
+                disabled
+                placeholder="Name"
+                name="name"
+                value={editingProfile?.name}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, name: e.target.value };
+                  });
+                }}
+              />
+              Department
+              <Input
+                placeholder="Department"
+                name="department"
+                value={editingProfile?.department}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, department: e.target.value };
+                  });
+                }}
+              />
+              Subject/Lab
+              <Input
+                placeholder="Subject/Lab"
+                name="subject/lab"
+                value={editingProfile?.["subject/lab"]}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, "subject/lab": e.target.value };
+                  });
+                }}
+              />
+              Job title
+              <Input
+                placeholder="Job title"
+                name="job_title"
+                value={editingProfile?.job_title}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, job_title: e.target.value };
+                  });
+                }}
+              />
+              Email
+              <Input
+                disabled
+                placeholder="Email"
+                name="email"
+                value={editingProfile?.email}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, email: e.target.value };
+                  });
+                }}
+              />
+              Phone number
+              <Input
+                placeholder="Phone number"
+                name="phone_number"
+                value={editingProfile?.phone_number}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, phone_number: e.target.value };
+                  });
+                }}
+              />
+              Username
+              <Input
+                disabled
+                placeholder="Username"
+                name="username"
+                value={editingProfile?.username}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, username: e.target.value };
+                  });
+                }}
+              />
+              Password
+              <Input.Password
+                placeholder="Password"
+                name="password"
+                value={editingProfile?.password}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, password: e.target.value };
+                  });
+                }}
+              />
+              Image
+              <Input
+                placeholder="Image"
+                name="image"
+                value={editingProfile?.profile_image}
+                onChange={(e) => {
+                  setEditingProfile((pre) => {
+                    return { ...pre, profile_image: e.target.value };
+                  });
+                }}
+              />
+            </>
+          ) : null}
+        </Modal>
       </Space>
     </Content>
   );

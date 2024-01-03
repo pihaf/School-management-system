@@ -1,8 +1,9 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Typography, Carousel, Space } from "antd";
+import { Typography, Carousel, Space, Layout } from "antd";
 
+const { Content } = Layout;
 function Home() {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,37 +27,51 @@ function Home() {
   // }, []);
 
   return (
-    <div style={{ backgroundColor: "yellow", height: "100%", width: "100%" }}>
-      <Carousel style={{ height: "50%", width: "100%" }} autoplay dots pauseOnDotsHover draggable>
-        <div style={{ height: "100%", width: "100%" }}>
-          <img
-            src="https://ihoctienganh.com/public/files/upload/default/images/hien-co-7-truong-va-5-khoa-thuoc-truong-dai-hoc-quoc-gia-ha-noi.jpg"
-            alt="Slide 1"
-            style={{ width: "100%", height: "100%" , objectFit: "cover" }}
-          />
-        </div>
-        <div style={{ height: "100%", width: "100%"}}>
-          <img
-            src="https://onlinefirstaid4e88.b-cdn.net/wp-content/uploads/2019/06/school-sports-day-scaled.jpeg.bv_resized_desktop.jpeg.bv.webp?bv_host=onlinefirstaid.com"
-            alt="Slide 2"
-            style={{ width: "100%", height: "100%", objectFit: "cover"  }}
-          />
-        </div>
-        <div style={{ height: "100%", width: "100%" }}>
-          <img
-            src="https://intercoast.edu/wp-content/uploads/2020/10/af8fe31b3f3ac22e3c133db1c46bec90.jpg"
-            alt="Slide 3"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
-        </div>
-        <div style={{ height: "100%", width: "100%" }}>
+    <>
+      <div
+        style={{
+          backgroundColor: "#fff",
+          height: "100%",
+          width: "85%",
+          borderRadius: "10px 10px",
+        }}
+      >
+        <Carousel
+          style={{ height: "80%", width: "100%" }}
+          autoplay
+          dots
+          pauseOnDotsHover
+          draggable
+        >
+          <div style={{ height: "100%", width: "100%", objectFit: "cover" }}>
+            <img
+              src="https://uet.vnu.edu.vn/wp-content/uploads/2023/08/1R3A5896.jpg"
+              alt="Slide 1"
+              style={{ width: "100%", borderRadius: "10px 10px" }}
+            />
+          </div>
+          <div style={{ height: "100%", width: "100%", objectFit: "cover" }}>
+            <img
+              src="https://uet.vnu.edu.vn/wp-content/uploads/2023/03/pher1.jpg"
+              alt="Slide 2"
+              style={{ width: "100%", borderRadius: "10px 10px" }}
+            />
+          </div>
+          <div style={{ height: "100%", width: "100%", objectFit: "cover" }}>
+            <img
+              src="https://uet.vnu.edu.vn/wp-content/uploads/2022/12/1R3A2736.jpg"
+              alt="Slide 3"
+              style={{ width: "100%", borderRadius: "10px 10px" }}
+            />
+          </div>
+          {/* <div style={{ height: "100%", width: "100%" }}>
           <img
             src="https://www.deskera.com/blog/content/images/2023/01/Assembly-To-Order-7-.png"
             alt="Slide 4"
-            style={{ width: "100%", height: "100%", objectFit: "cover"  }}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
-        </div>
-        {/* {dataSource.length > 0 ? (
+        </div> */}
+          {/* {dataSource.length > 0 ? (
           dataSource.slice(0, 3).map((item) => (
             <div style={{ height: "100%", width: "100%" }} key={item.new_id}>
               <img
@@ -69,8 +84,9 @@ function Home() {
         ) : (
           <div>Loading...</div>
         )} */}
-      </Carousel>
-    </div>
+        </Carousel>
+      </div>
+    </>
   );
 }
 

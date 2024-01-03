@@ -1,10 +1,19 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Space, Typography, Input, Drawer, Image, List, Badge, Avatar } from "antd";
+import {
+  Space,
+  Typography,
+  Input,
+  Drawer,
+  Image,
+  List,
+  Badge,
+  Avatar,
+} from "antd";
 import { MailOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
-function Header({ model, id, profileHeader}) {
+function Header({ model, id, profileHeader }) {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -13,7 +22,7 @@ function Header({ model, id, profileHeader}) {
 
   if (!profileHeader) {
     return (
-      <Space size={20} direction="horizontal">
+      <Space size={25} direction="horizontal">
         <Input.Search
           placeholder="Search here..."
           style={{ width: "400px", float: "right" }}
@@ -23,48 +32,55 @@ function Header({ model, id, profileHeader}) {
   }
 
   return (
-    <>
-      <Space size={ 20 } direction="horizontal" style={ { width: '100%' } }>
+    <div
+      style={{
+        height: "100px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: " 4px 20px 20px 12px",
+        borderBottom: " 1px solid rgba(0, 0, 0, 0.15)",
+        // backgroundColor: "#001529",
+      }}
+    >
+      <Space
+        size={25}
+        direction="horizontal"
+        style={{ width: "100%", justifyContent: "space-evenly" }}
+      >
         <Input.Search
           placeholder="Search here..."
-          style={ { width: "700px", float: "right" } }
+          style={{ width: "400px", float: "right" }}
         />
 
         {model === "lecturer" ? (
-          <Space>
-            <div className="user-info">
+          <Space style={{ display: "flex", justifyContent: "flex-end" }}>
+            <div
+              className="user-info"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
               <div>
-                <Avatar icon={<UserOutlined />}/>
-                {profileHeader.name}
-                {profileHeader.email}
-              </div>
-            </div>
-            <Badge count={0} showZero>
-              <MailOutlined
-                style={{ fontSize: 24 }}
-                onClick={() => {
-                  setNotificationsOpen(true);
-                }}
-              />
-            </Badge>
-
-            <Badge>
-              <LogoutOutlined
-                style={{ fontSize: 24 }}
-                onClick={() => {
-                  navigate("/logout");
-                }}
-              />
-            </Badge>
-          </Space>
-        ) : (
-            <div style={ { display: 'flex', width: '100%' } }>
-              <Space style={ { display: 'flex', justifyContent: 'flex-end', } }>
-              <div className="user-info">
-                <div>
-                  <Avatar icon={<UserOutlined />}/>
-                  {profileHeader.name} 
-                  {profileHeader.student_id}
+                <Avatar icon={<UserOutlined />} size={40} />
+                <div
+                  className="user-name-id"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <Typography.Text
+                    style={{ margin: "0em 0.7em", fontWeight: "700" }}
+                  >
+                    {profileHeader.name}
+                  </Typography.Text>
+                  <Typography.Text style={{ margin: "0em 0.7em" }}>
+                    {profileHeader.email}
+                  </Typography.Text>
                 </div>
               </div>
               <Badge count={0} showZero>
@@ -75,39 +91,41 @@ function Header({ model, id, profileHeader}) {
                   }}
                 />
               </Badge>
-              {/* <Badge>
-                <LogoutOutlined
-                  style={{ fontSize: 24 }}
-                  onClick={() => {
-                    navigate("/logout");
-                  }}
-                />
-              </Badge> */}
-            </Space>
-            <Drawer
-              title="Notifications"
-              open={notificationsOpen}
-              onClose={() => {
-                setNotificationsOpen(false);
-              }}
-              maskClosable
-            >
-              <List
-                dataSource={orders}
-                renderItem={(item) => {
-                  return (
-                    <List.Item>
-                      <Typography.Text strong>{item.title}</Typography.Text> has
-                      been ordered!
-                    </List.Item>
-                  );
-                }}
-              ></List>
-            </Drawer>
             </div>
+          </Space>
+        ) : (
+          <Space style={{ display: "flex", justifyContent: "flex-end" }}>
+            <div
+              className="user-info"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Avatar icon={<UserOutlined />} size={40} />
+              <div
+                className="user-name-id"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Typography.Text
+                  style={{ margin: "0em 0.7em", fontWeight: "700" }}
+                >
+                  {profileHeader.name}
+                </Typography.Text>
+                <Typography.Text style={{ margin: "0em 0.7em" }}>
+                  {profileHeader.student_id}
+                </Typography.Text>
+              </div>
+            </div>
+          </Space>
         )}
       </Space>
-    </>
+    </div>
   );
 }
 
