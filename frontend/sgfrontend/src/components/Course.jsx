@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Button, FloatButton } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Input,
+  Table,
+  Typography,
+  Layout,
+  Space,
+  Button,
+  FloatButton,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
@@ -65,7 +77,10 @@ function Course({ isAuthenticated, model, id, token }) {
   return (
     <Content
       style={{
-        margin: "0px 28px 0px 24px",
+        margin: "0px 25px 0px 0px",
+        border: "1px solid rgba(0, 0, 0, 0.15)",
+        borderRadius: "10px 10px",
+        padding: "0 30px 50px 30px",
       }}
     >
       <Space size={25} direction="vertical">
@@ -187,7 +202,7 @@ function Course({ isAuthenticated, model, id, token }) {
               key: record.course_id,
             }))}
             pagination={{
-              pageSize: 20,
+              pageSize: 25,
             }}
           ></Table>
         )}

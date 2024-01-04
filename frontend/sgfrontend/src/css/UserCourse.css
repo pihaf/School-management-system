@@ -1,18 +1,27 @@
-.ant-table-thead > tr > th{
-	background-color: #006ca5 !important; /* Thay đổi màu nền của header */
+.ant-table-thead > tr > th {
+  background-color: #006ca5 !important; /* Thay đổi màu nền của header */
   /* font-size: ; */
 }
 
 /* .ant-table-tbody > tr > td { */
-	/* background-color: #c5ecf6;  */
-	/* Thay đổi màu nền của các hàng */
-	/* font-size: 14px; */
+/* background-color: #c5ecf6;  */
+/* Thay đổi màu nền của các hàng */
+/* font-size: 14px; */
 /* } */
 
 .odd-row {
-	background-color: #55E2E9; /* light gray */
+  background-color: #55e2e9; /* light gray */
 }
 
 .even-row {
-	background-color: #93e9ee; /* white */
+  background-color: #93e9ee; /* white */
+}
+.ant-pagination .ant-pagination-item a {
+  margin: 0;
+}
+.ant-pagination .ant-pagination-item {
+  margin-inline-end: 0px;
+}
+.ant-pagination .ant-pagination-prev {
+  /* margin-inline-end: 0px; */
 }
