@@ -20,6 +20,7 @@ import {
 import axios from "axios";
 import host from "../../config";
 import "../css/UserCourse.css";
+import "../css/Request.css";
 const { Content } = Layout;
 
 const types = [
@@ -134,7 +135,7 @@ function Request({ isAuthenticated, model, id, token }) {
         margin: "0px 35px 0px 0px",
         border: "1px solid rgba(0, 0, 0, 0.15)",
         borderRadius: "10px 10px",
-        padding: "10px 0px 100px 30px",
+        padding: "10px 30px 100px 30px",
       }}
     >
       <Space size={25} direction="vertical">
@@ -165,7 +166,7 @@ function Request({ isAuthenticated, model, id, token }) {
                   });
                 }}
               /> */}
-          <p>Select Type</p>
+          <div>Select Type</div>
           <Select
             placeholder="Select Type"
             value={selectedType}
@@ -178,7 +179,7 @@ function Request({ isAuthenticated, model, id, token }) {
               </Select.Option>
             ))}
           </Select>
-          Details
+          <div style={{ marginTop: "10px", marginBottom: "5px" }}>Details</div>
           <Input.TextArea
             placeholder="Details"
             name="details"
