@@ -1,6 +1,11 @@
 import React from "react";
 import { Typography, Input } from "antd";
-import { FacebookFilled, InstagramOutlined, TwitterOutlined, YoutubeFilled} from "@ant-design/icons";
+import {
+  FacebookFilled,
+  InstagramOutlined,
+  TwitterOutlined,
+  YoutubeFilled,
+} from "@ant-design/icons";
 import "../css/Footer.css";
 
 function Footer() {
@@ -16,9 +21,50 @@ function Footer() {
     // </div>
     <>
       <footer className="section-p1">
-        <div className="col">
-          <img className="logo" src="D:.\src\items\logo-trans.png" alt="logo"></img>
-          <h4>Contact</h4>
+        <div className="info-col">
+          <div className="col">
+            <h4>COOPERATION – DEVELOPMENT</h4>
+            <a href="https://uet.vnu.edu.vn/hoat-dong-hop-tac-phat-trien/">
+              News
+            </a>
+            <a href="https://uet.vnu.edu.vn/category/tin-tuc/tin-hop-tac-2/">
+              Information
+            </a>
+            <a href="https://uet.vnu.edu.vn/category/hop-tac/cac-doi-tac/">
+              Partners
+            </a>
+          </div>
+
+          <div className="col">
+            <h4>QUALITY ASSURANCE</h4>
+            <a href="/about">Quality assurance center</a>
+            <a href="#">Three publicly</a>
+            <a href="#">Quality verification</a>
+          </div>
+          <div className="col">
+            <h4>CENTER – LABORATORY</h4>
+            <a href="/about">
+              Electronics and Telecommunications Research Center
+            </a>
+            <a href="#">GSHT interdisciplinary integrated technology center</a>
+            <a href="#">Computer Center</a>
+            <a href="#">Key Laboratory of Micro and Nano Technology</a>
+            <a href="/contact">Key Laboratory Smart integrated system</a>
+          </div>
+
+          <div className="col">
+            <h4>UNION</h4>
+            <a href="/login">Youth Group</a>
+            <a href="#">Student Association</a>
+          </div>
+        </div>
+        <div className="footer">
+          <div className="contact">
+          <img
+            className="logo"
+            src="public\items\logo-trans.png"
+            alt="logo"
+          ></img>
           <p>
             <strong>Address:</strong> 144 Xuân Thủy, Dịch Vọng Hậu, Cầu Giấy, Hà
             Nội
@@ -29,53 +75,26 @@ function Footer() {
           <p>
             <strong>Hours:</strong> Mon-Fri / 8:00AM - 17h30PM
           </p>
+          </div>
           <div className="follow">
             <h4>Follow us</h4>
             <div className="icon">
-              {/* <i className="fab fa-facebook-f"></i>
-              <i className="fab fa-twitter"></i>
-              <i className="fab fa-instagram"></i>
-              <i className="fab fa-pinterest-p"></i>
-              <i className="fab fa-youtube"></i> */}
-            <FacebookFilled style={{ fontSize: '24px', marginRight: '10px' }} />
-            <InstagramOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
-            <TwitterOutlined style={{ fontSize: '24px', marginRight: '10px' }} />
-            <YoutubeFilled style={{ fontSize: '24px', marginRight: '10px' }} />
+              <FacebookFilled
+                style={{ fontSize: "24px", marginRight: "10px" }}
+              />
+              <InstagramOutlined
+                style={{ fontSize: "24px", marginRight: "10px" }}
+              />
+              <TwitterOutlined
+                style={{ fontSize: "24px", marginRight: "10px" }}
+              />
+              <YoutubeFilled
+                style={{ fontSize: "24px", marginRight: "10px" }}
+              />
             </div>
           </div>
         </div>
-
-        <div className="col">
-          <h4>About</h4>
-          <a href="/about">About Us</a>
-          <a href="#">Information</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
-          <a href="/contact">Contact Us</a>
-        </div>
-        <div className="col">
-          <h4>About</h4>
-          <a href="/about">About Us</a>
-          <a href="#"> Information</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
-          <a href="/contact">Contact Us</a>
-        </div>
-        <div className="col">
-          <h4>About</h4>
-          <a href="/about">About Us</a>
-          <a href="#"> Information</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
-          <a href="/contact">Contact Us</a>
-        </div>
-        <div className="col">
-          <h4>My Account</h4>
-          <a href="/login">Sign In</a>
-          <a href="#">Help</a>
-        </div>
-
-        <div className="copyright">
+         <div className="copyright">
           <p>© 2024 UETSupport, Inc - All Rights Reserved</p>
         </div>
       </footer>
