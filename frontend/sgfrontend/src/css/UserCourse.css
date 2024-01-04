@@ -1,5 +1,5 @@
 .ant-table-thead > tr > th{
-	background-color: #006ca5 !important; /* Thay đổi màu nền của header */
+	background-color: #48CAE4 !important; /* Thay đổi màu nền của header */
   /* font-size: ; */
 }
 
@@ -10,9 +10,9 @@
 /* } */
 
 .odd-row {
-	background-color: #55E2E9; /* light gray */
+	background-color: #ADE8F4; /* light gray */
 }
 
 .even-row {
-	background-color: #93e9ee; /* white */
+	background-color: #CAF0F8; /* white */
 }

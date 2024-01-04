@@ -48,6 +48,7 @@ function Header({ model, id, profileHeader }) {
         direction="horizontal"
         style={{ width: "100%", justifyContent: "space-evenly" }}
       >
+        <img className="logo" src="public\items\logo-trans.png" alt="logo"></img>
         <Input.Search
           placeholder="Search here..."
           style={{ width: "400px", float: "right" }}
