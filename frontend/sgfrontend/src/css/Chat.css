@@ -44,6 +44,8 @@
 .send-box {
   width: 100%;
   padding: 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 textarea {
@@ -52,23 +54,20 @@ textarea {
   padding: 0.5em;
   background: #ebf5ff;
   border-radius: 2em;
-  display: flex;
-  float: left;
 }
 
-button {
-  width: 10%;
-  background: #6650ff;
+button.chat-button {
+  width: max-content;
+  background: #6caeed;
   color: white;
-  margin-left: 10px;
   border: none;
   border-radius: 1em;
   cursor: pointer;
   padding: 1em;
   text-align: center;
 }
-button:hover {
-  background: black;
+button.chat-button:hover {
+  background: #0084ff;
 }
 textarea:focus {
   outline: 0;
