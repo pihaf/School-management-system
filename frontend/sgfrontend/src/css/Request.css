@@ -1,4 +1,7 @@
 .ant-btn {
-  width: 60px;
+  width: max-content;
   /* margin-top: 10px; */
+}
+.ant-btn span {
+  padding: 0px 8px;
 }

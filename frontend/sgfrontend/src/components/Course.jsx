@@ -89,7 +89,7 @@ function Course({ isAuthenticated, model, id, token }) {
           onClick={() => {
             navigate("/all/courses");
           }}
-          style={{ width: "200px" }}
+          // style={{ width: "200px" }}
         >
           View all school courses
         </Button>
