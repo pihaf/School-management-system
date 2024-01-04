@@ -28,11 +28,7 @@ p {
   margin: 20px 0 30px;
 }
 
-span {
-  font-size: 12px;
-}
-
-button {
+/* button.login {
   border-radius: 20px;
   border: 1px solid #1fa2ff;
   background-color: #1fa2ff;
@@ -45,18 +41,18 @@ button {
   transition: transform 80ms ease-in;
 }
 
-button:active {
+button.login:active {
   transform: scale(0.95);
 }
 
-button:focus {
+button.login:focus {
   outline: none;
 }
 
-button.ghost {
+button.login.ghost {
   background-color: transparent;
   border-color: #ffffff;
-}
+} */
 
 form {
   background-color: #ffffff;

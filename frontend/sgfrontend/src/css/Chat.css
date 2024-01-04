@@ -9,6 +9,18 @@
 .chat-item {
   width: 50%;
 }
+
+.sender-info {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 0.5em;
+}
+
+.sender-info span {
+  margin-right: 0.5em;
+}
+
 .your-message {
   background: #009bff;
   margin: 1em;
@@ -45,7 +57,8 @@
   width: 100%;
   padding: 1em;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 textarea {
@@ -61,7 +74,7 @@ button.chat-button {
   background: #6caeed;
   color: white;
   border: none;
-  border-radius: 1em;
+  border-radius: 1.5em;
   cursor: pointer;
   padding: 1em;
   text-align: center;

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Rate, Space, Typography, Button, List } from "antd";
+import { Avatar, Rate, Space, Typography, Button, List, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import socketIOClient from "socket.io-client";
 import "../../src/css/Chat.css";
 import host from "../../config";
+
+const { TextArea } = Input;
 
 function Chat({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
@@ -130,12 +132,18 @@ function Chat({ isAuthenticated, model, id, token }) {
         </div>
 
         <div className="send-box">
-          <textarea
+          <TextArea
             autoSize
             value={message}
             onKeyDown={onEnterPress}
             onChange={handleChange}
             placeholder="Nhập tin nhắn ..."
+            style={{
+              width: "80%",
+              padding: "0.5em",
+              background: "#ebf5ff",
+              borderRadius: "2em",
+            }}
           />
           <button className="chat-button" onClick={sendMessage}>
             Send
