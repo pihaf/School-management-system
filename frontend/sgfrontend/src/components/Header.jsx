@@ -22,12 +22,30 @@ function Header({ model, id, profileHeader }) {
 
   if (!profileHeader) {
     return (
-      <Space size={25} direction="horizontal">
-        <Input.Search
-          placeholder="Search here..."
-          style={{ width: "400px", float: "right" }}
-        />
-      </Space>
+      // <Space size={25} direction="horizontal">
+      //   <Input.Search
+      //     placeholder="Search here..."
+      //     style={{ width: "400px", float: "right" }}
+      //   />
+      // </Space>
+      <div
+        style={{
+          height: "100px",
+          display: "flex",
+          // justifyContent: "space-between",
+          alignItems: "center",
+          padding: " 4px 20px 20px 12px",
+          borderBottom: " 1px solid rgba(0, 0, 0, 0.15)",
+          // backgroundColor: "#001529",
+        }}
+      >
+        <img
+          className="logo"
+          src="public\items\logo-trans.png"
+          alt="logo"
+          style={{ width: "120px" }}
+        ></img>
+      </div>
     );
   }
 
@@ -36,19 +54,24 @@ function Header({ model, id, profileHeader }) {
       style={{
         height: "100px",
         display: "flex",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
         alignItems: "center",
         padding: " 4px 20px 20px 12px",
         borderBottom: " 1px solid rgba(0, 0, 0, 0.15)",
         // backgroundColor: "#001529",
       }}
     >
+      <img
+        className="logo"
+        src="public\items\logo-trans.png"
+        alt="logo"
+        style={{ width: "120px" }}
+      ></img>
       <Space
         size={25}
         direction="horizontal"
         style={{ width: "100%", justifyContent: "space-evenly" }}
       >
-        <img className="logo" src="public\items\logo-trans.png" alt="logo"></img>
         <Input.Search
           placeholder="Search here..."
           style={{ width: "400px", float: "right" }}
@@ -64,33 +87,33 @@ function Header({ model, id, profileHeader }) {
                 alignItems: "center",
               }}
             >
-                <Avatar icon={<UserOutlined />} size={40} />
-                <div
-                  className="user-name-id"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
+              <Avatar icon={<UserOutlined />} size={40} />
+              <div
+                className="user-name-id"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Typography.Text
+                  style={{ margin: "0em 0.7em", fontWeight: "700" }}
                 >
-                  <Typography.Text
-                    style={{ margin: "0em 0.7em", fontWeight: "700" }}
-                  >
-                    {profileHeader.name}
-                  </Typography.Text>
-                  <Typography.Text style={{ margin: "0em 0.7em" }}>
-                    {profileHeader.email}
-                  </Typography.Text>
-                </div>
+                  {profileHeader.name}
+                </Typography.Text>
+                <Typography.Text style={{ margin: "0em 0.7em" }}>
+                  {profileHeader.email}
+                </Typography.Text>
               </div>
-              <Badge count={0} showZero>
-                <MailOutlined
-                  style={{ fontSize: 24 }}
-                  onClick={() => {
-                    setNotificationsOpen(true);
-                  }}
-                />
-              </Badge>
+            </div>
+            <Badge count={0} showZero>
+              <MailOutlined
+                style={{ fontSize: 24 }}
+                onClick={() => {
+                  setNotificationsOpen(true);
+                }}
+              />
+            </Badge>
           </Space>
         ) : (
           <Space style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -122,13 +145,13 @@ function Header({ model, id, profileHeader }) {
               </div>
             </div>
             <Badge count={0} showZero>
-                <MailOutlined
-                  style={{ fontSize: 24 }}
-                  onClick={() => {
-                    setNotificationsOpen(true);
-                  }}
-                />
-              </Badge>
+              <MailOutlined
+                style={{ fontSize: 24 }}
+                onClick={() => {
+                  setNotificationsOpen(true);
+                }}
+              />
+            </Badge>
           </Space>
         )}
       </Space>

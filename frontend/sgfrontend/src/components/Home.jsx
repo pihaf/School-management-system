@@ -32,7 +32,7 @@ function Home() {
         style={{
           backgroundColor: "#fff",
           height: "100%",
-          width: "85%",
+          width: "86%",
           borderRadius: "10px 10px",
         }}
       >
