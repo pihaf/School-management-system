@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Card, Tag, List, FloatButton} from "antd";
+import {
+  Input,
+  Table,
+  Typography,
+  Layout,
+  Space,
+  Card,
+  Tag,
+  List,
+  FloatButton,
+} from "antd";
 import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
-function News({ isAuthenticated, model, id, token}) {
+function News({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
   const [dataSource, setDataSource] = useState();
   const [searchedText, setSearchedText] = useState("");
@@ -37,20 +47,25 @@ function News({ isAuthenticated, model, id, token}) {
     return <p>Loading...</p>; // or render a loading state
   }
 
-//   const filteredData = searchedText
-//     ? dataSource.filter((item) =>
-//         item.title.toLowerCase().includes(searchedText.toLowerCase())
-//       )
-//     : dataSource;
+  //   const filteredData = searchedText
+  //     ? dataSource.filter((item) =>
+  //         item.title.toLowerCase().includes(searchedText.toLowerCase())
+  //       )
+  //     : dataSource;
 
-return (
+  return (
     <Content
       style={{
-        margin: "0px 28px 0px 24px",
+        margin: "0px 25px 0px 0px",
+        border: "1px solid rgba(0, 0, 0, 0.15)",
+        borderRadius: "10px 10px",
+        padding: "10px 30px 60px 30px",
       }}
     >
-        <Typography.Title level={2}>News</Typography.Title>
-        {/* <Input.Search
+      <Typography.Title level={2} style={{ marginBottom: "50px" }}>
+        News
+      </Typography.Title>
+      {/* <Input.Search
           placeholder="Search here..."
           style={{ width: "400px", float: "right" }}
           onSearch={(value) => {
@@ -60,37 +75,40 @@ return (
             setSearchedText(e.target.value);
           }}
         /> */}
-        {dataSource.length === 0 ? (
-          <p>No news found.</p>
-        ) : (
-          <List
-            dataSource={dataSource}
-            renderItem={(item) => (
-              <List.Item key={item.new_id}>
-                <List.Item.Meta
-                  title={<Link to={`/news/${item.new_id}`}>{item.title}</Link>}
-                  description={item.content}
-                  avatar={<img src={item.image} alt="News Image" width={150}/>}
-                  style={{ width: "100%" }} 
-                />
-              </List.Item>
-            )}
-            pagination={{
-                pageSize: 5, 
-                position: "bottom", 
-              }}
-              style={{
-                float: "right", 
-                width: "100%", 
-              }}
-          />
-        )}
-        <FloatButton.BackTop />
+      {dataSource.length === 0 ? (
+        <p>No news found.</p>
+      ) : (
+        <List
+          dataSource={dataSource}
+          renderItem={(item) => (
+            <List.Item key={item.new_id}>
+              <List.Item.Meta
+                title={<Link to={`/news/${item.new_id}`}>{item.title}</Link>}
+                description={item.content}
+                avatar={<img src={item.image} alt="News Image" width={150} />}
+                style={{ width: "100%" }}
+              />
+            </List.Item>
+          )}
+          pagination={{
+            pageSize: 5,
+            position: "bottom",
+          }}
+          style={{
+            float: "right",
+            width: "100%",
+            paddingLeft: "30px",
+            paddingTop: "30px",
+          }}
+        />
+      )}
+      <FloatButton.BackTop />
     </Content>
   );
 }
 
-        {/* <Table 
+{
+  /* <Table 
             columns={[
                 {
                     title: "News ID",
@@ -135,6 +153,7 @@ return (
                 ...record,
                 key: record.new_id,
               }))}
-        ></Table> */}
+        ></Table> */
+}
 
 export default News;

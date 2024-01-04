@@ -1,14 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton , Select} from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
-import axios from 'axios';
-import host from '../../config';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Input,
+  Table,
+  Typography,
+  Layout,
+  Space,
+  Button,
+  Alert,
+  Modal,
+  FloatButton,
+  Select,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import axios from "axios";
+import host from "../../config";
 import "../css/UserCourse.css";
 const { Content } = Layout;
 
-const types = ["Cấp giấy chứng nhận hoạt động cho thành viên/cộng tác viên", "In bảng điểm tích lũy", "Cấp giấy chứng nhận sinh viên", 
-"Vấn đề tài khoản"];
+const types = [
+  "Cấp giấy chứng nhận hoạt động cho thành viên/cộng tác viên",
+  "In bảng điểm tích lũy",
+  "Cấp giấy chứng nhận sinh viên",
+  "Vấn đề tài khoản",
+];
 
 function Request({ isAuthenticated, model, id, token }) {
   const navigate = useNavigate();
@@ -17,15 +36,15 @@ function Request({ isAuthenticated, model, id, token }) {
   const [isAdding, setIsAdding] = useState(false);
   const [addingRequest, setAddingRequest] = useState(null);
   const [alerts, setAlerts] = useState([]);
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedType, setSelectedType] = useState("");
 
   useEffect(() => {
     if (!isAuthenticated) {
-      alert('You need to login');
-      navigate('/login');
-    } else if (model === 'lecturer') {
-      alert('Access denied');
-      navigate('/');
+      alert("You need to login");
+      navigate("/login");
+    } else if (model === "lecturer") {
+      alert("Access denied");
+      navigate("/");
     } else {
       const fetchRequests = async () => {
         try {
@@ -39,7 +58,7 @@ function Request({ isAuthenticated, model, id, token }) {
             const data = await response.json();
             setRequests(data);
           } else {
-            throw new Error('Failed to fetch requests');         
+            throw new Error("Failed to fetch requests");
           }
         } catch (error) {
           console.error(error);
@@ -49,7 +68,7 @@ function Request({ isAuthenticated, model, id, token }) {
       fetchRequests();
     }
   }, [isAuthenticated, navigate, id]);
-  
+
   const addAlert = (message, type) => {
     const newAlert = {
       id: Date.now(),
@@ -64,7 +83,6 @@ function Request({ isAuthenticated, model, id, token }) {
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   };
 
-
   const onAddingRequest = () => {
     setIsAdding(true);
     setAddingRequest({});
@@ -75,23 +93,37 @@ function Request({ isAuthenticated, model, id, token }) {
   };
   const onAddRequest = async () => {
     try {
-      console.log({...addingRequest, student_id: id, status: "Pending", created_at: new Date()});
-      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
+      console.log({
+        ...addingRequest,
+        student_id: id,
+        status: "Pending",
+        created_at: new Date(),
+      });
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
       const response = await axios.post(
         `${host}/api/requests`,
-        {...addingRequest, student_id: id, type: selectedType, status: "Pending", created_at: new Date()}, { headers }
+        {
+          ...addingRequest,
+          student_id: id,
+          type: selectedType,
+          status: "Pending",
+          created_at: new Date(),
+        },
+        { headers }
       );
-        
+
       const createdRequest = response.data;
       console.log(createdRequest);
       setRequests((pre) => {
         return [...pre, createdRequest];
       });
       resetAdding();
-      addAlert('Request added successfully!', 'success');
+      addAlert("Request added successfully!", "success");
     } catch (error) {
-      addAlert('Error adding request: '+ String(error), 'error');
-      console.error('Error creating request: ', error);
+      addAlert("Error adding request: " + String(error), "error");
+      console.error("Error creating request: ", error);
       setIsAdding(false);
     }
   };
@@ -99,24 +131,31 @@ function Request({ isAuthenticated, model, id, token }) {
   return (
     <Content
       style={{
-        margin: "0px 28px 0px 24px",
+        margin: "0px 35px 0px 0px",
+        border: "1px solid rgba(0, 0, 0, 0.15)",
+        borderRadius: "10px 10px",
+        padding: "10px 0px 100px 30px",
       }}
     >
       <Space size={25} direction="vertical">
         <Typography.Title level={2}>Requests</Typography.Title>
-        <Button onClick={() => {
-                            onAddingRequest();
-                          }}
-            >Add a new Request</Button>
-            <Modal
-              title="Add Request"
-              open={isAdding}
-              onOk={onAddRequest}
-              onCancel={() => {
-                resetAdding();
-              }}
-            >
-              {/* Type<Input
+        <Button
+          style={{ width: "200px" }}
+          onClick={() => {
+            onAddingRequest();
+          }}
+        >
+          Add a new Request
+        </Button>
+        <Modal
+          title="Add Request"
+          open={isAdding}
+          onOk={onAddRequest}
+          onCancel={() => {
+            resetAdding();
+          }}
+        >
+          {/* Type<Input
                 placeholder="Type"
                 name="type"
                 value={addingRequest?.type}
@@ -126,46 +165,47 @@ function Request({ isAuthenticated, model, id, token }) {
                   });
                 }}
               /> */}
-              <p>Select Type</p>
-              <Select
-                placeholder="Select Type"
-                value={selectedType}
-                onChange={(value) => setSelectedType(value)}
-                style={{ width: "100%", marginTop: "10px" }}
-              >
-                {types.map((type) => (
-                  <Select.Option key={type} value={type}>
-                    {type}
-                  </Select.Option>
-                ))}
-              </Select>
-              Details<Input.TextArea
-                placeholder="Details"
-                name="details"
-                value={addingRequest?.details}
-                onChange={(e) => {
-                  setAddingRequest((pre) => {
-                    return { ...pre, details: e.target.value };
-                  });
-                }}
-              />
-            </Modal>
-          {alerts.map((alert) => (
-              <Alert
-                key={alert.id}
-                message={alert.message}
-                type={alert.type}
-                showIcon
-                closable
-                afterClose={() => removeAlert(alert.id)}
-              />
+          <p>Select Type</p>
+          <Select
+            placeholder="Select Type"
+            value={selectedType}
+            onChange={(value) => setSelectedType(value)}
+            style={{ width: "100%", marginTop: "10px" }}
+          >
+            {types.map((type) => (
+              <Select.Option key={type} value={type}>
+                {type}
+              </Select.Option>
             ))}
-            <ReloadOutlined
-              onClick={() => {
-                window.location.reload();
-              }}
-              style={{ marginLeft: 12 }}
-            />
+          </Select>
+          Details
+          <Input.TextArea
+            placeholder="Details"
+            name="details"
+            value={addingRequest?.details}
+            onChange={(e) => {
+              setAddingRequest((pre) => {
+                return { ...pre, details: e.target.value };
+              });
+            }}
+          />
+        </Modal>
+        {alerts.map((alert) => (
+          <Alert
+            key={alert.id}
+            message={alert.message}
+            type={alert.type}
+            showIcon
+            closable
+            afterClose={() => removeAlert(alert.id)}
+          />
+        ))}
+        <ReloadOutlined
+          onClick={() => {
+            window.location.reload();
+          }}
+          style={{ marginLeft: 12 }}
+        />
         <Input.Search
           placeholder="Search here..."
           style={{ width: "400px", float: "right" }}
@@ -176,8 +216,8 @@ function Request({ isAuthenticated, model, id, token }) {
             setSearchedText(e.target.value);
           }}
         />
-          {requests.length === 0 ? (
-                <Typography.Text>No requests found.</Typography.Text>
+        {requests.length === 0 ? (
+          <Typography.Text>No requests found.</Typography.Text>
         ) : (
           <Table
             columns={[
@@ -196,14 +236,18 @@ function Request({ isAuthenticated, model, id, token }) {
                     String(record.type)
                       .toLowerCase()
                       .includes(value.toLowerCase()) ||
-                    String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                    String(record.created_at).toLowerCase().includes(value.toLowerCase())
+                    String(record.details)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.created_at)
+                      .toLowerCase()
+                      .includes(value.toLowerCase())
                   );
                 },
               },
               {
                 title: "Student ID",
-                dataIndex: "student_id"
+                dataIndex: "student_id",
               },
               {
                 title: "Admin ID",
@@ -231,7 +275,10 @@ function Request({ isAuthenticated, model, id, token }) {
               },
             ]}
             rowClassName={(record, index) => {
-              const style = index % 2 === 0 ? {backgroundColor: '#6f9eb5'} : {backgroundColor: '#d22222'};
+              const style =
+                index % 2 === 0
+                  ? { backgroundColor: "#6f9eb5" }
+                  : { backgroundColor: "#d22222" };
               return style;
             }}
             dataSource={requests.map((record) => ({
