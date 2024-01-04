@@ -17,7 +17,7 @@ function Footer() {
     <>
       <footer className="section-p1">
         <div className="col">
-          {/* <img className="logo" src="./resource/logo-transparent.png" alt="logo"> */}
+          <img className="logo" src="D:.\src\items\logo-trans.png" alt="logo"></img>
           <h4>Contact</h4>
           <p>
             <strong>Address:</strong> 144 Xuân Thủy, Dịch Vọng Hậu, Cầu Giấy, Hà
