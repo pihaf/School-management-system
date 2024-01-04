@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Input, Table, Typography, Layout, Space, Button, Alert, Modal, FloatButton } from "antd";
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  Input,
+  Table,
+  Typography,
+  Layout,
+  Space,
+  Button,
+  Alert,
+  Modal,
+  FloatButton,
+} from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import "../css/UserCourse.css";
 import axios from "axios";
 import host from "../../config";
@@ -20,8 +34,8 @@ function Notification({ isAuthenticated, model, id, token }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      alert('You need to login');
-      navigate('/login');
+      alert("You need to login");
+      navigate("/login");
     } else {
       fetch(`${host}/api/notifications/${model}s/${id}`, {
         headers: {
@@ -32,7 +46,7 @@ function Notification({ isAuthenticated, model, id, token }) {
         .then((data) => {
           //console.log("Notifications data:", data);
 
-          if (model === 'lecturer') {
+          if (model === "lecturer") {
             setDataSourceReceive(data);
           } else {
             if (Array.isArray(data.adminNotifications)) {
@@ -43,12 +57,11 @@ function Notification({ isAuthenticated, model, id, token }) {
               setDataFromLecturer(data.lecturerNotifications);
             }
           }
-
         })
         .catch((error) => {
           console.error("Error fetching notifications:", error);
         });
-      if (model === 'lecturer') {
+      if (model === "lecturer") {
         fetch(`${host}/api/notifications/${model}/sent/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -109,10 +122,13 @@ function Notification({ isAuthenticated, model, id, token }) {
   const onAddNotification = async () => {
     try {
       console.log("addingNotification: ", addingNotification);
-      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
       const response = await axios.post(
         `${host}/api/notifications/lecturers/course/${addingNotification.course_id}`,
-        { ...addingNotification, status: 'Sent', created_at: new Date() }, { headers }
+        { ...addingNotification, status: "Sent", created_at: new Date() },
+        { headers }
       );
 
       // const createdNotification = response.data;
@@ -120,17 +136,20 @@ function Notification({ isAuthenticated, model, id, token }) {
       // console.log("dataSourceSent before:", dataSourceSent);
 
       setDataSourceSent((pre) => {
-        return [...pre, { ...addingNotification, status: 'Sent', created_at: new Date() }];
+        return [
+          ...pre,
+          { ...addingNotification, status: "Sent", created_at: new Date() },
+        ];
       });
       // console.log("dataSourceSent after:", dataSourceSent);
       resetAdding();
-      addAlert('Notification sent successfully!', 'success');
+      addAlert("Notification sent successfully!", "success");
       setTimeout(() => {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      addAlert('Error sending notification: ' + String(error), 'error');
-      console.error('Error creating notification:', error);
+      addAlert("Error sending notification: " + String(error), "error");
+      console.error("Error creating notification:", error);
       setIsAdding(false);
     }
   };
@@ -138,87 +157,109 @@ function Notification({ isAuthenticated, model, id, token }) {
   return (
     <Content
       style={{
-        margin: "0px 28px 0px 24px",
+        margin: "0px 25px 0px 0px",
+        border: "1px solid rgba(0, 0, 0, 0.15)",
+        borderRadius: "10px 10px",
+        padding: "10px 30px 60px 30px",
       }}
     >
-      {model === 'lecturer' ? (
-        <><Space size={25} direction="vertical">
-          <Typography.Title level={2}>Notifications received</Typography.Title>
-          <ReloadOutlined
-            onClick={() => {
-              window.location.reload();
-            }}
-            style={{ marginLeft: 12 }} />
-          <Input.Search
-            placeholder="Search here..."
-            style={{ width: '500px', float: 'right' }}
-            onSearch={(value) => {
-              setSearchedText(value);
-            }}
-            onChange={(e) => {
-              setSearchedText(e.target.value);
-            }} />
-          {dataSourceReceive.length === 0 ? (
-            <Typography.Text>No notifications found.</Typography.Text>
-          ) : (
-            <Table
-              columns={[
-                {
-                  title: "Notification ID",
-                  dataIndex: "notification_id",
-                  filteredValue: [searchedText],
-                  onFilter: (value, record) => {
-                    return (
-                      String(record.notification_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.admin_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.title).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.created_at).toLowerCase().includes(value.toLowerCase())
-                    );
-                  }
-                },
-                {
-                  title: "Admin ID",
-                  dataIndex: "admin_id",
-                },
-                {
-                  title: "Title",
-                  dataIndex: "title",
-                },
-                {
-                  title: "Details",
-                  dataIndex: "details",
-                },
-                {
-                  title: "Status",
-                  dataIndex: "status",
-                },
-                {
-                  title: "Created at",
-                  dataIndex: "created_at",
-                },
-              ]}
-              dataSource={dataSourceReceive.map((record) => ({
-                ...record,
-                key: record.notification_id,
-              }))}
-              pagination={{
-                pageSize: 20,
+      {model === "lecturer" ? (
+        <>
+          <Space size={25} direction="vertical">
+            <Typography.Title level={2}>
+              Notifications received
+            </Typography.Title>
+            <ReloadOutlined
+              onClick={() => {
+                window.location.reload();
               }}
-            ></Table>
-          )}
-        </Space><Space size={25} direction="vertical">
+              style={{ marginLeft: 12 }}
+            />
+            <Input.Search
+              placeholder="Search here..."
+              style={{ width: "500px", float: "right" }}
+              onSearch={(value) => {
+                setSearchedText(value);
+              }}
+              onChange={(e) => {
+                setSearchedText(e.target.value);
+              }}
+            />
+            {dataSourceReceive.length === 0 ? (
+              <Typography.Text>No notifications found.</Typography.Text>
+            ) : (
+              <Table
+                columns={[
+                  {
+                    title: "Notification ID",
+                    dataIndex: "notification_id",
+                    filteredValue: [searchedText],
+                    onFilter: (value, record) => {
+                      return (
+                        String(record.notification_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.admin_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.title)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.details)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.created_at)
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
+                      );
+                    },
+                  },
+                  {
+                    title: "Admin ID",
+                    dataIndex: "admin_id",
+                  },
+                  {
+                    title: "Title",
+                    dataIndex: "title",
+                  },
+                  {
+                    title: "Details",
+                    dataIndex: "details",
+                  },
+                  {
+                    title: "Status",
+                    dataIndex: "status",
+                  },
+                  {
+                    title: "Created at",
+                    dataIndex: "created_at",
+                  },
+                ]}
+                dataSource={dataSourceReceive.map((record) => ({
+                  ...record,
+                  key: record.notification_id,
+                }))}
+                pagination={{
+                  pageSize: 20,
+                }}
+              ></Table>
+            )}
+          </Space>
+          <Space size={25} direction="vertical">
             <Typography.Title level={2}>Notifications sent</Typography.Title>
-            <Button onClick={onAddingNotification}>Add a new notification to a course</Button>
+            <Button onClick={onAddingNotification}>
+              Add a new notification to a course
+            </Button>
             <Modal
               title="Add Notification"
-              open={isAdding && model === 'lecturer'}
+              open={isAdding && model === "lecturer"}
               onOk={onAddNotification}
               onCancel={() => {
                 resetAdding();
               }}
             >
-              Course ID<Input
+              Course ID
+              <Input
                 placeholder="Course ID"
                 name="course_id"
                 value={addingNotification?.course_id}
@@ -227,8 +268,10 @@ function Notification({ isAuthenticated, model, id, token }) {
                     return { ...pre, course_id: e.target.value };
                   });
                 }}
-                disabled={false} />
-              Title<Input
+                disabled={false}
+              />
+              Title
+              <Input
                 placeholder="Title"
                 name="title"
                 value={addingNotification?.title}
@@ -236,8 +279,10 @@ function Notification({ isAuthenticated, model, id, token }) {
                   setAddingNotification((pre) => {
                     return { ...pre, title: e.target.value };
                   });
-                }} />
-              Details<Input.TextArea
+                }}
+              />
+              Details
+              <Input.TextArea
                 placeholder="Details"
                 name="details"
                 value={addingNotification?.details}
@@ -245,7 +290,8 @@ function Notification({ isAuthenticated, model, id, token }) {
                   setAddingNotification((pre) => {
                     return { ...pre, details: e.target.value };
                   });
-                }} />
+                }}
+              />
             </Modal>
             {alerts.map((alert) => (
               <Alert
@@ -254,22 +300,25 @@ function Notification({ isAuthenticated, model, id, token }) {
                 type={alert.type}
                 showIcon
                 closable
-                afterClose={() => removeAlert(alert.id)} />
+                afterClose={() => removeAlert(alert.id)}
+              />
             ))}
             <ReloadOutlined
               onClick={() => {
                 window.location.reload();
               }}
-              style={{ marginLeft: 12 }} />
+              style={{ marginLeft: 12 }}
+            />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
               onChange={(e) => {
                 setSearchedText(e.target.value);
-              }} />
+              }}
+            />
             {dataSourceSent.length === 0 ? (
               <Typography.Text>No notifications found.</Typography.Text>
             ) : (
@@ -281,12 +330,20 @@ function Notification({ isAuthenticated, model, id, token }) {
                     filteredValue: [searchedText],
                     onFilter: (value, record) => {
                       return (
-                        String(record.notification_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.title).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.created_at).toLowerCase().includes(value.toLowerCase())
+                        String(record.notification_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.title)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.details)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.created_at)
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
                       );
-                    }
+                    },
                   },
                   {
                     title: "Course ID",
@@ -294,11 +351,11 @@ function Notification({ isAuthenticated, model, id, token }) {
                   },
                   {
                     title: "Course class code",
-                    dataIndex: ["Course", "course_class_code"]
+                    dataIndex: ["Course", "course_class_code"],
                   },
                   {
                     title: "Course name",
-                    dataIndex: ["Course", "course_name"]
+                    dataIndex: ["Course", "course_name"],
                   },
                   {
                     title: "Title",
@@ -326,101 +383,119 @@ function Notification({ isAuthenticated, model, id, token }) {
                 }}
               ></Table>
             )}
-          </Space></>
+          </Space>
+        </>
       ) : (
-        <><Space size={25} direction="vertical">
-          <Typography.Title level={2}>Notifications received from admins</Typography.Title>
-          <ReloadOutlined
-            onClick={() => {
-              window.location.reload();
-            }}
-            style={{ marginLeft: 12 }} />
-          <Input.Search
-            placeholder="Search here..."
-            style={{ width: '500px', float: 'right' }}
-            onSearch={(value) => {
-              setSearchedText(value);
-            }}
-            onChange={(e) => {
-              setSearchedText(e.target.value);
-            }} />
-          {dataFromAdmin.length === 0 ? (
-            <Typography.Text>No notifications found.</Typography.Text>
-          ) : (
-            <Table
-              columns={[
-                {
-                  title: "Notification ID",
-                  dataIndex: "notification_id",
-                  filteredValue: [searchedText],
-                  onFilter: (value, record) => {
-                    return (
-                      String(record.notification_id).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.title).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                      String(record.created_at).toLowerCase().includes(value.toLowerCase())
-                    );
-                  }
-                },
-                {
-                  title: "Admin ID",
-                  dataIndex: "admin_id",
-                },
-                {
-                  title: "Admin email",
-                  dataIndex: ["Admin", "email"],
-                },
-                {
-                  title: "Course ID",
-                  dataIndex: "course_id",
-                },
-                {
-                  title: "Course class code",
-                  dataIndex: ["Course", "course_class_code"],
-                },
-                {
-                  title: "Title",
-                  dataIndex: "title",
-                },
-                {
-                  title: "Details",
-                  dataIndex: "details",
-                },
-                {
-                  title: "Status",
-                  dataIndex: "status",
-                },
-                {
-                  title: "Created at",
-                  dataIndex: "created_at",
-                },
-              ]}
-              dataSource={dataFromAdmin.map((record) => ({
-                ...record,
-                key: record.notification_id,
-              }))}
-              pagination={{
-                pageSize: 20,
-              }}
-            ></Table>
-          )}
-        </Space>
+        <>
           <Space size={25} direction="vertical">
-            <Typography.Title level={2}>Notifications received from lecturers</Typography.Title>
+            <Typography.Title level={2}>
+              Notifications received from admins
+            </Typography.Title>
             <ReloadOutlined
               onClick={() => {
                 window.location.reload();
               }}
-              style={{ marginLeft: 12 }} />
+              style={{ marginLeft: 12 }}
+            />
             <Input.Search
               placeholder="Search here..."
-              style={{ width: '500px', float: 'right' }}
+              style={{ width: "500px", float: "right" }}
               onSearch={(value) => {
                 setSearchedText(value);
               }}
               onChange={(e) => {
                 setSearchedText(e.target.value);
-              }} />
+              }}
+            />
+            {dataFromAdmin.length === 0 ? (
+              <Typography.Text>No notifications found.</Typography.Text>
+            ) : (
+              <Table
+                columns={[
+                  {
+                    title: "Notification ID",
+                    dataIndex: "notification_id",
+                    filteredValue: [searchedText],
+                    onFilter: (value, record) => {
+                      return (
+                        String(record.notification_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.title)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.details)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.created_at)
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
+                      );
+                    },
+                  },
+                  {
+                    title: "Admin ID",
+                    dataIndex: "admin_id",
+                  },
+                  {
+                    title: "Admin email",
+                    dataIndex: ["Admin", "email"],
+                  },
+                  {
+                    title: "Course ID",
+                    dataIndex: "course_id",
+                  },
+                  {
+                    title: "Course class code",
+                    dataIndex: ["Course", "course_class_code"],
+                  },
+                  {
+                    title: "Title",
+                    dataIndex: "title",
+                  },
+                  {
+                    title: "Details",
+                    dataIndex: "details",
+                  },
+                  {
+                    title: "Status",
+                    dataIndex: "status",
+                  },
+                  {
+                    title: "Created at",
+                    dataIndex: "created_at",
+                  },
+                ]}
+                dataSource={dataFromAdmin.map((record) => ({
+                  ...record,
+                  key: record.notification_id,
+                }))}
+                pagination={{
+                  pageSize: 20,
+                }}
+              ></Table>
+            )}
+          </Space>
+          <Space size={25} direction="vertical">
+            <Typography.Title level={2}>
+              Notifications received from lecturers
+            </Typography.Title>
+            <ReloadOutlined
+              onClick={() => {
+                window.location.reload();
+              }}
+              style={{ marginLeft: 12 }}
+            />
+            <Input.Search
+              placeholder="Search here..."
+              style={{ width: "500px", float: "right" }}
+              onSearch={(value) => {
+                setSearchedText(value);
+              }}
+              onChange={(e) => {
+                setSearchedText(e.target.value);
+              }}
+            />
             {dataFromLecturer.length === 0 ? (
               <Typography.Text>No notifications found.</Typography.Text>
             ) : (
@@ -432,31 +507,45 @@ function Notification({ isAuthenticated, model, id, token }) {
                     filteredValue: [searchedText],
                     onFilter: (value, record) => {
                       return (
-                        String(record.notification_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.student_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.course_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.lecturer_id).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.title).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.details).toLowerCase().includes(value.toLowerCase()) ||
-                        String(record.created_at).toLowerCase().includes(value.toLowerCase())
+                        String(record.notification_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.student_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.course_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.lecturer_id)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.title)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.details)
+                          .toLowerCase()
+                          .includes(value.toLowerCase()) ||
+                        String(record.created_at)
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
                       );
-                    }
+                    },
                   },
                   {
                     title: "Lecturer name",
-                    dataIndex: ["Lecturer", 'name']
+                    dataIndex: ["Lecturer", "name"],
                   },
                   {
                     title: "Lecturer email",
-                    dataIndex: ["Lecturer", 'email']
+                    dataIndex: ["Lecturer", "email"],
                   },
                   {
                     title: "Course class code",
-                    dataIndex: ["Course", 'course_class_code']
+                    dataIndex: ["Course", "course_class_code"],
                   },
                   {
                     title: "Course name",
-                    dataIndex: ["Course", 'course_name']
+                    dataIndex: ["Course", "course_name"],
                   },
                   {
                     title: "Title",
@@ -484,7 +573,8 @@ function Notification({ isAuthenticated, model, id, token }) {
                 }}
               ></Table>
             )}
-          </Space></>
+          </Space>
+        </>
       )}
       <FloatButton.BackTop />
     </Content>
