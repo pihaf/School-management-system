@@ -4,7 +4,6 @@ const path = require("path");
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const morgan = require("morgan");
-const { engine } = require("express-handlebars");
 const sequelize  = require('./models/DB');
 
 // Setting up the server
