@@ -40,3 +40,25 @@ Sau khi thực hiện các bước trên, ứng dụng sẽ chạy trên localho
 Chú ý: Cần kiểm tra cổng chạy server để tránh bị trùng với ứng dụng khác, các cổng sử dụng trong ứng dụng
 - Backend: 3000
 - Frontend: 5173
+
+
+# Cách chạy ứng dụng trên https://int3306.freeddns.org/
+
+## Đăng nhập tài khoản
+
+## Cài đặt biến môi trường cho nvm
+```
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+## Expose cổng 
+```
+/etc/jupyter/bin/expose 3000
+```
+
+## Chạy ứng dụng
+```
+cd src
+npm start
+```
