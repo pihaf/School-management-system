@@ -63,7 +63,7 @@ function Header({ model, id, profileHeader }) {
     >
       <img
         className="logo"
-        src="public\logo-trans.png"
+        src="/logo-trans.png"
         alt="logo"
         style={{ width: "120px" }}
       ></img>

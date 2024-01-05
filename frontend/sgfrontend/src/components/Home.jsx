@@ -45,21 +45,21 @@ function Home() {
         >
           <div style={{ height: "100%", width: "100%", objectFit: "cover" }}>
             <img
-              src="https://uet.vnu.edu.vn/wp-content/uploads/2023/08/1R3A5896.jpg"
+              src="/uet1.jpg"
               alt="Slide 1"
               style={{ width: "100%", borderRadius: "10px 10px" }}
             />
           </div>
           <div style={{ height: "100%", width: "100%", objectFit: "cover" }}>
             <img
-              src="https://uet.vnu.edu.vn/wp-content/uploads/2023/03/pher1.jpg"
+              src="/uet2.jpg"
               alt="Slide 2"
               style={{ width: "100%", borderRadius: "10px 10px" }}
             />
           </div>
           <div style={{ height: "100%", width: "100%", objectFit: "cover" }}>
             <img
-              src="https://uet.vnu.edu.vn/wp-content/uploads/2022/12/1R3A2736.jpg"
+              src="/uet3.jpg"
               alt="Slide 3"
               style={{ width: "100%", borderRadius: "10px 10px" }}
             />
