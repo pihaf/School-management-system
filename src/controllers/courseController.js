@@ -79,25 +79,24 @@ exports.enrollStudentInCourse = async (req, res) => {
 exports.getAllStudentsInCourse = async (req, res) => {
     const courseId = req.params.id;
     try {
-      const enrolledStudents = await StudentCourse.findAll({
+      // Retrieve all student_id values for the given course
+      const studentCourseRecords = await StudentCourse.findAll({
         where: { course_id: courseId },
-        include: Student // Include the Student model in the query
+        attributes: ['student_id', 'course_id', 'notes'],
       });
-  
-      // Extract relevant student information
-      const students = enrolledStudents.map(enrolledStudent => {
-        const { student_id, student_class, name, date_of_birth, email} = enrolledStudent.Student;
-        return {
-          student_id,
-          student_class,
-          name,
-          date_of_birth,
-          email
-        };
+
+      // Extract the student_id values from the studentCourseRecords
+      const studentIds = studentCourseRecords.map(record => record.student_id);
+
+      // Retrieve the students based on the extracted studentIds
+      const students = await Student.findAll({
+        where: { student_id: studentIds },
+        attributes: ['student_id', 'name', 'email', 'date_of_birth', 'class', 'phone_number'],
       });
-  
+
       res.json(students);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Failed to retrieve enrolled students' });
     }
   };

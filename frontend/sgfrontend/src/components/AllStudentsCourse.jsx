@@ -19,10 +19,24 @@ function AllStudentsCourse({ isAuthenticated, model, id, token}) {
         navigate('/login');
     } else {
         setLoading(true);
-        fetch(`${host}/api/students/${id}/${courseId}`, { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+        if (model === 'student'){
+          fetch(`${host}/api/students/${id}/${courseId}`, { 
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+          }).then(response => response.json())
+          .then(data => {
+            setDataSource(data);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error('Error fetching students:', error);
+          });
+      } else {
+        fetch(`${host}/api/courses/${courseId}/students`, { 
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }).then(response => response.json())
         .then(data => {
           setDataSource(data);
@@ -31,8 +45,9 @@ function AllStudentsCourse({ isAuthenticated, model, id, token}) {
         .catch(error => {
           console.error('Error fetching students:', error);
         });
+      }
     }
-  }, [isAuthenticated, id]);
+  }, [isAuthenticated, id, model]);
 
   return (
     <Content
