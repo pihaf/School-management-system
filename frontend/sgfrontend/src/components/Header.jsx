@@ -41,7 +41,7 @@ function Header({ model, id, profileHeader }) {
       >
         <img
           className="logo"
-          src="public\items\logo-trans.png"
+          src="/logo-trans.png"
           alt="logo"
           style={{ width: "120px" }}
         ></img>
@@ -63,7 +63,7 @@ function Header({ model, id, profileHeader }) {
     >
       <img
         className="logo"
-        src="public\items\logo-trans.png"
+        src="public\logo-trans.png"
         alt="logo"
         style={{ width: "120px" }}
       ></img>

@@ -189,15 +189,15 @@ app.use('/', loginlogout);
 //routes(app);
 
 // Serving static files
-// const staticPath = path.join(__dirname, '../frontend/sgfrontend/dist');
-// app.use(express.static(staticPath));
+const staticPath = path.join(__dirname, '../frontend/sgfrontend/dist');
+app.use(express.static(staticPath));
 
-// // Handle all routes and serve the index.html file
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(staticPath, 'index.html'));
-// });
+// Handle all routes and serve the index.html file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticPath, 'index.html'));
+});
 
-//console.log("PATH: ", staticPath);
+console.log("PATH: ", staticPath);
 
 sequelize.authenticate()
   .then(() => {

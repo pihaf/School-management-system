@@ -60,7 +60,7 @@ function AdminFooter() {
           <div className="contact">
             <img
               className="logo"
-              src="../public/items/logo-trans.png"
+              src="/logo-trans.png"
               alt="logo"
             ></img>
             <p>
