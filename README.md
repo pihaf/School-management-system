@@ -42,9 +42,9 @@ UET Student Support Group Management Systems
 
 ## Chi Tiết
 
-- [Đặc tả yêu cầu]()
+- [Đặc tả yêu cầu](https://docs.google.com/spreadsheets/d/1DhNEjYQtH2ATCYq_AK6OIxIxEMC-rLdmbGcPUtDt5VM/edit)
 - [Thiết kế giao diện]()
-- [Lược đồ cơ sở dữ liệu]()
+- [Lược đồ cơ sở dữ liệu](https://drive.google.com/file/d/1fI8ovU3r6wAMqzpdfqutZcZGncCVh0_-/view)
 - [Công cụ phát triển]()
 - [Hướng dẫn cài đặt và chạy ứng dụng](/docs/installationAndRun.md)
 
